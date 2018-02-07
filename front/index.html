@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<h1>LOGIN</h1>
+</head>
+<body>
+	<p>UCID:</p>
+	<input id="user" type="text" value=""></input>
+
+	<p>PASSWORD:</p>
+	<input id="pwd" type="password" value=""></input>
+	<p></p>
+	<button type="button" id="login" 
+	  onclick="userIn()">Log in</button>
+
+	<button type="button" id="reset" 
+	  onclick="clearFields()">Cancel</button>
+
+	<p id="test"></p>
+
+	<script>
+		function userIn(){
+      var req=new XMLHttpRequest();
+      var url="check.php";
+			var name=document.getElementById('user').value;
+			var pass=document.getElementById('pwd').value;
+
+      req.open("POST", url, true);
+      req.onreadystatechange=function(){
+        if(this.readyState==4 && this.status==200){
+		var rData=req.responseText;
+          	console.log(rData);
+          	var obj=JSON.parse(rData);
+          	console.log(obj);
+		var test="<?php echo $response ?>";
+          
+//		$.ajax({
+//			type	:	'POST',
+//			url	:	'check.php',
+//			data	:	{name, pass},
+//			success	:	fuction(){
+		
+	//add if statements for:
+	//NJIT=Yes,Database=No
+	//NJIT=No,Database=Yes
+	//NJIT=No,Database=No
+	//then change the reponse like below to the correct output
+//			if(obj['login']=="INVALID")
+				document.getElementById('test').innerHTML=(name +" "+ pass);
+//				document.getElementById('test').innerHTML=(test);
+          }
+      }
+      req.send(name+pass);
+//			});
+      
+		}
+	</script>
+
+	<script>
+		function clearFields(){
+			document.getElementById('user').value="";
+			document.getElementById('pwd').value="";
+		  document.getElementById('test').innerHTML="";
+		}
+	</script>
+</body>
+</html>
