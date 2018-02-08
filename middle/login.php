@@ -30,36 +30,37 @@
 
     # Echo the json object back to the front if it was valid
     if($data_res['Response'] == 'VALID'){
-        echo json_encode($data_res, true);
+        echo json_encode(array('Response' => "Logged into the database!"), true);
         #print_r($data_res);
     }
     # Try to log into NJIT instead
     else if($data_res['Response'] == 'INVALID'){
-        # Close previous session
-        curl_close($ch);
-
-        # Create new session
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $response = curl_exec($ch);
-        $data_res = json_decode($response, true);
-
-        if(is_null($data_res)){
-            echo json_encode(array('Response' => 'Wrong password 
-            or username...'));
-        }
-        else{
-            echo json_encode(array('Response' => 'You got in!'));
-        }
-        #print_r($data_res);
+        echo json_encode(array('Response' => "Failed to login to the database"), true);
     }
     else {
+        // Should never get here
         echo "Something didn't work right\n";
     }
+    # Close previous session
+    curl_close($ch);
+
+    # Create new session
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $response = curl_exec($ch);
+    $data_res = json_decode($response, true);
+
+    if(is_null($data_res)){
+        echo json_encode(array('Response' => "Failed to login to NJIT"));
+    }
+    else{
+        echo json_encode(array('Response' => 'You logged into NJIT!'));
+    }
+#print_r($data_res);
 
     // Free up resources
     curl_close($ch);
