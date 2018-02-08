@@ -3,7 +3,7 @@
 #$url = 'https://www6.njit.edu/cp/login.php';
 $db = 'http://web.njit.edu/~sdp53/cs490/login.php';
 
-$data = json_encode(array('Username' => 'sdp53', 'Password' => 'password'),true);
+$data = json_encode(array('Username' => "sdp53", 'Password' => "password"),true);
 // User name and password should be passed as an array
 #$data = json_decode(file_get_contents('php://input'), true));
 
