@@ -29,6 +29,7 @@ $ch = curl_init($db);
 
     ));
 */
+
     $response = curl_exec($ch);
     $array = json_decode($response, true);
     echo $array["Response"];
