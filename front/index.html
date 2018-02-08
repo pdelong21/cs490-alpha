@@ -31,7 +31,7 @@
 			var url="check.php";
 			var name=document.getElementById('user').value;
 			var pass=document.getElementById('pwd').value;
-			var cred=name+" "+pass;
+			var cred=[name, pass];
 
 			//Start of AJAX part I think
 			req.open("POST", url, true);

@@ -2,15 +2,18 @@
 	session_start();
 	$Username=$_POST['name'];
 	$Password=$_POST['pass'];
-  	$field=array('Username'=>$Username, 'Password'=>$Password);
+#	$url'=https://web.njit.edu/~pgd22/middle/login.php';
+  	$field=array('Username'=>Username, 'Password'=>Password);
   	$send=json_encode($field);
-  
+	echo $Username;
+	echo $Password;  	
+
   	$curl=curl_init();
   	
 #	temp url
-# 	$url="https://web.njit.edu/~sdp53/cs490/login.php";
+ 	$url="https://web.njit.edu/~sdp53/cs490/login.php";
 #	actual URL
-	$url="https://web.njit.edu/~pgd22/middle/login.php";  
+#	$url="https://web.njit.edu/~pgd22/middle/login.php";  
   	curl_setopt_array($curl, array(
     	 CURLOPT_URL => $url,
     	 CURLOPT_POST => 1,
