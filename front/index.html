@@ -16,41 +16,50 @@
 	<button type="button" id="reset" 
 	  onclick="clearFields()">Cancel</button>
 
+/*	<fieldset>
+		UCID:<input id=ucid2 type="text"><br>
+		PASSWORD:<input id=pass2 type="password"><br>
+		<input name="button2" type="submit" value="login" onClick="userIn();">
+	</fieldset>
+*/
+
 	<p id="test"></p>
 
 	<script>
 		function userIn(){
-      var req=new XMLHttpRequest();
-      var url="check.php";
+			var req=new XMLHttpRequest();
+			var url="check.php";
 			var name=document.getElementById('user').value;
 			var pass=document.getElementById('pwd').value;
+			var name2=document.getElementById('ucid2').value;
+			var pass2=document.getElementById('pass2').value;
 
-      req.open("POST", url, true);
-      req.onreadystatechange=function(){
-        if(this.readyState==4 && this.status==200){
-		var rData=req.responseText;
-          	console.log(rData);
-          	var obj=JSON.parse(rData);
-          	console.log(obj);
-		var test="<?php echo $response ?>";
+			req.open("POST", url, true);
+			req.onreadystatechange=function(){
+        		if(this.readyState==4 && this.status==200){
+				var rData=req.responseText;
+          			console.log(rData);
+          			var obj=JSON.parse(rData);
+          			console.log(obj);
+				var test="<?php echo $response ?>";
           
-//		$.ajax({
-//			type	:	'POST',
-//			url	:	'check.php',
-//			data	:	{name, pass},
-//			success	:	fuction(){
+//				$.ajax({
+//				type	:	'POST',
+//				url	:	'check.php',
+//				data	:	{name, pass},
+//				success	:	fuction(){
 		
-	//add if statements for:
-	//NJIT=Yes,Database=No
-	//NJIT=No,Database=Yes
-	//NJIT=No,Database=No
-	//then change the reponse like below to the correct output
-//			if(obj['login']=="INVALID")
-				document.getElementById('test').innerHTML=(name +" "+ pass);
-//				document.getElementById('test').innerHTML=(test);
-          }
-      }
-      req.send(name+pass);
+			//add if statements for:
+			//NJIT=Yes,Database=No
+			//NJIT=No,Database=Yes
+			//NJIT=No,Database=No
+			//then change the reponse like below to the correct output
+//				if(obj['login']=="INVALID")
+					document.getElementById('test').innerHTML=(name +" "+ pass + name2 + " "+pass2);
+//					document.getElementById('test').innerHTML=(test);
+          			}
+      			}
+      		req.send(name+pass);
 //			});
       
 		}
