@@ -21,7 +21,7 @@
 <script language="javascript">
 function aPost(){
     var hr = new XMLHttpRequest();
-    var url = "check.php";
+    var url = "check2.php";
     var u = document.getElementById("user").value;
     var p = document.getElementById("pass").value;
     var vars = "ucid="+u+"&pass="+p;
