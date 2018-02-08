@@ -3,7 +3,7 @@
 	$Username=$_POST['name'];
 	$Password=$_POST['pass'];
 #	$url'=https://web.njit.edu/~pgd22/middle/login.php';
-  	$field=array('Username'=>Username, 'Password'=>Password);
+  	$field=array('Username'=>$Username, 'Password'=>$Password);
   	$send=json_encode($field);
 	echo $Username;
 	echo $Password;  	
