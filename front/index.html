@@ -1,23 +1,30 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 	<h1>LOGIN</h1>
 </head>
 <body>
+	<!-- Login Form -->
 	<p>UCID:</p>
 	<input id="user" type="text" value=""></input>
 
 	<p>PASSWORD:</p>
 	<input id="pwd" type="password" value=""></input>
+
 	<p></p>
+
 	<button type="button" id="login" 
 	  onclick="userIn()">Log in</button>
 
 	<button type="button" id="reset" 
-	  onclick="clearFields()">Cancel</button>
+	  onclick="clearFields()">Clear Fields</button>
 
+	<!-- Check and response -->
 	<p id="test"></p>
+	<p id="test2"></p>
 
+	<!-- scripts -->
 	<script>
 		function userIn(){
 			var req=new XMLHttpRequest();
@@ -34,7 +41,8 @@
           			var obj=JSON.parse(rData);
           			console.log(obj);
 //				var test="<?php echo $response ?>";
-          
+				document.getElementById('test').innerHTML=(rData);
+         
 //				$.ajax({
 //				type	:	'POST',
 //				url	:	'check.php',
@@ -47,9 +55,9 @@
 				//NJIT=No,Database=No
 				//then change the reponse like below to the correct output
 
-				if(obj['login']=="INVALID")
-					document.getElementById('test').innerHTML=(cred);
-//					document.getElementById('test').innerHTML=("invalid");
+//				if(rData=="")
+//					document.getElementById('test').innerHTML=(cred);
+					document.getElementById('test2').innerHTML=(obj);
 //					document.getElementById('test').innerHTML=(test);
           			}
       			}
