@@ -1,10 +1,10 @@
 <?php
 
 $dbserver = "sql1.njit.edu"; 
-
-$user = "sdp53"; $password = "oEnFrxKN";
-
+$user = "sdp53"; 
+$password = "oEnFrxKN";
 $database = "sdp53";
+
 $response = file_get_contents('php://input');
 $decoder = json_decode($response,true); 
 $username=$decoder['Username'];
@@ -22,7 +22,7 @@ $sql = "SELECT * FROM Users WHERE Username='$username'";
 $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {
-    // output data of each row
+    
     $row = mysqli_fetch_assoc($result);
     
     //hash verify
@@ -36,10 +36,11 @@ if ($result->num_rows == 1) {
         echo json_encode($log,true);           
     } 
 } else {
-         $log = array("Response"=>"INVALID");
+        $log = array("Response"=>"INVALID");
         
         echo json_encode($log,true);           
     } 
+    
 mysqli_close($conn);
 
 ?>
