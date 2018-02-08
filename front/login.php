@@ -38,7 +38,7 @@ function aPost(){
 			  
 			  console.log(myobj);
 			  
-			  document.getElementById('test').innerHTML=(myobj);
+			  document.getElementById('test').innerHTML=('Response');
 			   
 	    }
     }
