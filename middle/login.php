@@ -30,7 +30,7 @@
 
     # Echo the json object back to the front if it was valid
     if($data_res['Response'] == 'VALID'){
-        echo json_encode($data_res['Response'], true);
+        echo json_encode($data_res, true);
         #print_r($data_res);
     }
     # Try to log into NJIT instead
@@ -49,10 +49,11 @@
         $data_res = json_decode($response, true);
 
         if(is_null($data_res)){
-            echo json_encode("Wrong password for NJIT \n");
+            echo json_encode(array('Response' => 'Wrong password 
+            or username...'));
         }
         else{
-            echo json_encode("You got in!\n");
+            echo json_encode(array('Response' => 'You got in!'));
         }
         #print_r($data_res);
     }
