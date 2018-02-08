@@ -28,14 +28,16 @@
     # Decode the response
     $data_res = json_decode($response, true);
 
+    # This array goes to front
+    $to_front = array();
     # Echo the json object back to the front if it was valid
     if($data_res['Response'] == 'VALID'){
-        echo json_encode(array('Response' => "Logged into the database!"), true);
+        $to_front += ['db' => 'VALID'];
         #print_r($data_res);
     }
     # Try to log into NJIT instead
     else if($data_res['Response'] == 'INVALID'){
-        echo json_encode(array('Response' => "Failed to login to the database"), true);
+        $to_front += ['db' => 'INVALID'];
     }
     else {
         // Should never get here
@@ -55,11 +57,12 @@
     $data_res = json_decode($response, true);
 
     if(is_null($data_res)){
-        echo json_encode(array('Response' => "Failed to login to NJIT"));
+        $to_front += ['njit' => 'INVALID'];
     }
     else{
-        echo json_encode(array('Response' => 'You logged into NJIT!'));
+        $to_front += ['njit' => 'VALID'];
     }
+    echo json_encode($to_front, true);
 #print_r($data_res);
 
     // Free up resources
