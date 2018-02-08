@@ -33,6 +33,7 @@
 			var pass=document.getElementById('pwd').value;
 			var cred=name+" "+pass;
 
+			//Start of AJAX part I think
 			req.open("POST", url, true);
 			req.onreadystatechange=function(){
         		if(req.readyState==4 && req.status==200){
@@ -42,18 +43,20 @@
           			console.log(obj);
 //				var test="<?php echo $response ?>";
 				document.getElementById('test').innerHTML=(rData);
+				document.getElementById('test2').innerHTML=(obj);
          
 //				$.ajax({
 //				type	:	'POST',
 //				url	:	'check.php',
 //				data	:	{name, pass},
 //				success	:	fuction(){
-		
-				//add if statements for:
-				//NJIT=Yes,Database=No
-				//NJIT=No,Database=Yes
-				//NJIT=No,Database=No
-				//then change the reponse like below to the correct output
+
+//				add if statements for:
+//				NJIT=Yes,Database=No
+//				NJIT=No,Database=Yes
+//				NJIT=No,Database=No
+//				then change the reponse like below to the correct output
+
 
 //				if(rData=="")
 //					document.getElementById('test').innerHTML=(cred);
