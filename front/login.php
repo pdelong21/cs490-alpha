@@ -8,7 +8,7 @@
 
 <fieldset>
 	Username:<input id="user" name="user" type="text"/><br /><br/>
-	Password:<input id="pwd" name="pwd" type="password"/><br /><br />
+	Password:<input id="pass" name="pass" type="password"/><br /><br />
 	<input name="btn" type="submit" value="login" onClick="aPost(this.fieldset);">
 </fieldset>  
        
@@ -23,7 +23,7 @@ function aPost(){
     var hr = new XMLHttpRequest();
     var url = "check.php";
     var u = document.getElementById("user").value;
-    var p = document.getElementById("pwd").value;
+    var p = document.getElementById("pass").value;
     var vars = "ucid="+u+"&pass="+p;
       hr.open("POST", url , true);
       hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -38,7 +38,7 @@ function aPost(){
 			  
 			  console.log(myobj);
 			  
-			  document.getElementById('test').innerHTML=(return_data);
+			  document.getElementById('test').innerHTML=(myobj);
 			   
 	    }
     }
