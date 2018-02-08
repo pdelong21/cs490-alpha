@@ -3,7 +3,8 @@
 #$url = 'https://www6.njit.edu/cp/login.php';
 
 
-$data = json_encode(array('Username' => "sdp53", 'Password' => "password"),true);
+$data = array('Username' => "sdp53", 'Password' => "password");
+$data_obj = json_encode($data, true);
 // User name and password should be passed as an array
 #$data = json_decode(file_get_contents('php://input'), true));
 
@@ -23,7 +24,7 @@ $ch = curl_init($db);
         CURLOPT_POST => 1,
         CURLOPT_FOLLOWLOCATION => 1,
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_POSTFIELDS => $data
+        CURLOPT_POSTFIELDS => $data_obj
 
     ));
     $response = curl_exec($curl);
