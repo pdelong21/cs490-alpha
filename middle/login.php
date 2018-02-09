@@ -8,7 +8,7 @@
     $db = 'https://web.njit.edu/~sdp53/cs490/login.php';
 
     # Accept the json data from the front & decode, we are passing an array
-    $data = file_get_contents(json_decode('php://input'));
+    $data = json_decode(file_get_contents('php://input'));
     #$data = array('Username' => 'sdp53', 'Password' => 'password');
 
     # Pass the data to a json object
