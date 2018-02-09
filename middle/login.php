@@ -9,12 +9,17 @@
 
     # Accept the json data from the front & decode, we are passing an array
     $data = json_decode(file_get_contents('php://input'));
-    #$data = array('Username' => 'sdp53', 'Password' => 'password');
+    $data_njit = array('user' => $data['Username'], 'pass' => $data['Password']);
+
+#$data = array('Username' => 'sdp53', 'Password' => 'password');
 
     # Pass the data to a json object
     $data_obj = json_encode($data, true);
+    $data_njit_obj = json_encode($data_njit, true);
 
-    # Create curl session $ set options
+
+
+# Create curl session $ set options
     $ch = curl_init($db);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
@@ -49,7 +54,7 @@
     # Create new session
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_njit_obj);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
