@@ -12,8 +12,7 @@
 
     # Accept the json data from the front & decode, we are passing an array
     $getdata = file_get_contents('php://input');
-    $data = json_decode($getdata);
-    #$data = array('Username' => 'sdp53', 'Password' => 'password');
+    $data = json_decode($getdata, true);
 
     # Pass the data to a json object
     $data_obj = json_encode($data, true);
