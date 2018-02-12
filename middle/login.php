@@ -52,6 +52,7 @@
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
+    # Execute curl request
     $response = curl_exec($ch);
     curl_close($ch);
     # throw response into array
