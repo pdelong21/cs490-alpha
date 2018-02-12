@@ -43,10 +43,6 @@
         echo "Something didn't work right\n";
     }
 
-    # Data is readable for njit
-    $data_njit = array('user' => $data['Password'],'pass' => $data['Password'], 'uuid' => '0xACA021');
-    $data_njit_obj = json_encode($data_njit);
-
     # Create new session for logging into NJIT
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
