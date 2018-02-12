@@ -29,7 +29,7 @@
     $data_res = json_decode($response, true);
     curl_close($ch);
 
-    # Echo the json object back to the front if it was valid
+    # Throw response into array
     if($data_res['Response'] == 'VALID'){
         $to_front += ['db' => 'VALID'];
         #print_r($data_res);
@@ -56,10 +56,9 @@
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
-
     $response = curl_exec($ch);
     curl_close($ch);
-    #echo $response;
+    # throw response into array
     if(strpos($response,"Failed Login") != FALSE){
         $to_front += ['njit' => 'INVALID'];
     }
@@ -67,6 +66,7 @@
         $to_front += ['njit' => 'VALID'];
     }
 
+    # json array back to front
     echo json_encode($to_front, true);
 
 
