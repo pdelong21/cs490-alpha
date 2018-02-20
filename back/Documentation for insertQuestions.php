@@ -3,3 +3,13 @@ Takes 'Question' 'Category' 'Difficulty' 'Points' 'Cases' Everything is a string
 Sample Output
 {"Response":"INVALID"}
 {"Response":"Successfully Inserted"}
+
+
+Table for Questions is
+
+Id
+Questions
+Category
+Difficulty
+Points
+Cases
