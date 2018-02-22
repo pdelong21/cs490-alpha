@@ -31,20 +31,26 @@
     		text-align: center;
 	}
 	#exam{display:none;}
+	#pScore{display:none;}
 </style>
 </head>
 <body>
 	<p><button onclick="createExam()">Make an Exam</button></p>
-	<p><button onclick-"pubScore()">Publish Score(s)</button></p>
+	<p><button onclick="pubScore()">Publish Score(s)</button></p>
 	<button onclick="logOut()">Log Out</button>
 	<div id="exam">
 		<div class ="split left">
+			<h2><b>Exam Creation</b></h2>
 			<p>Shit</p>
 			<button onclick="createExam()">Create Exam</button>
 		</div>
 		<div class="split right">
+			<h2><b>Suggestions</b></h2>
 			<p>Fuck</p>
 		</div>
+	</div>
+	<div id="pScore">
+		<p>test</p>
 	</div>
 </body>
 </html>
@@ -60,11 +66,17 @@
 		}
 	}
 </script>
+
 <script>
-	function createExam(){
-		var vs2=document.GetElementById"exam");
-		vs2.style.display="none";
-	}
+	function pubScore(){
+		var ps=document.getElementById("pScore");
+		if(ps.style.display ==="none"){
+			ps.style.display = "inline";
+		}
+		else{
+			ps.style.display = "none";
+		}
+	}	
 </script>
 <script>
 	function logOut(){
