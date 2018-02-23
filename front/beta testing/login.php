@@ -9,8 +9,8 @@
 	Password: <input type="password" name="password" id="password" /><br />
 	<input type="submit" name="enter" value="Submit" onClick="aj();" />
  
-	<p id="dbr"></p>
-	<p id="njitr"></p>
+	<p id="test"></p>
+	<p id="rData"></p>
 </body>
 </html>
 
@@ -20,24 +20,31 @@ function aj(){
     var hr = new XMLHttpRequest();
     // Create some variables we need to send to our PHP file
     var url = "loginphp.php";
+    var sUrl = "student.php";
+    var iUrl = "instructor.php";
     var u = document.getElementById("username").value;
     var p = document.getElementById("password").value;
     var vars = "username="+u+"&password="+p;
     hr.open("POST", url, true);
+
     // Set content type header information for sending url encoded variables in the request
     hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
     // Access the onreadystatechange event for the XMLHttpRequest object
     hr.onreadystatechange = function() {
 	if(hr.readyState == 4 && hr.status == 200) {
 		return_data = hr.responseText;
         	var data=JSON.parse(return_data);
+		// document.getElementById("rData").innerHTML = data;
         	if(data['Response']=="Student"){
-          		document.getElementById("dbr").innerHTML = "change to Student landing page instead of this message";
+          		// document.getElementById("test").innerHTML = "change to Student Landing Page instead of this message";
+			var win=window.open("student.php","_self");
         	}else if(data['Response']=="Instructor"){
-          		document.getElementById("dbr").innerHTML = "change to Instructor landing page instead of this message";
+          		// document.getElementById("test").innerHTML = "change to Instructor landing page instead of this message";
+			var win=window.open("instructor.php","_self");
         	} 
 		else{
-			document.getElementById("dbr").innerHTML = "Invalid Credentials";
+			document.getElementById("test").innerHTML = "Invalid Credentials";
 		}
 	}
     }
