@@ -7,7 +7,7 @@
  */
 // Login Database
 $loginUrl= 'https://web.njit.edu/~sdp53/cs490/login.php';
-
+$studentUrl = 'https://web.njit.edu/~jp484/490/student.php';
 // Curl func
 function Login($data_obj, $url){
     $ch = curl_init($url);
@@ -31,11 +31,12 @@ $loginType = Login($login_obj,$loginUrl);
 //$loginType = Login($login_data, $loginUrl);
 
 $loginType_obj = json_encode($loginType, true);
-echo $loginType_obj;
+//echo $loginType_obj;
 
 # Redirect to appropiate page
 if($loginType['Response'] == 'Student'){
-    header('Location: https://web.njit.edu/~jp484/490/student.php');
+    ob_start();
+    header('Location: '.$studentUrl);
 }
 else{
     #bleh
