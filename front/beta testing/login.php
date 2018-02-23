@@ -1,3 +1,5 @@
+<?php ob_start(); ?>
+
 <html>
 <head>
 	<h1>LOGIN</h1>
@@ -29,10 +31,10 @@ function aj(){
 	if(hr.readyState == 4 && hr.status == 200) {
 		return_data = hr.responseText;
         	var data=JSON.parse(return_data);
-        	if(data['loginUrl']=="student"){
-          		document.getElementById("dbr").innerHTML = "Database = Student";
-        	}else if(data['loginUrl']=="instructor"){
-          		document.getElementById("dbr").innerHTML = "Database = Instructor";
+        	if(data['Response']=="Student"){
+          		document.getElementById("dbr").innerHTML = "change to Student landing page instead of this message";
+        	}else if(data['Response']=="Instructor"){
+          		document.getElementById("dbr").innerHTML = "change to Instructor landing page instead of this message";
         	} 
 		else{
 			document.getElementById("dbr").innerHTML = "Invalid Credentials";
