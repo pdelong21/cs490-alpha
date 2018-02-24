@@ -35,8 +35,11 @@ function aj(){
 	if(hr.readyState == 4 && hr.status == 200) {
 		return_data = hr.responseText;
         	var data=JSON.parse(return_data);
-		 document.getElementById("rData").innerHTML = data['Response'];
-		//if(data['Response']
+		// document.getElementById("rData").innerHTML = data['Response'];
+		if(data['Response']=="INVALID"){
+			document.getElementById("rData").innerHTML = "Response returned INVALID";
+			ob_flush();
+		}
         	if(data['Response']=="Student"){
           		// document.getElementById("test").innerHTML = "change to Student Landing Page instead of this message";
 			var win=window.open("student.php","_self");

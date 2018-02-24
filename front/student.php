@@ -1,3 +1,5 @@
+<?php ob_start(); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +16,10 @@
 		<p><textarea id="ans" rows="5" cols="100"></textarea></p>
 		<button id="submit" onclick="submitAns()">Submit</button>
 	</div>
+	<p id="test"></p>
 	<div id="vScore">
 		This is where the Student will be able to view the score.
 	</div>
-	<p id="test"></p>
 </body>
 </html>
 
