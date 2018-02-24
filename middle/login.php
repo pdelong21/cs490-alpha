@@ -23,7 +23,7 @@ function Login($data_obj, $url){
 }
 
 # Get input from front to forward
-$login_obj = file_get_contents('php//input');
+$login_obj = file_get_contents('php://input');
 //$login_data = json_encode(['Username' => 'std2', 'Password' => 'passstud2'], true);
 
 # Retrieve response from backend
@@ -31,9 +31,10 @@ $loginType = Login($login_obj,$loginUrl);
 //$loginType = Login($login_data, $loginUrl);
 
 $loginType_obj = json_encode($loginType, true);
-//echo $loginType_obj;
+echo $loginType_obj;
 
 # Redirect to appropiate page
+/*
 if($loginType['Response'] == 'Student'){
     ob_start();
     header('Location: '.$studentUrl);
@@ -41,3 +42,4 @@ if($loginType['Response'] == 'Student'){
 else{
     #bleh
 }
+*/
