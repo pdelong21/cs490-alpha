@@ -22,14 +22,8 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT * FROM Qustions;";
-
-$result = $conn->query($sql);
-
-$id=$result->num_rows;
-
-$sql = "INSERT INTO Questions (Id, Question, Category, Difficulty, Points, Cases) VALUES
-			('$id', '$question', '$category', '$difficulty', '$points', '$cases')";
+$sql = "INSERT INTO Questions (Question, Category, Difficulty, Points, Cases) VALUES
+			('$question', '$category', '$difficulty', '$points', '$cases')";
 			
 			$result = $conn->query($sql);
 			
