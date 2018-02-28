@@ -21,7 +21,6 @@ if ($result->num_rows > 0) {
         $output[]=array(
           'Id' =>$row['Id'],
           'Question' =>$row['Question'],
-          'Categoy' =>$row['Category'],
           'Difficulty' =>$row['Difficulty'],
           'Points' =>$row['Points'],
         );
