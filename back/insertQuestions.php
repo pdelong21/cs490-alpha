@@ -9,7 +9,6 @@ $response = file_get_contents('php://input');
 $decoder = json_decode($response,true); 
 
 $question=$decoder['Question'];
-$category =$decoder['Category'];
 $difficulty=$decoder['Difficulty'];
 $points =$decoder['Points'];      
 $cases =$decoder['Cases']; 
@@ -22,8 +21,8 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "INSERT INTO Questions (Question, Category, Difficulty, Points, Cases) VALUES
-			('$question', '$category', '$difficulty', '$points', '$cases')";
+$sql = "INSERT INTO Questions (Question, Difficulty, Points, Cases) VALUES
+			('$question', '$difficulty', '$points', '$cases')";
 			
 			$result = $conn->query($sql);
 			
