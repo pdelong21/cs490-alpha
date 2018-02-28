@@ -108,15 +108,17 @@
 		var Answer=document.getElementById("ans").value;
 		var strPoints=document.getElementById("pts").value;
 		var Points=strPoints.valueOf();
-		var JSONobj=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
-
+//		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
+		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
+		
 		req.open("POST",url,true);
 		//checking what was entered and set to JSONobj
-		console.log(JSONobj);
+		console.log(vars);
 
 		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		//req.send(JSONobj);
-		//alert(JSONobj);
+		req.send(JSON.stringify(vars));
+		console.log(JSON.stringify(vars));
+		//alert(vars);
 
 		req.onreadystatechange = function(){
 			if(req.readyState==4 && req.status==200){
@@ -157,7 +159,7 @@
 //			window.alert("Question Added to DB");
 //		}
 		//sending to PHP
-		req.send(JSONobj);
+//		req.send(vars);
 	}
 </script>
 
