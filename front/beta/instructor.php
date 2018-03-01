@@ -33,6 +33,7 @@
 	#diffSetting{display:none;}
 	#sScreen{display:none;}
 	#pScore{display:none;}
+	#genExam{display:none;}
 </style>
 </head>
 <body>
@@ -77,6 +78,16 @@
 			<p><span id="cpya"></span></p>
 		</div>
 	</div>
+
+	<div id="genExam">
+		<div id="makeTable" style="overflow: auto;">
+			<table>
+				<tr>
+					<th>QUESTIONS</th>					
+				</tr>
+			</table>
+		</div>
+	</div>
 	<p id="check"></p>
 	<p id="varCheck"></p>
 
@@ -110,59 +121,77 @@
 		var Question=document.getElementById("qtn").value;
 		var Answer=document.getElementById("ans").value;
 		var strPoints=document.getElementById("pts").value;
-		var Points=parseInt(strPoints);
-		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
-//		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
+//		var Points=parseInt(strPoints);
+		var Points=Number(strPoints);
+//		var vars=[Question,Difficulty,Points,Answer];
+//		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
+		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
 		
-		//checking variable types in the console
-		console.log(typeof Question);
-		console.log(typeof Answer);
-		console.log(typeof Points);
-		console.log(typeof Difficulty);
+		//checking variables entered
+//		console.log(Question);
+//		console.log(Answer);
+//		console.log(Points);
+//		console.log(Difficulty);
+		
+		//checking variables and variable types (var, var type) in console
+		console.log(Question + ', ' + typeof Question);
+		console.log(Answer + ', ' + typeof Answer);
+		console.log(Points + ', ' + typeof Points);
+		console.log(Difficulty + ', ' + typeof Difficulty);
 
 		req.open("POST",url,true);
+
 		//checking what vars is
 		console.log(vars);
 
 		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-		req.send(vars);
-		console.log(vars);
-
-//		req.send(JSON.stringify(vars));
-//		console.log(JSON.stringify(vars));
-
-		req.onreadystatechange = function(){
-			if(req.readyState==4 && req.status==200){
-        	                return_data=req.responseText;
-				var data=JSON.parse(return_data);
-
-				if(data['Response']=="Successfully Inserted"){
-               	        		window.alert("Question Added to DB");
-				}
-				else if(data['Response']=="INVALID"){
-					window.alert("invalid question");
-				}
-				else{
-					window.alert("Everything is wrong, what are you doing");
-				}
-                	}
+		if(Question === "" || Answer === "" || Points === ""){
+			window.alert("One or more fields are empty, please fill them out!");
 		}
-		
-		//resetting display back to teacher landing page
-		if(cq.style.display === "none"){
-			cq.style.display = "inline";
+		else if(Points ===0){
+			window.alert("Points cannot be 0.");
 		}
 		else{
-			cq.style.display = "none";
-		}
-		//checking and resetting variables
-		document.getElementById("check").innerHTML = Difficulty + "<br>" + Question + "<br>" + Answer + "<br>" + Points;
-		document.getElementById("pts").value = "";
-		document.getElementById("qtn").value = "";
-		document.getElementById("ans").value ="";
-		document.getElementById("diff").value = "Easy";
+			req.send(vars);
+			console.log(vars);
+		
+
+	//		req.send(JSON.stringify(vars));
+	//		console.log(JSON.stringify(vars));
 	
+			req.onreadystatechange = function(){
+				if(req.readyState==4 && req.status==200){
+	        	                return_data=req.responseText;
+					var data=JSON.parse(return_data);
+	
+					if(data['Response']=="Successfully Inserted"){
+               		        		window.alert("Question Added to DB");
+					}
+					else if(data['Response']=="INVALID"){
+						window.alert("invalid question");
+					}
+					else{
+						window.alert("Everything is wrong, what are you doing");
+					}
+                		}
+			}
+		
+			//resetting display back to teacher landing page
+			if(cq.style.display === "none"){
+				cq.style.display = "inline";
+			}
+			else{
+				cq.style.display = "none";
+			}
+			//checking and resetting variables
+			document.getElementById("check").innerHTML = Difficulty + "<br>" + Question + "<br>" + Answer + "<br>" + Points;
+			document.getElementById("pts").value = "";
+			document.getElementById("qtn").value = "";
+			document.getElementById("ans").value ="";
+			document.getElementById("diff").value = "Easy";
+		//closing else loop
+		}
 		
 //		if(req.readyState==4 && req.status==200){
 //			var rData=req.responseText;
@@ -187,7 +216,13 @@
 
 <script>
 	function makeExam(){
-		
+		var ge=document.getElementById("genExam");
+                if(ge.style.display ==="none"){
+                        ge.style.display = "inline";
+                }
+                else{
+                        ge.style.display = "none";
+                }
 	}
 </script>
 

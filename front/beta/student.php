@@ -1,5 +1,10 @@
 <?php ob_start(); ?>
 
+<?php
+	$cookie_name="student";
+	$cookie_value="std";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -3,8 +3,20 @@
   	$Question=$_POST['qtn'];
 	$Case=$_POST['ans'];
 	$Points=$_POST['pts'];
+	$Points=intval(strPoints);
 	$Difficulty=$_POST['diff'];
+
   	$field=array('Question'=>$Question, 'Difficulty'=>$Difficulty, 'Points'=>$Points, 'Cases'=>$Case);
+#	$field=array('Question'=>"Testing", 'Difficulty'=>"Hard",'Points'=>20, 'Cases'=>"Ans");
+
+	#checking var types
+#	var_dump($Question);
+#	var_dump($Difficulty);
+#	var_dump($strPoints);
+#	var_dump($Points);
+#	var_dump($Case);
+#	var_dump($field);
+
   	$send=json_encode($field); 	
   	$curl=curl_init();
   	
