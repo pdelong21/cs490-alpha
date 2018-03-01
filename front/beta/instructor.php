@@ -78,6 +78,7 @@
 		</div>
 	</div>
 	<p id="check"></p>
+	<p id="varCheck"></p>
 	<div id="pScore">
 		<p>Publish the scores here</p>
 	</div>
@@ -107,10 +108,16 @@
 		var Question=document.getElementById("qtn").value;
 		var Answer=document.getElementById("ans").value;
 		var strPoints=document.getElementById("pts").value;
-		var Points=strPoints.valueOf();
+		var Points=parseInt(strPoints);
 //		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
 		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
 		
+		//checking variable types in the console
+		console.log(typeof Question);
+		console.log(typeof Answer);
+		console.log(typeof Points);
+		console.log(typeof Difficulty);
+
 		req.open("POST",url,true);
 		//checking what was entered and set to JSONobj
 		console.log(vars);
