@@ -9,9 +9,9 @@
   	$curl=curl_init();
   	
 #	temp url
- 	$url="https://web.njit.edu/~sdp53/cs490/login.php";
+ 	$url="https://web.njit.edu/~sdp53/cs490/insertQuestions.php";
 #	actual URL
-#	$url="https://web.njit.edu/~pgd22/middle/login.php";  
+#	$url="https://web.njit.edu/~pgd22/middle/insertQuestions.php";  
   	curl_setopt_array($curl, array(
     	 CURLOPT_URL => $url,
     	 CURLOPT_POST => 1,
