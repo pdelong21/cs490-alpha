@@ -79,6 +79,8 @@
 	</div>
 	<p id="check"></p>
 	<p id="varCheck"></p>
+
+	<!-- Publish the Score -->
 	<div id="pScore">
 		<p>Publish the scores here</p>
 	</div>
@@ -109,8 +111,8 @@
 		var Answer=document.getElementById("ans").value;
 		var strPoints=document.getElementById("pts").value;
 		var Points=parseInt(strPoints);
-//		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
-		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
+		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
+//		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
 		
 		//checking variable types in the console
 		console.log(typeof Question);
@@ -119,13 +121,16 @@
 		console.log(typeof Difficulty);
 
 		req.open("POST",url,true);
-		//checking what was entered and set to JSONobj
+		//checking what vars is
 		console.log(vars);
 
 		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		req.send(JSON.stringify(vars));
-		console.log(JSON.stringify(vars));
-		//alert(vars);
+
+		req.send(vars);
+		console.log(vars);
+
+//		req.send(JSON.stringify(vars));
+//		console.log(JSON.stringify(vars));
 
 		req.onreadystatechange = function(){
 			if(req.readyState==4 && req.status==200){
@@ -165,6 +170,7 @@
 //			console.log(rData);
 //			window.alert("Question Added to DB");
 //		}
+
 		//sending to PHP
 //		req.send(vars);
 	}
