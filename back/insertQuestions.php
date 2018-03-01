@@ -21,12 +21,18 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "INSERT INTO Questions (Question, Difficulty, Points, Cases) VALUES
-			('$question', '$difficulty', '$points', '$cases')";
+
+$sql1 = "Select * From Questions";
 			
-			$result = $conn->query($sql);
+			$result1 = $conn->query($sql1);
+      $id=$result1->num_rows;
+
+$sql2 = "INSERT INTO Questions (Id, Question, Difficulty, Points, Cases) VALUES
+			('$id','$question', '$difficulty', '$points', '$cases')";
 			
-			  if($result){
+			$result2 = $conn->query($sql2);
+			
+			  if($result2){
 				  $log = array("Response"=>"Successfully Inserted");
 				  echo json_encode($log,true);
         }
