@@ -2,12 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: pdelong
- * Date: 2/28/18
- * Time: 10:53 AM
+ * Date: 3/2/18
+ * Time: 10:31 AM
  */
-$url = 'https://web.njit.edu/~sdp53/cs490/insertQuestions.php';
+$url = 'https://web.njit.edu/~sdp53/cs490/displayQuestions.php';
 
-function addQ($data_obj, $url){
+function displayQ($data_obj, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
@@ -20,9 +20,9 @@ function addQ($data_obj, $url){
 
 }
 
-$addQ_obj = file_get_contents('php://input');
+$displayQ_obj = file_get_contents('php://input');
 
-$addQ_response = displayQ($addQ_obj, $url);
+$displayQ_res = displayQ($displayQ_obj, $url); # pass to sunny & retrieve response
 
-$response_obj = json_encode($addQ_response, true);
-echo $response_obj;
+$response_obj = json_encode($displayQ_res, true); # encode the response from sunny
+echo $response_obj; # echo back to front
