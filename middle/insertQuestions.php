@@ -22,7 +22,7 @@ function addQ($data_obj, $url){
 
 $addQ_obj = file_get_contents('php://input');
 
-$addQ_response = displayQ($addQ_obj, $url);
+$addQ_response = createTest($addQ_obj, $url);
 
 $response_obj = json_encode($addQ_response, true);
 echo $response_obj;

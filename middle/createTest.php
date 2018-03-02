@@ -3,11 +3,11 @@
  * Created by PhpStorm.
  * User: pdelong
  * Date: 3/2/18
- * Time: 10:31 AM
+ * Time: 10:37 AM
  */
-$url = 'https://web.njit.edu/~sdp53/cs490/displayQuestions.php';
+$url = 'https://web.njit.edu/~sdp53/cs490/createTest.php';
 
-function displayQ($data_obj, $url){
+function createTest($data_obj, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
@@ -20,9 +20,9 @@ function displayQ($data_obj, $url){
 
 }
 
-$displayQ_obj = file_get_contents('php://input');
+$test_obj = file_get_contents('php://input');
 
-$displayQ_res = createTest($displayQ_obj, $url); # pass to sunny & retrieve response
+$test_res = createTest($test_obj, $url); # pass to sunny & retrieve response
 
-$response_obj = json_encode($displayQ_res, true); # encode the response from sunny
+$response_obj = json_encode($test_res, true); # encode the response from sunny
 echo $response_obj; # echo back to front
