@@ -22,7 +22,7 @@ function displayQ($data_obj, $url){
 
 $displayQ_obj = file_get_contents('php://input');
 
-$displayQ_res = createTest($displayQ_obj, $url); # pass to sunny & retrieve response
+$displayQ_res = displayQ($displayQ_obj, $url); # pass to sunny & retrieve response
 
 $response_obj = json_encode($displayQ_res, true); # encode the response from sunny
 echo $response_obj; # echo back to front
