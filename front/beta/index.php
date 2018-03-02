@@ -44,7 +44,7 @@
 //				var test="<?php echo $response ?>";
 				document.getElementById('test').innerHTML=(rData);
 				document.getElementById('test2').innerHTML=(obj);
-         
+/*
 //				$.ajax({
 //				type	:	'POST',
 //				url	:	'check.php',
@@ -60,13 +60,14 @@
 
 //				if(rData=="")
 //					document.getElementById('test').innerHTML=(cred);
-					document.getElementById('test2').innerHTML=(obj);
+//					document.getElementById('test2').innerHTML=(obj);
 //					document.getElementById('test').innerHTML=(test);
           			}
       			}
+*/
       		req.send(cred);
 //			});
-      
+
 		}
 	</script>
 
