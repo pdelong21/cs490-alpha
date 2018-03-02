@@ -1,5 +1,11 @@
 <?php
 	session_start();
+
+	#creating cookies for std1
+#	$cookie_name="std1";
+#	$cookie_value="Student1";
+#	setcookie($cookie_name, $cookie_value, time() + 86400);
+	
 	$Ans=$_POST['ans'];
 	$send=$Ans;
 	$curl=curl_init();

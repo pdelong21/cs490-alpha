@@ -25,6 +25,7 @@ function aj(){
     var u = document.getElementById("username").value;
     var p = document.getElementById("password").value;
     var vars = "username="+u+"&password="+p;
+    console.log(vars);
     hr.open("POST", url, true);
 
     // Set content type header information for sending url encoded variables in the request
@@ -35,15 +36,17 @@ function aj(){
 	if(hr.readyState == 4 && hr.status == 200) {
 		return_data = hr.responseText;
         	var data=JSON.parse(return_data);
-		// document.getElementById("rData").innerHTML = data['Response'];
+
+		// testing responses
 		if(data['Response']=="INVALID"){
 			document.getElementById("rData").innerHTML = "Response returned INVALID";
 			ob_flush();
 		}
+
         	if(data['Response']=="Student"){
           		// document.getElementById("test").innerHTML = "change to Student Landing Page instead of this message";
 			var win=window.open("student.php","_self");
-        	}else if(data['Response']=="Instructor"){
+        	}else if(data['Response']=="Professor"){
           		// document.getElementById("test").innerHTML = "change to Instructor landing page instead of this message";
 			var win=window.open("instructor.php","_self");
         	} 

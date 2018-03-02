@@ -1,5 +1,10 @@
 <?php ob_start(); ?>
 
+<?php
+	$cookie_name="student";
+	$cookie_value="std";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +68,7 @@
 
 		var ex2=document.getElementById("exam");
 		ex2.style.display="none";
+		document.getElementById("ans").value = "";
 		pr.send(answer);
 	}
 </script>
