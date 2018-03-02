@@ -58,15 +58,15 @@
 				<option value="Medium">Medium</option>
 				<option value="Hard">Hard</option>
 			</select>
-			</form>
+      </form>
 
 			<p>Points:</p>
-			<input type="number" name="pts" id="pts" value=""><br>
+			<input type="number" name="pts" id="pts"><br>
 			<!-- Type a Question/answer to the question to POST to mid -->
 			<p>Enter a Question:</p>
-			<textarea name="qtn" id="qtn" rows="10" cols="50" onkeyup="testFunc(this.value)" value = ""></textarea><br>
+			<textarea rows="10" cols="50" name="qtn" id="qtn" onkeyup="testFunc(this.value)"></textarea><br>
 			<p>Enter the Answer:</p>
-			<textarea name="ans" id="ans" rows="10" cols="50" onkeyup="testFunc(this.value)" value = ""></textarea><br>
+			<textarea rows="10" cols="50" name="ans" id="ans"onkeyup="testFunc(this.value)"></textarea><br>
 			<p><button onclick="createQuestion()">Create Question</button>
 	                <button onclick="goBack()">Back</button></p>
 		</div>
@@ -120,14 +120,8 @@
 //		var Points=parseInt(strPoints);
 		var Points=Number(strPoints);
 //		var vars=[Question,Difficulty,Points,Answer];
-//		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
+//		var vars = "Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer;
 		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
-		
-		//checking variables entered
-//		console.log(Question);
-//		console.log(Answer);
-//		console.log(Points);
-//		console.log(Difficulty);
 		
 		//checking variables and variable types (var, var type) in console
 		console.log(Question + ', ' + typeof Question);
@@ -149,12 +143,11 @@
 			window.alert("Points cannot be 0.");
 		}
 		else{
-			req.send(vars);
-			console.log(vars);
-		
+//			req.send(vars);
+//			console.log(vars);
 
-	//		req.send(JSON.stringify(vars));
-	//		console.log(JSON.stringify(vars));
+			req.send(JSON.stringify(vars));
+			console.log(JSON.stringify(vars));
 	
 			req.onreadystatechange = function(){
 				if(req.readyState==4 && req.status==200){
@@ -162,7 +155,7 @@
 					var data=JSON.parse(return_data);
 	
 					if(data['Response']=="Successfully Inserted"){
-               		        		window.alert("Question Added to DB");
+               		        		window.alert("Question Added to DB!");
 					}
 					else if(data['Response']=="INVALID"){
 						window.alert("invalid question");
@@ -170,7 +163,7 @@
 					else{
 						window.alert("Everything is wrong, what are you doing");
 					}
-                		}
+   		  }
 			}
 		
 			//resetting display back to teacher landing page
@@ -182,22 +175,12 @@
 			}
 			//checking and resetting variables
 //			document.getElementById("check").innerHTML =Difficulty+"<br>"+Question+"<br>"+Answer+"<br>"+Points;
-			document.getElementById("pts").value = "";
-			document.getElementById("qtn").value = "";
-			document.getElementById("ans").value ="";
-			document.getElementById("diff").value = "Easy";
+//			document.getElementById("pts").value = "";
+//			document.getElementById("qtn").value = "";
+//			document.getElementById("ans").value ="";
+//			document.getElementById("diff").value = "Easy";
 		//closing else loop
 		}
-		
-//		if(req.readyState==4 && req.status==200){
-//			var rData=req.responseText;
-//
-//			console.log(rData);
-//			window.alert("Question Added to DB");
-//		}
-
-		//sending to PHP
-//		req.send(vars);
 	}
 </script>
 
