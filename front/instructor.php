@@ -67,7 +67,8 @@
 			<textarea name="qtn" id="qtn" rows="10" cols="50" onkeyup="testFunc(this.value)" value = ""></textarea><br>
 			<p>Enter the Answer:</p>
 			<textarea name="ans" id="ans" rows="10" cols="50" onkeyup="testFunc(this.value)" value = ""></textarea><br>
-			<p><button onclick="createQuestion()">Create Question</button></p>
+			<p><button onclick="createQuestion()">Create Question</button>
+	                <button onclick="goBack()">Back</button></p>
 		</div>
 		
 		<!-- Split Screen Right side -->
@@ -80,16 +81,11 @@
 	</div>
 
 	<div id="genExam">
-		<div id="addQuestion">
-			<h2>Questions:</h2>
-            <div id="examQuestions"></div>
-            <form>
+		<h2>Questions:</h2>
+		<div id="examQuestions">
 
-            </form>
 		</div>
 	</div>
-	<p id="check"></p>
-	<p id="varCheck"></p>
 
 	<!-- Publish the Score -->
 	<div id="pScore">
@@ -185,7 +181,7 @@
 				cq.style.display = "none";
 			}
 			//checking and resetting variables
-			document.getElementById("check").innerHTML = Difficulty + "<br>" + Question + "<br>" + Answer + "<br>" + Points;
+//			document.getElementById("check").innerHTML =Difficulty+"<br>"+Question+"<br>"+Answer+"<br>"+Points;
 			document.getElementById("pts").value = "";
 			document.getElementById("qtn").value = "";
 			document.getElementById("ans").value ="";
@@ -216,7 +212,7 @@
 
 <script>
 	function makeExam(){
-        var dq = XMLHttpRequest();
+        var dq = new XMLHttpRequest();
         var questUrl = "viewQuestion.php";
         var questArray=[];
         dq.onreadystatechange=function(){
@@ -225,7 +221,7 @@
                 var resText=dq.responseText;
                 var resData=JSON.parse(resText);
                 var len=resData.length;
-                console.log(len);
+                console.log(resData);
             }
         }
 
@@ -236,6 +232,8 @@
                 else{
                         ge.style.display = "none";
                 }
+	dq.open("POST",questUrl,true);
+	dq.send(null);
 	}
 </script>
 
@@ -250,7 +248,11 @@
 		}
 	}	
 </script>
-
+<script>
+    function goBack(){
+        var win=window.open("instructor.php","_self");
+    }
+</script>
 <script>
 	function logOut(){
 		var win=window.open("login.php","_self");
