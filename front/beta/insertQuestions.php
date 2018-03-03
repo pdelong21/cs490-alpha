@@ -1,13 +1,14 @@
 <?php
 	session_start();
+
   	$Question=$_POST['qtn'];
 	$Case=$_POST['ans'];
-	$Points=$_POST['pts'];
+	$strPoints=$_POST['pts'];
 	$Points=intval(strPoints);
 	$Difficulty=$_POST['diff'];
 
-  	$field=array('Question'=>$Question, 'Difficulty'=>$Difficulty, 'Points'=>$Points, 'Cases'=>$Case);
-#	$field=array('Question'=>"Testing", 'Difficulty'=>"Hard",'Points'=>20, 'Cases'=>"Ans");
+# 	$field=array('Question'=>$Question, 'Difficulty'=>$Difficulty, 'Points'=>$Points, 'Cases'=>$Case);
+	$field=array('Question'=>"sorry", 'Difficulty'=>"Hard",'Points'=>20, 'Cases'=>"Ans");
 
 	#checking var types
 #	var_dump($Question);
@@ -21,9 +22,9 @@
   	$curl=curl_init();
   	
 #	temp url
- 	$url="https://web.njit.edu/~sdp53/cs490/insertQuestions.php";
+# 	$url="https://web.njit.edu/~sdp53/cs490/insertQuestions.php";
 #	actual URL
-#	$url="https://web.njit.edu/~pgd22/middle/insertQuestions.php";  
+	$url="https://web.njit.edu/~pgd22/middle/insertQuestions.php";  
   	curl_setopt_array($curl, array(
     	 CURLOPT_URL => $url,
     	 CURLOPT_POST => 1,
@@ -33,6 +34,11 @@
   	));
 $resp = curl_exec($curl);
 echo $resp;
-  
+
+#echo $Question;
+#echo $Difficulty;
+#echo $strPoints;
+#echo $case;
+
 ?>
 

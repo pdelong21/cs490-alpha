@@ -58,16 +58,17 @@
 				<option value="Medium">Medium</option>
 				<option value="Hard">Hard</option>
 			</select>
-			</form>
+      </form>
 
 			<p>Points:</p>
-			<input type="number" name="pts" id="pts" value=""><br>
+			<input type="number" name="pts" id="pts"><br>
 			<!-- Type a Question/answer to the question to POST to mid -->
 			<p>Enter a Question:</p>
-			<textarea name="qtn" id="qtn" rows="10" cols="50" onkeyup="testFunc(this.value)" value = ""></textarea><br>
+			<textarea rows="10" cols="50" name="qtn" id="qtn" onkeyup="testFunc(this.value)"></textarea><br>
 			<p>Enter the Answer:</p>
-			<textarea name="ans" id="ans" rows="10" cols="50" onkeyup="testFunc(this.value)" value = ""></textarea><br>
-			<p><button onclick="createQuestion()">Create Question</button></p>
+			<textarea rows="10" cols="50" name="ans" id="ans"onkeyup="testFunc(this.value)"></textarea><br>
+			<p><button onclick="createQuestion()">Create Question</button>
+	                <button onclick="goBack()">Back</button></p>
 		</div>
 		
 		<!-- Split Screen Right side -->
@@ -80,16 +81,9 @@
 	</div>
 
 	<div id="genExam">
-		<div id="makeTable" style="overflow: auto;">
-			<table>
-				<tr>
-					<th>QUESTIONS</th>					
-				</tr>
-			</table>
-		</div>
+		<h2>Select Questions:</h2>
+		<div id="examQuestions"></div>
 	</div>
-	<p id="check"></p>
-	<p id="varCheck"></p>
 
 	<!-- Publish the Score -->
 	<div id="pScore">
@@ -124,14 +118,8 @@
 //		var Points=parseInt(strPoints);
 		var Points=Number(strPoints);
 //		var vars=[Question,Difficulty,Points,Answer];
-//		var vars=("Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer);
+//		var vars = "Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer;
 		var vars={"Question":Question,"Difficulty":Difficulty,"Points":Points,"Cases":Answer};
-		
-		//checking variables entered
-//		console.log(Question);
-//		console.log(Answer);
-//		console.log(Points);
-//		console.log(Difficulty);
 		
 		//checking variables and variable types (var, var type) in console
 		console.log(Question + ', ' + typeof Question);
@@ -153,12 +141,11 @@
 			window.alert("Points cannot be 0.");
 		}
 		else{
-			req.send(vars);
-			console.log(vars);
-		
+//			req.send(vars);
+//			console.log(vars);
 
-	//		req.send(JSON.stringify(vars));
-	//		console.log(JSON.stringify(vars));
+			req.send(JSON.stringify(vars));
+			console.log(JSON.stringify(vars));
 	
 			req.onreadystatechange = function(){
 				if(req.readyState==4 && req.status==200){
@@ -166,7 +153,7 @@
 					var data=JSON.parse(return_data);
 	
 					if(data['Response']=="Successfully Inserted"){
-               		        		window.alert("Question Added to DB");
+               		        		window.alert("Question Added to DB!");
 					}
 					else if(data['Response']=="INVALID"){
 						window.alert("invalid question");
@@ -174,7 +161,7 @@
 					else{
 						window.alert("Everything is wrong, what are you doing");
 					}
-                		}
+   		  }
 			}
 		
 			//resetting display back to teacher landing page
@@ -185,23 +172,13 @@
 				cq.style.display = "none";
 			}
 			//checking and resetting variables
-			document.getElementById("check").innerHTML = Difficulty + "<br>" + Question + "<br>" + Answer + "<br>" + Points;
-			document.getElementById("pts").value = "";
-			document.getElementById("qtn").value = "";
-			document.getElementById("ans").value ="";
-			document.getElementById("diff").value = "Easy";
+//			document.getElementById("check").innerHTML =Difficulty+"<br>"+Question+"<br>"+Answer+"<br>"+Points;
+//			document.getElementById("pts").value = "";
+//			document.getElementById("qtn").value = "";
+//			document.getElementById("ans").value ="";
+//			document.getElementById("diff").value = "Easy";
 		//closing else loop
 		}
-		
-//		if(req.readyState==4 && req.status==200){
-//			var rData=req.responseText;
-//
-//			console.log(rData);
-//			window.alert("Question Added to DB");
-//		}
-
-		//sending to PHP
-//		req.send(vars);
 	}
 </script>
 
@@ -216,6 +193,36 @@
 
 <script>
 	function makeExam(){
+        var dq = new XMLHttpRequest();
+        var questUrl = "viewQuestion.php";
+        var questArray=[];
+        dq.onreadystatechange=function(){
+            if(dq.readyState == 4){
+                var dispQuest = document.getElementById("examQuestions");
+                var resText=dq.responseText;
+                var resData=JSON.parse(resText);
+                var len=resData.length;
+                console.log(resData);
+		console.log(len);
+
+		var questHTML="<div class='row'>";
+		questHTML+="<table id='tbl'>"
+		questHTML+="<tr><th>Add<th>";
+		questHTML+="<th>Question</th>";
+		questHTML+="</tr>";
+		
+		for(var i=0;i<len;i++){
+			questArray.push(resData[i]['Id']);
+			questHTML+="<tr>";
+//			questHTML+="<input type="checkbox" name="qList" id="+resData[i]['Id'];
+			questHTML+="<td>"+resData[i]['Question']+"</td>";
+			questHTML+="</tr>";
+		}
+		questHTML+="</table></div>";
+		dispQuest.innerHTML=questHTML;
+            }
+        }
+
 		var ge=document.getElementById("genExam");
                 if(ge.style.display ==="none"){
                         ge.style.display = "inline";
@@ -223,6 +230,8 @@
                 else{
                         ge.style.display = "none";
                 }
+	dq.open("POST",questUrl,true);
+	dq.send(null);
 	}
 </script>
 
@@ -237,7 +246,11 @@
 		}
 	}	
 </script>
-
+<script>
+    function goBack(){
+        var win=window.open("instructor.php","_self");
+    }
+</script>
 <script>
 	function logOut(){
 		var win=window.open("login.php","_self");
