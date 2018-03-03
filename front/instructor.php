@@ -81,10 +81,8 @@
 	</div>
 
 	<div id="genExam">
-		<h2>Questions:</h2>
-		<div id="examQuestions">
-
-		</div>
+		<h2>Select Questions:</h2>
+		<div id="examQuestions"></div>
 	</div>
 
 	<!-- Publish the Score -->
@@ -205,6 +203,28 @@
                 var resData=JSON.parse(resText);
                 var len=resData.length;
                 console.log(resData);
+		console.log(len);
+
+		var questHTML="<div class='row'>";
+		questHTML+="<table id='tbl'>"
+		questHTML+="<tr><th>Add</th>";
+		questHTML+="<th>Question</th>";
+		questHTML+="<th>Answer</th>";
+		questHTML+="<th>Points</th>";
+		questHTML+="</tr>";
+		
+		for(var i=0;i<len;i++){
+			questArray.push(resData[i]['Id']);
+			questHTML+="<tr>";
+			questHTML+='<td><input type="checkbox" name="qList" id="'+resData[i]['Id'];
+			questHTML+='"></td>';
+			questHTML+="<td>"+resData[i]['Question']+"</td>";
+			questHTML+="<td>"+resData[i]['Difficulty']+"</td>";
+			questHTML+="<td>"+resData[i]['Points']+"</td>";
+			questHTML+="</tr>";
+		}
+		questHTML+="</table></div>";
+		dispQuest.innerHTML=questHTML;
             }
         }
 
