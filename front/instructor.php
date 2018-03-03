@@ -31,7 +31,7 @@
     		text-align: center;
 	}
 	#diffSetting{display:none;}
-	#sScreen{display:none;}
+
 	#pScore{display:none;}
 	#genExam{display:none;}
 </style>
@@ -45,28 +45,28 @@
 	
 	<!-- exam -->
 	<!-- Split Screen to make a question on the left side of the screen, and view similar questions on the right -->
-	<div id="sScreen">
+	<div id="sScreen" style="display:none">
 		<!-- Split Screen Left side -->
 		<div class ="split left">
 			<h2><b>Create a question</b></h2>
 			
 			<!-- Difficulty Settings for Easy/Medium/Hard -->	
-			<form>
-			Select Difficulty:
-			<select name="diff" id="diff">
+			
+			<p>Select Difficulty:</p>
+			<select name="pdiff" id="diff">
 				<option value="Easy">Easy</option>
 				<option value="Medium">Medium</option>
 				<option value="Hard">Hard</option>
 			</select>
-      </form>
+      
 
 			<p>Points:</p>
-			<input type="number" name="pts" id="pts"><br>
+			<input type="number" name="ppts" id="pts"><br>
 			<!-- Type a Question/answer to the question to POST to mid -->
 			<p>Enter a Question:</p>
-			<textarea rows="10" cols="50" name="qtn" id="qtn" onkeyup="testFunc(this.value)"></textarea><br>
+			<textarea rows="10" cols="50" name="pqtn" id="qtn" onkeyup="testFunc(this.value)"></textarea><br>
 			<p>Enter the Answer:</p>
-			<textarea rows="10" cols="50" name="ans" id="ans"onkeyup="testFunc(this.value)"></textarea><br>
+			<textarea rows="10" cols="50" name="pans" id="ans"onkeyup="testFunc(this.value)"></textarea><br>
 			<p><button onclick="createQuestion()">Create Question</button>
 	                <button onclick="goBack()">Back</button></p>
 		</div>
@@ -89,6 +89,8 @@
 	<div id="pScore">
 		<p>Publish the scores here</p>
 	</div>
+ 
+ <p id="exQ"></p>
 </body>
 </html>
 
@@ -192,38 +194,48 @@
 </script>
 
 <script>
+  //var temp;
+  var questHTML;
+  var questArray=[];
+  var len;
 	function makeExam(){
         var dq = new XMLHttpRequest();
         var questUrl = "viewQuestion.php";
-        var questArray=[];
+        //var questArray=[];
+        var temp;
         dq.onreadystatechange=function(){
             if(dq.readyState == 4){
                 var dispQuest = document.getElementById("examQuestions");
                 var resText=dq.responseText;
                 var resData=JSON.parse(resText);
-                var len=resData.length;
+                len=resData.length;
                 console.log(resData);
 		console.log(len);
-
-		var questHTML="<div class='row'>";
+		questHTML="<div class='row'>";
 		questHTML+="<table id='tbl'>"
 		questHTML+="<tr><th>Add</th>";
 		questHTML+="<th>Question</th>";
-		questHTML+="<th>Answer</th>";
+		questHTML+="<th>Difficulty</th>";
 		questHTML+="<th>Points</th>";
 		questHTML+="</tr>";
 		
 		for(var i=0;i<len;i++){
 			questArray.push(resData[i]['Id']);
+      temp=resData[i]['Id'];
 			questHTML+="<tr>";
-			questHTML+='<td><input type="checkbox" name="qList" id="'+resData[i]['Id'];
-			questHTML+='"></td>';
+			questHTML+='<td><input type="checkbox" name="qList" id="'+temp;
+			//questHTML+='" onclick="addToExam()"></td>';
+      questHTML+='"></td>';
 			questHTML+="<td>"+resData[i]['Question']+"</td>";
 			questHTML+="<td>"+resData[i]['Difficulty']+"</td>";
 			questHTML+="<td>"+resData[i]['Points']+"</td>";
-			questHTML+="</tr>";
+			questHTML+="</tr>"; 
+      //temp = document.getElementById("resData[i]['Id']");
+      console.log(temp);
 		}
 		questHTML+="</table></div>";
+    questHTML+='<input type="button"onclick="addToExam()"';
+    questHTML+='value="Add to Exam"></input>';
 		dispQuest.innerHTML=questHTML;
             }
         }
@@ -238,6 +250,23 @@
 	dq.open("POST",questUrl,true);
 	dq.send(null);
 	}
+
+  function addToExam(){
+    for(var j=0;j<len;j++){
+      var chkbox=document.getElementById(questArray[j]);
+      console.log(chkbox);
+      console.log(questArray[j]);
+      var chkOutput=document.getElementById("exQ");
+    
+      if(chkbox.checked){
+      chkOutput.innerHTML = "Selected question(s) added to exam!";
+      chkbox.checked=false;
+      }
+      else{
+        chkOutput.innerHTML = "no question(s) added!";
+      }
+    }
+  }
 </script>
 
 <script>

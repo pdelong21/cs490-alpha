@@ -1,14 +1,14 @@
 <?php
 	session_start();
 
-  	$Question=$_POST['qtn'];
-	$Case=$_POST['ans'];
-	$strPoints=$_POST['pts'];
-	$Points=intval(strPoints);
-	$Difficulty=$_POST['diff'];
+#  $Question=$_POST['pqtn'];
+#	$Case=$_POST['pans'];
+#	$strPoints=$_POST['ppts'];
+#	$Points=intval(strPoints);
+#	$Difficulty=$_POST['pdiff'];
 
 # 	$field=array('Question'=>$Question, 'Difficulty'=>$Difficulty, 'Points'=>$Points, 'Cases'=>$Case);
-	$field=array('Question'=>"sorry", 'Difficulty'=>"Hard",'Points'=>20, 'Cases'=>"Ans");
+#	$field=array('Question'=>"test question", 'Difficulty'=>"Hard",'Points'=>20, 'Cases'=>"Please Ignore");
 
 	#checking var types
 #	var_dump($Question);
@@ -18,7 +18,10 @@
 #	var_dump($Case);
 #	var_dump($field);
 
-  	$send=json_encode($field); 	
+  $response=file_get_contents('php://input');
+  $dec=json_decode($response,true);
+
+  	$send=json_encode($dec, true); 	
   	$curl=curl_init();
   	
 #	temp url
@@ -33,7 +36,9 @@
     	 CURLOPT_POSTFIELDS => $send
   	));
 $resp = curl_exec($curl);
-echo $resp;
+$res=json_decode($resp,true);
+echo json_encode($res,true);
+#echo $resp;
 
 #echo $Question;
 #echo $Difficulty;
