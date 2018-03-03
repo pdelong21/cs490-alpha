@@ -6,6 +6,14 @@
  * Time: 10:41 AM
  */
 $url = 0 /* sunnys database that will store the grades*/ ;
+$ans= array(
+    'Id' => array(
+        'User' => 'someonesmart',
+        'Answer' => 'a smart answer',
+        'Cases' => 'f(2,2)',
+        'Points' => 10
+    )
+);
 
 function handIn($data_obj, $url){
     $ch = curl_init($url);
@@ -21,6 +29,7 @@ function handIn($data_obj, $url){
 }
 
 function compileMe($str_code){
+    $file ;
 
 }
 
