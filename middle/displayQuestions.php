@@ -26,3 +26,5 @@ $displayQ_res = displayQ($displayQ_obj, $url); # pass to sunny & retrieve respon
 
 $response_obj = json_encode($displayQ_res, true); # encode the response from sunny
 echo $response_obj; # echo back to front
+#print_r($displayQ_res) ;
+

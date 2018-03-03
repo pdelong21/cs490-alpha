@@ -19,7 +19,11 @@ function addQ($data_obj, $url){
     return $r_decoded;
 
 }
+#Takes 'Question' 'Difficulty' 'Points' 'Cases'
 
+
+#$addQ_obj = json_encode(['Question' => 'write a function f(x,y)',
+ #   'Difficulty' => 'Hard', 'Points' => 10, 'Cases' => 'f(0,1)'], true);
 $addQ_obj = file_get_contents('php://input');
 
 $addQ_response = addQ($addQ_obj, $url);
