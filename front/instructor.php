@@ -83,6 +83,7 @@
 	<div id="genExam">
 		<h2>Select Questions:</h2>
 		<div id="examQuestions"></div>
+    <p id="exQ"></p>
 	</div>
 
 	<!-- Publish the Score -->
@@ -90,7 +91,6 @@
 		<p>Publish the scores here</p>
 	</div>
  
- <p id="exQ"></p>
 </body>
 </html>
 
@@ -175,10 +175,10 @@
 			}
 			//checking and resetting variables
 //			document.getElementById("check").innerHTML =Difficulty+"<br>"+Question+"<br>"+Answer+"<br>"+Points;
-//			document.getElementById("pts").value = "";
-//			document.getElementById("qtn").value = "";
-//			document.getElementById("ans").value ="";
-//			document.getElementById("diff").value = "Easy";
+			document.getElementById("pts").value = "";
+			document.getElementById("qtn").value = "";
+			document.getElementById("ans").value ="";
+			document.getElementById("diff").value = "Easy";
 		//closing else loop
 		}
 	}
@@ -198,6 +198,7 @@
   var questHTML;
   var questArray=[];
   var len;
+  var qIDArr=[];
 	function makeExam(){
         var dq = new XMLHttpRequest();
         var questUrl = "viewQuestion.php";
@@ -209,8 +210,8 @@
                 var resText=dq.responseText;
                 var resData=JSON.parse(resText);
                 len=resData.length;
-                console.log(resData);
-		console.log(len);
+    //            console.log(resData);
+		//console.log(len);
 		questHTML="<div class='row'>";
 		questHTML+="<table id='tbl'>"
 		questHTML+="<tr><th>Add</th>";
@@ -231,7 +232,7 @@
 			questHTML+="<td>"+resData[i]['Points']+"</td>";
 			questHTML+="</tr>"; 
       //temp = document.getElementById("resData[i]['Id']");
-      console.log(temp);
+      //console.log(temp);
 		}
 		questHTML+="</table></div>";
     questHTML+='<input type="button"onclick="addToExam()"';
@@ -252,20 +253,33 @@
 	}
 
   function addToExam(){
+    var aReq = new XMLHttpRequest();
+    var eUrl = "addExam.php"
+    
     for(var j=0;j<len;j++){
       var chkbox=document.getElementById(questArray[j]);
-      console.log(chkbox);
-      console.log(questArray[j]);
+      //console.log(chkbox);
+      //console.log(questArray[j]);
       var chkOutput=document.getElementById("exQ");
     
       if(chkbox.checked){
-      chkOutput.innerHTML = "Selected question(s) added to exam!";
-      chkbox.checked=false;
+      //chkOutput.innerHTML = "Selected question(s) added to exam!";
+        chkbox.checked=false;
+        qIDArr.push({Id:j});
+      
       }
       else{
-        chkOutput.innerHTML = "no question(s) added!";
+      //qIDArr[j]=0;
+        chkOutput.innerHTML = "Select at least one question to make an exam!";
       }
     }
+    console.log(qIDArr);
+    var sendList=qIDArr;
+    var toPost=JSON.stringify(sendList);
+    aReq.open("POST", eUrl, true);
+    aReq.send(toPost);
+    //reset array. Lazy but works for now
+    qIDArr=[];
   }
 </script>
 
