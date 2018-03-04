@@ -263,7 +263,7 @@
       var chkOutput=document.getElementById("exQ");
     
       if(chkbox.checked){
-      //chkOutput.innerHTML = "Selected question(s) added to exam!";
+      chkOutput.innerHTML = "Selected question(s) added to exam!";
         chkbox.checked=false;
         qIDArr.push({Id:j});
       
