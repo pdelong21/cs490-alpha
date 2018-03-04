@@ -19,8 +19,8 @@ if (!$conn) {
 $sql = "SELECT * FROM Tests;";
 $result = $conn->query($sql);
 $tid=$result->num_rows;
-$sql4 = "INSERT INTO Tests (Id) VALUES
-			('$tid')";
+$sql4 = "INSERT INTO Tests (Id,Release) VALUES
+			('$tid',0)";
 			$result4 = $conn->query($sql4);
 			  for ($x = 0; $x < count($decoder); $x++) {
           $sql2 = "SELECT * FROM TestQuestionRelation;";
