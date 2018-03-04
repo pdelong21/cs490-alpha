@@ -265,8 +265,8 @@
       if(chkbox.checked){
       chkOutput.innerHTML = "Selected question(s) added to exam!";
         chkbox.checked=false;
-        qIDArr.push({Id:j});
-      
+        //qIDArr.push({Id:j});
+        qIDArr.push(j);
       }
       else{
       //qIDArr[j]=0;
