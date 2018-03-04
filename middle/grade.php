@@ -10,7 +10,7 @@ $url = 0 /* sunnys database that will store the grades*/ ;
 $ans= array(
     'Id' => array(
         'User' => 'someonesmart',
-        'Answer' => "x=10 \n y=12 \n z=x+y \n print(str(z))",
+        'Answer' => "x=10 \ny=12 \nz=x+y \nprint(str(z))",
         'Cases' => 'f(2,2)',
         'Points' => 10
     )
@@ -47,7 +47,8 @@ function compileMe($py_file){
 
 function gradeMe($case, $std_ans){
     $points = 0;
-    writeFile('python.py',str_replace(' ', '', $std_ans));
+    /*str_replace(' ', '', $std_ans)*/
+    writeFile('python.py',$std_ans);
     $output = compileMe('python.py');
     switch ($case){
         case 0:
