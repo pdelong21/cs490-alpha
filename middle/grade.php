@@ -28,8 +28,13 @@ function handIn($data_obj, $url){
 
 }
 
-function compileMe($str_code){
-    $file ;
+function compileMe($py_file){
+    #$file ;
+    $cmd = 'python ./'.$py_file;
+    $output = array();
+    exec($cmd, $output,$return_status);
+    $output[] = $return_status;
+    return $output;
 
 }
 
@@ -50,4 +55,7 @@ function gradeMe($case, $std_ans){
 /*  this is the students input to test, should be in the form of an array:
     array[user, questionID,
 */
-$std_res_obj = file_get_contents('php://input');
+#$std_res_obj = file_get_contents('php://input');
+
+echo $return_status;
+print_r($output);
