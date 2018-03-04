@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -193,13 +195,19 @@
 	}
 </script>
 
-<script>
+<script type="text/javascript">
   //var temp;
   var questHTML;
   var questArray=[];
   var len;
   var qIDArr=[];
 	function makeExam(){
+ 
+    //TESTING SESSION
+    var testing="<?php echo $_SESSION['username']; ?>";
+    console.log(testing);
+    //TESTING SESSION
+ 
         var dq = new XMLHttpRequest();
         var questUrl = "viewQuestion.php";
         //var questArray=[];

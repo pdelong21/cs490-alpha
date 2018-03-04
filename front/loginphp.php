@@ -19,6 +19,7 @@ session_start();
     	 CURLOPT_POSTFIELDS => $send
   	));
 $resp = curl_exec($curl);
+$_SESSION['username']=$Username;
 echo $resp;
   
 ?>

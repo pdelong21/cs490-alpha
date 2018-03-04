@@ -1,6 +1,4 @@
-<?php ob_start(); ?>
-
-
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +25,7 @@
 </body>
 </html>
 
-<script>
+<script type="text/javascript">
   var ansArr=[];
   var exHTML;
 	function takeExam(){
@@ -43,12 +41,12 @@
 			if(aReq.readyState==4){
 				var exDisp=document.getElementById("dispExam");
 				var resText=aReq.responseText;
-				console.log(resText);
+				//console.log(resText);
         
         var resData=JSON.parse(resText);
         var len=resData.length;
-        console.log(len);
-        console.log(resData);
+        //console.log(len);
+        //console.log(resData);
         
         exHTML ="<p>Exam</p>";
         for(var i=0;i<len;i++){
@@ -69,7 +67,7 @@
         exHTML+='<p>';
         exHTML+='<input type="button" value="Submit" onclick="submitEx();"></input>';
         exHTML+='</p>';
-        console.log(exHTML);
+        //console.log(exHTML);
         exDisp.innerHTML=exHTML;
 			}
 		}
@@ -81,6 +79,11 @@
 		else{
 			ex.style.display = "none";
 		}
+   
+   //TESTING SESSIONS
+   var testing="<?php echo $_SESSION['username']; ?>";
+   console.log(testing);
+   //TESTING SESSIONS
    
    aReq.open("POST",exUrl,true);
    aReq.send(null);
