@@ -6,7 +6,7 @@
  * Time: 10:41 AM
  */
 $url = 0 /* sunnys database that will store the grades*/ ;
-/*
+
 $ans= array(
     'Id' => array(
         'User' => 'someonesmart',
@@ -15,7 +15,7 @@ $ans= array(
         'Points' => 10
     )
 );
-*/
+
 function handIn($data_obj, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -48,10 +48,11 @@ function compileMe($py_file){
 function gradeMe($case, $std_ans){
     $points = 0;
     writeFile('python.py',str_replace(' ', '', $std_ans));
+    $output = compileMe('python.py');
     switch ($case){
         case 0:
             #check to see if it compiled or not -- 1 point
-            if(end(compileMe('python.py'))){
+            if(end($output) == 0 && $std_ans != null){
                 $points ++;
             } else return $points;
         case 1:
@@ -59,6 +60,7 @@ function gradeMe($case, $std_ans){
         case 2:
             #check to see if output is correct or not -- 3 points
     }
+    return $points;
 }
 
 
@@ -78,8 +80,8 @@ function gradeMe($case, $std_ans){
 $grade_obj = file_get_contents('php://input');
 $grade_decoded = json_decode($grade_obj, true);
 
-# Start grading process
+# Start grading process -- returns an integer
 $grade_res = gradeMe(0, $grade_decoded['Response']);
-
-$output = compileMe('python.py');
-print_r($output);
+#$grade_res = gradeMe(0, $ans['Id']['Answer']);
+$response_obj = json_encode($grade_res, true);
+echo $grade_res;
