@@ -6,6 +6,7 @@
  * Time: 10:41 AM
  */
 $url = 0 /* sunnys database that will store the grades*/ ;
+/*
 $ans= array(
     'Id' => array(
         'User' => 'someonesmart',
@@ -14,7 +15,7 @@ $ans= array(
         'Points' => 10
     )
 );
-
+*/
 function handIn($data_obj, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -29,7 +30,7 @@ function handIn($data_obj, $url){
 }
 
 function writeFile($python_file, $student_res){
-    $handle = fopen($python_file, 'w') or die("Can't open yo");
+    $handle = fopen($python_file, 'w') or die("Can't open...");
     fwrite($handle, $student_res);
     fclose($handle);
 }
@@ -46,10 +47,13 @@ function compileMe($py_file){
 
 function gradeMe($case, $std_ans){
     $points = 0;
+    writeFile('python.py',str_replace(' ', '', $std_ans));
     switch ($case){
         case 0:
             #check to see if it compiled or not -- 1 point
-
+            if(end(compileMe('python.py'))){
+                $points ++;
+            } else return $points;
         case 1:
             #check to see if the function name matches -- 1 point
         case 2:
@@ -70,6 +74,12 @@ function gradeMe($case, $std_ans){
  * 4) Match the function name
  * 5) Confirm the answer
  */
-writeFile('python.py',str_replace(' ', '', $ans['Id']['Answer']));
+# Accept the user input
+$grade_obj = file_get_contents('php://input');
+$grade_decoded = json_decode($grade_obj, true);
+
+# Start grading process
+$grade_res = gradeMe(0, $grade_decoded['Response']);
+
 $output = compileMe('python.py');
 print_r($output);
