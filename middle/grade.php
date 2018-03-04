@@ -63,6 +63,13 @@ function gradeMe($case, $std_ans){
     array[user, questionID,
 */
 #$std_res_obj = file_get_contents('php://input');
+/*
+ * 1) Accept user input
+ * 2) Write file only once, lets not waste writes!
+ * 3) For each test case, compile the code
+ * 4) Match the function name
+ * 5) Confirm the answer
+ */
 writeFile('python.py',str_replace(' ', '', $ans['Id']['Answer']));
 $output = compileMe('python.py');
 print_r($output);
