@@ -7,7 +7,7 @@ $database = "sdp53";
 
 $response = file_get_contents('php://input');
 $decoder = json_decode($response,true); 
-$username=$decoder['Username'];
+$username= $decoder['Username'];
 $userPass =$decoder['Password'];     
 
 // Create connection
@@ -27,7 +27,7 @@ if ($result->num_rows == 1) {
     
     //hash verify
     if (password_verify($userPass, $row["Password"])) {
-         $log = array("Response"=>"VALID");
+         $log = array("Response"=>$row["Permission"]);
         
         echo json_encode($log,true);           
     } else {
