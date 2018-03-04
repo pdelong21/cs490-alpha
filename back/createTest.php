@@ -6,6 +6,7 @@ $password = "oEnFrxKN";
 $database = "sdp53";
 
 $response = file_get_contents('php://input');     
+$decoder = json_decode($response,true); 
 
 // Create connection
 $conn = mysqli_connect($dbserver, $user, $password, $database);
@@ -14,26 +15,27 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+
 $sql = "SELECT * FROM Tests;";
-
 $result = $conn->query($sql);
+$tid=$result->num_rows;
+$sql4 = "INSERT INTO Tests (Id) VALUES
+			('$tid')";
+			$result4 = $conn->query($sql4);
+			  for ($x = 0; $x < count($decoder); $x++) {
+          $sql2 = "SELECT * FROM TestQuestionRelation;";
+          $result2 = $conn->query($sql2);
+          $id=$result2->num_rows;
+          
+          $sql3 = "INSERT INTO TestQuestionRelation (Id, TestId, QuestionId) VALUES('$id','$tid','$decoder[$x]')";
+          	$result3 = $conn->query($sql3);
+}
 
-$id=$result->num_rows;
-
-$sql = "INSERT INTO Tests (Id) VALUES
-			('$id')";
-			
-			$result = $conn->query($sql);
-			
-			  if($result){
-				  $log = array("Response"=>"Successfully Inserted");
+    $log = array("Response"=>"Test Created");
 				  echo json_encode($log,true);
-        }
-        else{
-          $log = array("Response"=>"INVALID");
-				  echo json_encode($log,true);
-        }
-    
+                 
+                 
+                 
 mysqli_close($conn);
 
 ?>
