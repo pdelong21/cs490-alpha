@@ -43,7 +43,7 @@
 	<p><button onclick="pubScore()">Publish Score(s)</button></p>
 	<button onclick="logOut()">Log Out</button>
 	
-	<!-- exam -->
+	<!-- Make Question -->
 	<!-- Split Screen to make a question on the left side of the screen, and view similar questions on the right -->
 	<div id="sScreen" style="display:none">
 		<!-- Split Screen Left side -->
@@ -212,7 +212,7 @@
                 len=resData.length;
     //            console.log(resData);
 		//console.log(len);
-		questHTML="<div class='row'>";
+		questHTML="<div>";
 		questHTML+="<table id='tbl'>"
 		questHTML+="<tr><th>Add</th>";
 		questHTML+="<th>Question</th>";
