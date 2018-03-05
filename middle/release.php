@@ -2,12 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: pdelong
- * Date: 3/2/18
- * Time: 10:31 AM
+ * Date: 3/5/18
+ * Time: 2:57 PM
  */
-$url = 'https://web.njit.edu/~sdp53/cs490/displayQuestions.php';
 
-function displayQ($data_obj, $url){
+$url = 'https://web.njit.edu/~sdp53/cs490/release.php';
+
+function releaseGrade($data_obj, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
@@ -20,11 +21,10 @@ function displayQ($data_obj, $url){
 
 }
 
-$displayQ_obj = file_get_contents('php://input');
+$release_grade_obj = file_get_contents('php://input');
 
-$displayQ_res = releaseGrade($displayQ_obj, $url); # pass to sunny & retrieve response
+$release_grade_res = releaseGrade($release_grade_obj, $url); # pass to sunny & retrieve response
 
-$response_obj = json_encode($displayQ_res, true); # encode the response from sunny
+$response_obj = json_encode($release_grade_res, true); # encode the response from sunny
 echo $response_obj; # echo back to front
 #print_r($displayQ_res) ;
-
