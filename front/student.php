@@ -118,10 +118,7 @@
         
 			}
 		}
-   
-   
-   
-   
+       
    var ex = document.getElementById("exam");
 		if(ex.style.display === "none"){
 			ex.style.display = "inline";
@@ -167,7 +164,7 @@
         }
         //console.log(ansStr);
         //stdAns.push(currAns);
-        //console.log(currAns);
+        console.log(currAns);
         //console.log(ansStr);
         //console.log(maxPts);
         //console.log(tCaseStr);
@@ -186,21 +183,22 @@
     //console.log(status);
 		se.style.display="none";
    
-   var a0=tempArr[0];
-   var a1=tempArr[1];
-   var a2=tempArr[2];
-   var a3=tempArr[3];
-   var a4=tempArr[4];
-   console.log(a0);
-   console.log(a1);
-   console.log(a2);
-   console.log(a3);
-   console.log(a4);
+   //var a0=tempArr[0];
+   //var a1=tempArr[1];
+   //var a2=tempArr[2];
+   //var a3=tempArr[3];
+   //var a4=tempArr[4];
+   //console.log(a0);
+   //console.log(a1);
+   //console.log(a2);
+   //console.log(a3);
+   //console.log(a4);
    
-   toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
-   console.log(toSend);
+   //toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
+   //console.log(toSend);
    bReq.open("POST",grUrl,true);
-   bReq.send(currAns);
+   bReq.send(JSON.stringify(currAns));
+   
    
    status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
   }

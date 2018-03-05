@@ -12,7 +12,7 @@
 		CURLOPT_POST => 1,
 		CURLOPT_FOLLOWLOCATION => 1,
 		CURLOPT_RETURNTRANSFER => 1,
-		CURLOPT_POSTFIELDS => $send
+		CURLOPT_POSTFIELDS => $enc
 	  ));
 	$resp = curl_exec($curl);
 	echo $resp;
