@@ -82,7 +82,6 @@ function gradeMe($case, $std_ans){
 /*  this is the students input to test, should be in the form of an array:
     array[user, questionID,
 */
-#$std_res_obj = file_get_contents('php://input');
 /*
  * 1) Accept user input
  * 2) Write file only once, lets not waste writes!
@@ -94,6 +93,9 @@ function gradeMe($case, $std_ans){
 $ans_obj = file_get_contents('php://input');
 $ans_decoded = json_decode($ans_obj, true);
 
+#$ans_decoded[]= "sdf";
+#$ans_decoded[] = "asdasd";
+
 # Retrieve the exam for grading
 $test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
 #echo $test_obj[0]['Points'];
@@ -103,7 +105,7 @@ $echo_back = array();
 for ($i=0; $i < count($ans_decoded); $i++){
     $max_points += $test_obj[$i]['Points'];
     $grade_res = gradeMe(0, $ans_decoded[$i]);
-    $echo_back += $grade_res;
+    $echo_back [] = $grade_res;
 }
 
 $echo_back_json = json_encode($echo_back);
