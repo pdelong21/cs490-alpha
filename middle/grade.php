@@ -90,10 +90,10 @@ function gradeMe($case, $std_ans){
  * 5) Confirm the answer
  */
 # Accept the user input
-#$ans_obj = file_get_contents('php://input');
-#$ans_decoded = json_decode($ans_obj, true);
+$ans_obj = file_get_contents('php://input');
+$ans_decoded = json_decode($ans_obj, true);
 
-$ans_decoded[]= "sdf";
+#$ans_decoded[]= "sdf";
 #$ans_decoded[] = "asdasd";
 
 # Retrieve the exam for grading
