@@ -8,14 +8,18 @@
 $handIn_url = 0 /* sunnys database that will store the grades*/ ;
 $test_url = 'https://web.njit.edu/~sdp53/cs490/getTest.php';
 $max_points = 0;
-$ans= array(
-    'Id' => array(
+$points_recieved_arr = array();
+$points_ratio_arr = array();
+
+
+$test_obj [] = array(
         'User' => 'someonesmart',
         'Answer' => "x=10 \ny=12 \nz=x+y \nprint(str(z))",
         'Cases' => 'f(2,2)',
         'Points' => 10
-    )
+
 );
+
 
 function handIn($data_obj, $url){
     $ch = curl_init($url);
@@ -59,13 +63,13 @@ function compileMe($py_file){
 }
 
 function gradeMe($case, $std_ans){
-    $points = 0;
+    $points = 0.0;
     /*str_replace(' ', '', $std_ans)*/
     writeFile('python.py',$std_ans);
     $output = compileMe('python.py');
     switch ($case){
         case 0:
-            #check to see if it compiled or not -- 1 point
+            #check to see if it compiled or not -- 1 point or zero for whole problem
             if(end($output) == 0 && $std_ans != null){
                 $points ++;
             } else return $points;
@@ -74,9 +78,20 @@ function gradeMe($case, $std_ans){
         case 2:
             #check to see if output is correct or not -- 3 points
     }
+    $points = $points/5.0;
     return $points;
 }
 
+function percentGrade($points_array, $maxpoints){
+    $sum = 0.0;
+    if ($maxpoints != 0){
+        for ($i=0;$i<count($points_array); $i++){
+            $sum += $points_array[$i];
+        }
+        return ($sum/$maxpoints)*100;
+    } else return 0;
+
+}
 
 
 /*  this is the students input to test, should be in the form of an array:
@@ -90,25 +105,28 @@ function gradeMe($case, $std_ans){
  * 5) Confirm the answer
  */
 # Accept the user input
-$ans_obj = file_get_contents('php://input');
-$ans_decoded = json_decode($ans_obj, true);
+#$ans_obj = file_get_contents('php://input');
+#$ans_decoded = json_decode($ans_obj, true);
 
-#$ans_decoded[]= "sdf";
-#$ans_decoded[] = "asdasd";
+$ans_decoded[]= 'print("hi")';
+$ans_decoded[] = "asdasd";
 
 # Retrieve the exam for grading
-$test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
+#$test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
 #echo $test_obj[0]['Points'];
 
-# Start grading process -- returns an integer
-$echo_back = array();
+# Start grading process -- returns double
 for ($i=0; $i < count($ans_decoded); $i++){
-    $max_points += $test_obj[$i]['Points'];
-    $grade_res = gradeMe(0, $ans_decoded[$i]);
-    $echo_back [] = $grade_res;
+    $max_points += $test_obj[$i]['Points']; # points possible on test
+
+    $grade_res = gradeMe(0, $ans_decoded[$i]); # returns points for current question
+    $points_ratio_arr [] = $grade_res; # contains a decimal for how many points they got
+    $points_recieved_arr [] = $points_ratio_arr[$i]*$test_obj[$i]['Points']; # tally of points recieved
 }
 
-$echo_back_json = json_encode($echo_back);
+# get the percentage of the test grade
+$perc [] = percentGrade($points_recieved_arr, $max_points);
+$echo_back_json = json_encode($perc);
 echo $echo_back_json;
 
 #$grade_res = gradeMe(0, $ans['Id']['Answer']);
