@@ -29,6 +29,8 @@
   var ansStr="";
   var tCaseStr="";
   var toSend=[];
+  var currAns=[];
+  
 	function takeExam(){
     var rStatusDisp=document.getElementById("exStatus");
     rStatusDisp.innerHTML="";
@@ -130,14 +132,15 @@
    //console.log(ansArr);
    
    aReq.open("POST",exUrl,true);
-   aReq.send(null);
+   //aReq.send(null);
+   aReq.send(JSON.stringify(currAns));
 	}
 
   function submitEx(){
     var bReq=new XMLHttpRequest();
     var stdAns=[];
     var grUrl="gradeEx.php";
-    var currAns=[];
+    //var currAns=[];
     
     bReq.onreadystatechange=function(){
       if(bReq.readyState==4){
@@ -197,7 +200,10 @@
    //toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
    //console.log(toSend);
    bReq.open("POST",grUrl,true);
-   bReq.send(JSON.stringify(currAns));
+   
+   //var qwer=JSON.stringify(currAns);
+   //bReq.send(qwer);
+   bReq.send(currAns);
    
    
    status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
