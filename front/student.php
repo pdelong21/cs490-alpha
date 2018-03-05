@@ -120,6 +120,8 @@
         
 			}
 		}
+   
+   //var posting=["asdas","asdfaesf"];
        
    var ex = document.getElementById("exam");
 		if(ex.style.display === "none"){
@@ -132,9 +134,12 @@
    //console.log(ansArr);
    
    aReq.open("POST",exUrl,true);
-   aReq.send(null);
-   //aReq.send(JSON.stringify(currAns));
-   console.log(currAns);
+   
+   //aReq.send(JSON.stringify(posting));
+   //aReq.send(currAns);
+   //aReq.send(null);
+   aReq.send(JSON.stringify(currAns));
+   //console.log(currAns);
 	}
 
   function submitEx(){
@@ -150,7 +155,8 @@
         var getEx=document.getElementById("exam");
         var bRes=bReq.responseText;
         
-        //console.log(aRes);
+        console.log(bRes);
+        //console.log(getEx);
         
         //var curAns="";
         //var currAns=[];
@@ -226,13 +232,19 @@
    
    //toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
    //console.log(toSend);
+   
+   var toSend=currAns;
+   var sendThis=JSON.stringify(toSend);
+   
+   
    bReq.open("POST",grUrl,true);
    
    //var qwer=JSON.stringify(currAns);
    //bReq.send(qwer);
    //bReq.send(currAns);
-   bReq.send(tempArr);
-   console.log(currAns);
+   bReq.send(JSON.stringify(currAns));
+   console.log(sendThis);
+   //console.log(currAns);
    
    status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
   }
