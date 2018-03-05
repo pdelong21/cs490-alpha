@@ -1,6 +1,7 @@
 <?php
 	$response=file_get_contents('php://input');
 	$dec=json_decode($response,true);
+	#$dec [] = 'print("hi")';
 	$enc=json_encode($dec,true);
 	$curl=curl_init();
 	
