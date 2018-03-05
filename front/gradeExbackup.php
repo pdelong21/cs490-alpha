@@ -1,12 +1,16 @@
 <?php
+  session_start();
+  
+  
+  #$send=array();
 	$response=file_get_contents('php://input');
-	#$array = json_decode($_POST['jsondata']);
-	$dec=json_decode($response);
-	$enc=json_encode($dec,true);
+	$dec=json_decode($response,true);
+	$enc=json_encode($send,true);
 	$curl=curl_init();
 	
 #	$url="https://web.njit.edu/~sdp53/cs490/createTest.php";
 	$url="https://web.njit.edu/~pgd22/middle/grade.php";
+
 	curl_setopt_array($curl, array(
 		CURLOPT_URL => $url,
 		CURLOPT_POST => 1,
@@ -16,4 +20,5 @@
 	  ));
 	$resp = curl_exec($curl);
 	echo $resp;
+  echo $enc;
 ?>
