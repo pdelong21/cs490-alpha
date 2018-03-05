@@ -12,12 +12,15 @@ $points_recieved_arr = array();
 $points_ratio_arr = array();
 
 /*
+
 $test_obj [] = array(
         'User' => 'someonesmart',
         'Answer' => "x=10 \ny=12 \nz=x+y \nprint(str(z))",
         'Question' => 'write a function "func"',
         'Cases' => 'f(2,2)',
-        'Points' => 10
+        'Points' => 10,
+        'TestId' => 13,
+        'TestCases' => "sub(3,2) 1 | sub(10,5) 5 | sub(7,3) 4"
 
 );
 
@@ -81,7 +84,7 @@ function gradeMe($case, $std_ans, $func_case){
                 continue;
             } else $points+=1;
         case 2:
-            #check to see if output is correct or not -- 3 points
+            #check to see if output is correct or not -- 3 points -- check in progress
             $points+=3;
     }
     $points = $points/5.0;
@@ -118,10 +121,11 @@ $ans_decoded = json_decode($ans_obj, true);
 
 $username = $ans_decoded[0];
 
-#$ans_decoded[]= "def fun():\n\tx=1";
+#$ans_decoded[]= "def func():\n\tx=1";
 #$ans_decoded[] = "asdasd";
 
 # Retrieve the exam for grading
+
 $test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
 #echo $test_obj[0]['Points'];
 # Start grading process -- returns double
@@ -129,6 +133,8 @@ for ($i=1; $i < count($ans_decoded); $i++){
     $max_points += $test_obj[$i-1]['Points']; # points possible on test
     preg_match('/"([a-zA-Z]+)"/', $test_obj[$i-1]['Question'], $m); #get func name from question
     $func_name = end($m);
+    #preg_match_all('/([0-9]+)\s|[0-9]$/',$test_obj[$i-1]['TestCases'],$c);
+    #print_r($c);
     $grade_res = gradeMe(0, $ans_decoded[$i], $func_name); # returns points for current question
     $points_ratio_arr [] = $grade_res; # contains a decimal for how many points they got
     $points_recieved_arr [] = $points_ratio_arr[$i-1]*$test_obj[$i-1]['Points']; # tally of points recieved
@@ -140,7 +146,7 @@ $perc [] = ['Grade' => percentGrade($points_recieved_arr, $max_points)];
 $perc [] = ['TestId' => $test_obj[0]['TestID']];
 $echo_back_json = json_encode($perc);
 handIn($echo_back_json, $handIn_url);
-
+#echo $echo_back_json;
 #$grade_res = gradeMe(0, $ans['Id']['Answer']);
 #$response_obj = json_encode($grade_res, true);
 #echo $grade_res;
