@@ -26,6 +26,7 @@
   var tempArr=[];
   var exHTML="";
   var maxPts="";
+  var ansStr="";
   var tCaseStr="";
   var toSend=[];
 	function takeExam(){
@@ -42,7 +43,7 @@
       
         //TESTING SESSIONS
          var testing="<?php echo $_SESSION['username']; ?>";
-         console.log(testing);
+         //console.log(testing);
          //TESTING SESSIONS\
       
 				var exDisp=document.getElementById("dispExam");
@@ -60,6 +61,9 @@
         var IDStr="";
         var ptStr="";
         
+        var asdf=[];
+        var fdsa="";
+        
         exHTML ="<p>Exam</p>";
         for(var i=0;i<len;i++){
           ansArr.push(resData[i]['QuestionId']);
@@ -69,10 +73,10 @@
           var qtn=resData[i]['Question'];
           var pts=resData[i]['Points'];
           var tCases=resData[i]['TestCases'];
-          console.log(qID);
-          console.log(qtn);
-          console.log(pts);
-          console.log(tCases);
+//          console.log(qID);
+//          console.log(qtn);
+//          console.log(pts);
+//          console.log(tCases);
           
           if(typeof qID !== "undefined"){
             IDStr+=qID+"| ";
@@ -91,8 +95,14 @@
           exHTML+='<textarea rows="10" cols="80" name="'+qID+'" id="'+qID+'">';
           exHTML+='</textarea>';
           
-          console.log(resData);
+          //asdf[i]=document.getElementById(qID).value;          
         }
+        
+        //console.log(asdf);
+        //console.log(IDStr);
+        //console.log(ptStr);
+        
+        //console.log(resData);
         tempArr.push(IDStr);
         maxPts=ptStr;
         //console.log(maxPts);
@@ -101,8 +111,16 @@
         exHTML+='</p>';
         //console.log(exHTML);
         exDisp.innerHTML=exHTML;
+        
+        tempArr.push(ansStr);
+        tempArr.push(maxPts);
+        tempArr.push(tCaseStr);
+        
 			}
 		}
+   
+   
+   
    
    var ex = document.getElementById("exam");
 		if(ex.style.display === "none"){
@@ -122,6 +140,7 @@
     var bReq=new XMLHttpRequest();
     var stdAns=[];
     var grUrl="gradeEx.php";
+    var currAns=[];
     
     bReq.onreadystatechange=function(){
       if(bReq.readyState==4){
@@ -129,27 +148,36 @@
         var bRes=bReq.responseText;
         
         //console.log(aRes);
-        var ansStr="";
         
-        var len=ansArr.length;
-        //console.log(len);
-        for(var i=0;i<len;i++){
-          var currAns=document.getElementById(ansArr[i]).value;
+        //var curAns="";
+        //var currAns=[];
+        
+        var len2=ansArr.length;
+        //console.log(len2);
+        for(var i=0;i<len2;i++){
+          //currAns=document.getElementById(ansArr[i]).value;
+          currAns[i]=document.getElementById(ansArr[i]).value;
           
-          if(typeof currAns !== "undefined"){
-            ansStr+=currAns+"| ";
-          }
-          
-          stdAns.push(currAns);
+          //if(typeof currAns !== "undefined"){
+          //  ansStr+=currAns+"| ";
+          //}
+          //console.log(currAns);
+          //stdAns.push(currAns);
           //console.log(stdAns[i]);
         }
         //console.log(ansStr);
-        tempArr.push(ansStr);
-        tempArr.push(maxPts);
-        tempArr.push(tCaseStr);
+        //stdAns.push(currAns);
+        //console.log(currAns);
+        //console.log(ansStr);
+        //console.log(maxPts);
+        //console.log(tCaseStr);
+        
+        //tempArr.push(ansStr);
+        //tempArr.push(maxPts);
+        //tempArr.push(tCaseStr);
       }
     }
-    console.log(tempArr.length);
+    //console.log(tempArr.length);
     //console.log(ansArr);
     //console.log(stdAns);
     var se = document.getElementById("exam");
@@ -172,7 +200,7 @@
    toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
    console.log(toSend);
    bReq.open("POST",grUrl,true);
-   bReq.send(toSend);
+   bReq.send(currAns);
    
    status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
   }
