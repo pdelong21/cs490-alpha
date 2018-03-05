@@ -30,12 +30,16 @@
   var tCaseStr="";
   var toSend=[];
   var currAns=[];
+  var usr="<?php echo $_SESSION['username']; ?>";
+  
   
 	function takeExam(){
     var rStatusDisp=document.getElementById("exStatus");
     rStatusDisp.innerHTML="";
     var rScoreDisp=document.getElementById("vScore");
     rScoreDisp.style.display="none";
+    
+    
     //var ansArr=[];
 		var aReq = new XMLHttpRequest();
 		var exUrl = "viewExam.php";
@@ -201,7 +205,7 @@
     //console.log(stdAns);
     
     var sad="";
-    
+    currAns.push(usr);
     for(var q=0;q<len2;q++){
       var Ans=document.getElementById(ansArr[q]).value;
       
@@ -235,7 +239,7 @@
    
    var toSend=currAns;
    var sendThis=JSON.stringify(toSend);
-   
+   console.log(usr);
    
    bReq.open("POST",grUrl,true);
    
@@ -243,10 +247,10 @@
    //bReq.send(qwer);
    //bReq.send(currAns);
    bReq.send(JSON.stringify(currAns));
-   console.log(sendThis);
+   console.log(currAns);
    //console.log(currAns);
    
-   status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
+   status.innerHTML="Exam Sent!";
   }
 </script>
 

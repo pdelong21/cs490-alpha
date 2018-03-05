@@ -90,7 +90,7 @@
 
 	<!-- Publish the Score -->
 	<div id="pScore" style="display:none;">
-		<p>Publish the scores here</p>
+		<p id="pubStat"></p>
 	</div>
  
 </body>
@@ -201,6 +201,7 @@
   var questArray=[];
   var len;
   var qIDArr=[];
+  var tempIDArr=[];
 	function makeExam(){
  
     //TESTING SESSION
@@ -293,13 +294,42 @@
 
 <script>
 	function pubScore(){
+    var rel=document.getElementById("pubStat");
+    var PSUrl="pubScore.php";
+    
+    var ajReq = new XMLHttpRequest();
+    
+    ajReq.onreadystatechange=function(){
+      if(ajReq.readyState==4){
+        var ajRes=ajReq.responseText;
+        var ajResData=JSON.parse(ajRes);
+        
+        console.log(ajResData);
+        
+        if(ajResData['Response']=="Released"){
+          window.alert("Scores Released!");
+        }
+        else if(ajResData['Response']=="Not Released"){
+          window.alert("Something went wrong, please refresh the page and try again!");
+        }
+        else{
+          //hopefully never get here
+          window.alert("Everything is wrong, why are you like this?");
+        }
+      }
+    }
+    
 		var ps=document.getElementById("pScore");
 		if(ps.style.display ==="none"){
 			ps.style.display = "inline";
+//      var pEx=document.getElementById("pubStat").innerHTML="Scores Released!";
 		}
 		else{
 			ps.style.display = "none";
 		}
+   
+   ajReq.open("POST",PSUrl,true);
+   ajReq.send(null);
 	}	
 </script>
 <script>
