@@ -5,8 +5,9 @@
  * Date: 3/2/18
  * Time: 10:41 AM
  */
-$url = 0 /* sunnys database that will store the grades*/ ;
-
+$handIn_url = 0 /* sunnys database that will store the grades*/ ;
+$test_url = 'https://web.njit.edu/~sdp53/cs490/getTest.php';
+$max_points = 0;
 $ans= array(
     'Id' => array(
         'User' => 'someonesmart',
@@ -20,6 +21,18 @@ function handIn($data_obj, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_obj);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $r_decoded = json_decode($response, true);
+    curl_close($ch);
+    return $r_decoded;
+
+}
+
+function getTest($url){
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -78,11 +91,24 @@ function gradeMe($case, $std_ans){
  * 5) Confirm the answer
  */
 # Accept the user input
-$grade_obj = file_get_contents('php://input');
-$grade_decoded = json_decode($grade_obj, true);
+$ans_obj = file_get_contents('php://input');
+$ans_decoded = json_decode($ans_obj, true);
+
+# Retrieve the exam for grading
+$test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
+#echo $test_obj[0]['Points'];
 
 # Start grading process -- returns an integer
-$grade_res = gradeMe(0, $grade_decoded['Response']);
+$echo_back = array();
+for ($i=0; $i < count($ans_decoded); $i++){
+    $max_points += $test_obj[$i]['Points'];
+    $grade_res = gradeMe(0, $ans_decoded[$i]);
+    $echo_back += $grade_res;
+}
+
+$echo_back_json = json_encode($echo_back);
+echo $echo_back_json;
+
 #$grade_res = gradeMe(0, $ans['Id']['Answer']);
-$response_obj = json_encode($grade_res, true);
-echo $grade_res;
+#$response_obj = json_encode($grade_res, true);
+#echo $grade_res;
