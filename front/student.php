@@ -29,8 +29,8 @@
   var ansStr="";
   var tCaseStr="";
   var toSend=[];
-  var currAns=[];
-  
+  //var currAns=[];
+
 	function takeExam(){
     var rStatusDisp=document.getElementById("exStatus");
     rStatusDisp.innerHTML="";
@@ -140,7 +140,7 @@
     var bReq=new XMLHttpRequest();
     var stdAns=[];
     var grUrl="gradeEx.php";
-    //var currAns=[];
+    var currAns=[];
     
     bReq.onreadystatechange=function(){
       if(bReq.readyState==4){
@@ -156,9 +156,10 @@
         //console.log(len2);
         for(var i=0;i<len2;i++){
           //currAns=document.getElementById(ansArr[i]).value;
-          currAns[i]=document.getElementById(ansArr[i]).value;
-          
-          //if(typeof currAns !== "undefined"){
+          //currAns[i]=document.getElementById(ansArr[i]).value;
+            currAns.push(document.getElementById(ansArr[i]).value);
+
+            //if(typeof currAns !== "undefined"){
           //  ansStr+=currAns+"| ";
           //}
           //console.log(currAns);
@@ -203,7 +204,7 @@
    
    //var qwer=JSON.stringify(currAns);
    //bReq.send(qwer);
-   bReq.send(currAns);
+   bReq.send(JSON.stringify(currAns));
    
    
    status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
