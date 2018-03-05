@@ -1,7 +1,8 @@
 <?php
-	$response=file_get_contents('php://input');
-	$dec=json_decode($response,true);
-	$enc=json_encode($dec,true);
+	#$response=file_get_contents('php://input');
+	$array = json_decode($_POST['jsondata']);
+	#$dec=json_decode($response,true);
+	$enc=json_encode($array,true);
 	$curl=curl_init();
 	
 #	$url="https://web.njit.edu/~sdp53/cs490/createTest.php";
