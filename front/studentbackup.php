@@ -29,8 +29,8 @@
   var ansStr="";
   var tCaseStr="";
   var toSend=[];
-  var currAns=[];
-  
+  //var currAns=[];
+
 	function takeExam(){
     var rStatusDisp=document.getElementById("exStatus");
     rStatusDisp.innerHTML="";
@@ -109,12 +109,12 @@
         maxPts=ptStr;
         //console.log(maxPts);
         exHTML+='<p>';
-        exHTML+='<input type="button" value="Submit" onclick="submitEx();"></input>';
+        exHTML+='<input type="button" value="Submit Exam" onclick="submitEx();"></input>';
         exHTML+='</p>';
         //console.log(exHTML);
         exDisp.innerHTML=exHTML;
         
-        //tempArr.push(ansStr);
+        tempArr.push(ansStr);
         tempArr.push(maxPts);
         tempArr.push(tCaseStr);
         
@@ -134,16 +134,13 @@
    aReq.open("POST",exUrl,true);
    aReq.send(null);
    //aReq.send(JSON.stringify(currAns));
-   console.log(currAns);
 	}
 
   function submitEx(){
     var bReq=new XMLHttpRequest();
     var stdAns=[];
     var grUrl="gradeEx.php";
-    //var currAns=[];
-    
-    var len2=ansArr.length;
+    var currAns=[];
     
     bReq.onreadystatechange=function(){
       if(bReq.readyState==4){
@@ -155,17 +152,14 @@
         //var curAns="";
         //var currAns=[];
         
-        /*
-        
         var len2=ansArr.length;
         //console.log(len2);
-        
-        
         for(var i=0;i<len2;i++){
           //currAns=document.getElementById(ansArr[i]).value;
-          currAns[i]=document.getElementById(ansArr[i]).value;
-          
-          //if(typeof currAns !== "undefined"){
+          //currAns[i]=document.getElementById(ansArr[i]).value;
+            currAns.push(document.getElementById(ansArr[i]).value);
+
+            //if(typeof currAns !== "undefined"){
           //  ansStr+=currAns+"| ";
           //}
           //console.log(currAns);
@@ -174,11 +168,7 @@
         }
         //console.log(ansStr);
         //stdAns.push(currAns);
-        
-        
         console.log(currAns);
-        
-        */
         //console.log(ansStr);
         //console.log(maxPts);
         //console.log(tCaseStr);
@@ -186,32 +176,16 @@
         //tempArr.push(ansStr);
         //tempArr.push(maxPts);
         //tempArr.push(tCaseStr);
-        
-        
       }
     }
     //console.log(tempArr.length);
     //console.log(ansArr);
     //console.log(stdAns);
-    
-    var sad="";
-    
-    for(var q=0;q<len2;q++){
-      var Ans=document.getElementById(ansArr[q]).value;
-      
-      currAns.push(Ans);
-      
-      sad+=Ans+"| ";
-    }
-    tempArr.push(sad);
-    
     var se = document.getElementById("exam");
     var status=document.getElementById("exStatus");
     //console.log(se);
     //console.log(status);
 		se.style.display="none";
-   
-   console.log(tempArr);
    
    //var a0=tempArr[0];
    //var a1=tempArr[1];
@@ -230,9 +204,8 @@
    
    //var qwer=JSON.stringify(currAns);
    //bReq.send(qwer);
-   //bReq.send(currAns);
-   bReq.send(tempArr);
-   console.log(currAns);
+   bReq.send(JSON.stringify(currAns));
+   
    
    status.innerHTML="exam sent! (not really, this is just a dummy button for now)";
   }
