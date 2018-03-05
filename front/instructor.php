@@ -34,7 +34,7 @@
 	}
 	#diffSetting{display:none;}
 
-	#pScore{display:none;}
+	
 	#genExam{display:none;}
 </style>
 </head>
@@ -47,7 +47,7 @@
 	
 	<!-- Make Question -->
 	<!-- Split Screen to make a question on the left side of the screen, and view similar questions on the right -->
-	<div id="sScreen" style="display:none">
+	<div id="sScreen" style="display:none;">
 		<!-- Split Screen Left side -->
 		<div class ="split left">
 			<h2><b>Create a question</b></h2>
@@ -82,14 +82,14 @@
 		</div>
 	</div>
 
-	<div id="genExam">
+	<div id="genExam" style="display:none;">
 		<h2>Select Questions:</h2>
 		<div id="examQuestions"></div>
     <p id="exQ"></p>
 	</div>
 
 	<!-- Publish the Score -->
-	<div id="pScore">
+	<div id="pScore" style="display:none;">
 		<p>Publish the scores here</p>
 	</div>
  
