@@ -11,20 +11,20 @@ $max_points = 0;
 $points_recieved_arr = array();
 $points_ratio_arr = array();
 
-/*
 
+/*
 $test_obj [] = array(
         'User' => 'someonesmart',
         'Answer' => "x=10 \ny=12 \nz=x+y \nprint(str(z))",
         'Question' => 'write a function "func"',
         'Cases' => 'f(2,2)',
         'Points' => 10,
-        'TestId' => 13,
+        'TestID' => 13,
         'TestCases' => "sub(3,2) 1 | sub(10,5) 5 | sub(7,3) 4"
 
 );
-
 */
+
 
 function handIn($data_obj, $url){
     $ch = curl_init($url);
