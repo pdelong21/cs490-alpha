@@ -16,7 +16,7 @@
 	</div>
 	<p id="exStatus"></p>
 	<div id="vScore" style="display:none;">
-		This is where the Student will be able to view the score.
+		<p id="showGrade"></p>
 	</div>
 </body>
 </html>
@@ -256,6 +256,22 @@
 
 <script>
 	function viewScore(){
+   ajaReq = new XMLHttpRequest();
+   var gGrade="getGrade.php";
+   
+   ajaReq.onreadystatechange=function(){
+     if(ajaReq.readyState==4){
+       var sGrade=document.getElementById("showGrade");
+       var text=ajaReq.responseText;
+       var prse=JSON.parse(text);
+       var gLen=prse.length;
+       console.log(prse);
+       for(var i=0;i<gLen;i++){
+         //gArr
+       }
+     }
+   }
+ 
 		var sc = document.getElementById("vScore");
 		if(sc.style.display ==="none"){
 			sc.style.display = "block";
@@ -263,6 +279,8 @@
 		else{
 			sc.style.display = "none";
 		}
+   ajaReq.open("POST",gGrade,true);
+   ajaReq.send(null);
 	}
 </script>
 
