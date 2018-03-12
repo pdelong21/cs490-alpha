@@ -49,7 +49,7 @@
 	<!-- Split Screen to make a question on the left side of the screen, and view similar questions on the right -->
 	<div id="sScreen" style="display:none;">
 		<!-- Split Screen Left side -->
-		<div class ="split left">
+		<div id="l" class ="split left">
 			<h2><b>Create a question</b></h2>
 			
 			<!-- Difficulty Settings for Easy/Medium/Hard -->	
@@ -66,9 +66,45 @@
 			<textarea rows="10" cols="50" name="pqtn" id="qtn" onkeyup="testFunc(this.value)"></textarea><br>
 			<p>Enter the function name:</p>
 			<textarea rows="1" cols="25" name="pfunc" id="func" onkeyup="testFunc(this.value)"></textarea><br>
-      <p>Enter the test case(s) and the answer(s):</p>
+      <p>Select the amount of test case(s) and answer(s):</p>
       <p></p>
-      <!-- <input type="button" value="Add Test Case" onclick="addTestCase()"> -->
+      <select id="mySel" onchange="myFunc()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <p></p>
+      <div>
+        <div id="f1">
+          <input type="text" id="T1" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA1" name="TCAns" placeholder="Expected Answer">
+          <p></p>
+        </div>
+        <div id="f2" style="display:none">
+          <input type="text" id="T2" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA2" name="TCAns" placeholder="Expected Answer">
+          <p></p>
+        </div>
+        <div id="f3" style="display:none">
+          <input type="text" id="T3" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA3" name="TCAns" placeholder="Expected Answer">
+          <p></p>
+        </div>
+        <div id="f4" style="display:none">
+          <input type="text" id="T4" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA4" name="TCAns" placeholder="Expected Answer">
+          <p></p>
+        </div>
+        <div id="f5" style="display:none">
+          <input type="text" id="T5" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA5" name="TCAns" placeholder="Expected Answer">
+          <p></p>
+        </div>
+      </div>
+      
+      <!--
       <input type="text" id="T1" name="TestCase" placeholder="Test Case(s)">
       <input type="text" id="EA1" name="TCAns" placeholder="Expected Answer">
       <p></p>
@@ -82,17 +118,21 @@
       <input type="text" id="EA4" name="TCAns" placeholder="Expected Answer">
       <p></p>
       <input type="text" id="T5" name="TestCase" placeholder="Test Case(s)">
-      <input type="text" id="EA5" name="TCAns" placeholder="Expected Answer">
+      <input type="text" id="EA5" name="TCAns" placeholder="Expected Answer"> 
+      -->
       <p></p>
       <!-- <div id="TCA"></div> -->
+      <p id="tempRes"></p>
+      <p id="tempResText"></p>
       <p></p>
 			<p><button onclick="createQuestion()">Create Question</button>
 	                <button onclick="goBack()">Back</button></p>
+      <p id="stat"></p>
       <p id="DBStat"></p>
 		</div>
 		
 		<!-- Split Screen Right side -->
-		<div class="split right">
+		<div id="r" class="split right">
 			<h2><b>Question Bank</b></h2>
 			<p>WIP</p>
 			<p><span id="cpyq"></span></p>
@@ -129,10 +169,13 @@
 
 <script>
 	function createQuestion(){
+ 
 		var req = new XMLHttpRequest();
 		var url="insertQuestions.php";
 		var cq=document.getElementById("sScreen");
     var DBStatus=document.getElementById("DBStat");
+    
+    DBStatus.innerHTML="";
     
     var tcaArr1=[];
     var tcaArr2=[];
@@ -147,44 +190,101 @@
 		var Signature=document.getElementById("func").value;
 		//var foo=document.getElementById("TestCase").value;
     //var bar=document.getElementById("TCAns").value;
+        
+    var sel=document.getElementById("mySel").value;
+    /*
+    var TC1=document.getElementById("TC1").value;
+    var ExA1=document.getElementById("ExA1").value;
+    var TC2=document.getElementById("TC2").value;
+    var ExA2=document.getElementById("ExA2").value;
+    var TC3=document.getElementById("TC3").value;
+    var ExA3=document.getElementById("ExA3").value;
+    var TC4=document.getElementById("TC4").value;
+    var ExA4=document.getElementById("ExA4").value;
+    var TC5=document.getElementById("TC5").value;
+    var ExA5=document.getElementById("ExA5").value;
+    */
     
     //it's early in the morning, and my brain's not really working right now
-    var TC1=document.getElementById("T1").value;
-    var ExA1=document.getElementById("EA1").value;
-    tcaArr1.push(TC1);
-    tcaArr1.push(ExA1);
+//    if(TC1==""&&ExA1==""||TC2==""&&ExA2==""||TC3==""&&ExA3==""||TC4==""&&ExA4==""||TC5==""&&ExA5=="")
+//    {
+//      document.getElementById("stat").innerHTML="Please enter at least one test case and answer!";
+//    }
+//    else{
+//      if(TC1==""||ExA1==""){
+//        document.getElementById("stat").innerHTML="One or more fields are empty, please fill them out!";
+//      }
+//      else{
+      var TC1=document.getElementById("T1").value;
+      var ExA1=document.getElementById("EA1").value;
+      tcaArr1.push(TC1);
+      tcaArr1.push(ExA1);
+//      }
+
+//      if(TC2==""||ExA2==""){
+//        document.getElementById("stat").innerHTML="One or more fields are empty, please fill them out!";
+//      }
+//      else{
+        var TC2=document.getElementById("T2").value;
+        var ExA2=document.getElementById("EA2").value;
+        tcaArr2.push(TC2);
+        tcaArr2.push(ExA2);
+//      }
     
-    var TC2=document.getElementById("T2").value;
-    var ExA2=document.getElementById("EA2").value;
-    tcaArr2.push(TC2);
-    tcaArr2.push(ExA2);
+      var TC3=document.getElementById("T3").value;
+      var ExA3=document.getElementById("EA3").value;
+      tcaArr3.push(TC3);
+      tcaArr3.push(ExA3);
     
-    var TC3=document.getElementById("T3").value;
-    var ExA3=document.getElementById("EA3").value;
-    tcaArr3.push(TC3);
-    tcaArr3.push(ExA3);
+      var TC4=document.getElementById("T4").value;
+      var ExA4=document.getElementById("EA4").value;
+      tcaArr4.push(TC4);
+      tcaArr4.push(ExA4);
     
-    var TC4=document.getElementById("T4").value;
-    var ExA4=document.getElementById("EA4").value;
-    tcaArr4.push(TC4);
-    tcaArr4.push(ExA4);
+      var TC5=document.getElementById("T5").value;
+      var ExA5=document.getElementById("EA5").value;
+      tcaArr5.push(TC5);
+      tcaArr5.push(ExA5);
+//    }
     
-    var TC5=document.getElementById("T5").value;
-    var ExA5=document.getElementById("EA5").value;
-    tcaArr5.push(TC5);
-    tcaArr5.push(ExA5);
+    //console.log(tcaArr1);
+    //console.log(tcaArr2);
+    //console.log(tcaArr3);
+    //console.log(tcaArr4);
+    //console.log(tcaArr5);
     
-    console.log(tcaArr1);
-    console.log(tcaArr2);
-    console.log(tcaArr3);
-    console.log(tcaArr4);
-    console.log(tcaArr5);
+    if(sel==="1")
+    {
+    pArr.push(tcaArr1);
+    }
+    else if(sel==="2")
+    {
+    pArr.push(tcaArr1);
+    pArr.push(tcaArr2);
+    }
+    else if(sel==="3")
+    {
+    pArr.push(tcaArr1);
+    pArr.push(tcaArr2);
+    pArr.push(tcaArr3);
     
+    }
+    else if(sel==="4")
+    {
+    pArr.push(tcaArr1);
+    pArr.push(tcaArr2);
+    pArr.push(tcaArr3);
+    pArr.push(tcaArr4);
+    }
+    else if(sel==="5")
+    {
     pArr.push(tcaArr1);
     pArr.push(tcaArr2);
     pArr.push(tcaArr3);
     pArr.push(tcaArr4);
     pArr.push(tcaArr5);
+    }
+    
     
     console.log(pArr);
 //		var Points=parseInt(strPoints);
@@ -209,11 +309,37 @@
 		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		if(Question === "" || Signature === ""){
-			window.alert("One or more fields are empty, please fill them out!");
+			document.getElementById("stat").innerHTML="One or more fields are empty, please fill them out!";
 		}
-		//else if(Points ===0){
-		//	window.alert("Points cannot be 0.");
-		//}
+//   else if(TC1==""&&ExA1==""||TC2==""&&ExA2==""||TC3==""&&ExA3==""||TC4==""&&ExA4==""||TC5==""&&ExA5==""){
+//     document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
+//   }
+   else if(sel==="1" &&(TC1===""||ExA1==="")){
+//     if(TC1===""||ExA1===""){
+       document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
+//       }
+       
+   }
+   else if(sel==="2" && (TC1===""||ExA1===""||TC2===""||ExA2==="")){
+//     if(TC1===""||ExA1===""||TC2===""||ExA2===""){
+       document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
+//     }
+   }
+   else if(sel==="3" && (TC1===""||ExA1===""||TC2===""||ExA2===""||TC3===""||ExA3==="")){
+//     if(TC1===""||ExA1===""||TC2===""||ExA2===""||TC3===""||ExA3===""){
+       document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
+//     }
+   }
+   else if(sel==="4" && (TC1===""||ExA1===""||TC2===""||ExA2===""||TC3===""||ExA3===""||TC4===""||ExA4==="")){
+//     if(TC1===""||ExA1===""||TC2===""||ExA2===""||TC3===""||ExA3===""||TC4===""||ExA4===""){
+       document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
+//     }
+   }
+   else if(sel==="5" && (TC1===""||ExA1===""||TC2===""||ExA2===""||TC3===""||ExA3===""||TC4===""||ExA4===""||TC5===""||ExA5==="")){
+//     if(TC1===""||ExA1===""||TC2===""||ExA2===""||TC3===""||ExA3===""||TC4===""||ExA4===""||TC5===""||ExA5===""){
+       document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
+//     }
+   }
 		else{
 //			req.send(vars);
 //			console.log(vars);
@@ -225,9 +351,12 @@
 				if(req.readyState==4 && req.status==200){
 	        	                return_data=req.responseText;
 					var data=JSON.parse(return_data);
+              
+              var tempResp=document.getElementById("tempRes");
+              var tempRespText=document.getElementById("tempResText");
 	
 					if(data['Response']=="Successfully Inserted"){
-               		        		DBStatus.innerHTML="Question Added to DB!";
+               		        		DBStatus.innerHTML="Question Added to Question Bank!";
 					}
 					else if(data['Response']=="INVALID"){
 						DBStatus.innerHTML="invalid question. Please try again.";
@@ -236,6 +365,9 @@
 						DBStatus.innerHTML="Everything is wrong, what are you doing";
 					}
            console.log(data);
+           console.log(return_data);
+           //tempResp.innerHTML=data;
+           //tempRespText.innerHTML=return_data;
    		  }
 			}
       
@@ -250,13 +382,109 @@
       
       */
 			//checking and resetting variables
+      
+      //document.getElementById("l").reload();
 //			document.getElementById("check").innerHTML =Difficulty+"<br>"+Question+"<br>"+Answer+"<br>"+Points;
 			document.getElementById("qtn").value = "";
 			document.getElementById("func").value ="";
 			document.getElementById("diff").value = "Easy";
+      
+      document.getElementById("T1").value="";
+      document.getElementById("EA1").value="";
+      document.getElementById("T2").value="";
+      document.getElementById("EA2").value="";
+      document.getElementById("T3").value="";
+      document.getElementById("EA3").value="";
+      document.getElementById("T4").value="";
+      document.getElementById("EA4").value="";
+      document.getElementById("T5").value="";
+      document.getElementById("EA5").value="";
 		//closing else loop
 		}
 	}
+</script>
+
+<script>
+  function myFunc(){
+    var xyz=document.getElementById("mySel").value;
+    if(xyz==="1")
+    {
+      document.getElementById("f1").style.display="inline";
+      document.getElementById("f2").style.display="none";
+      document.getElementById("f3").style.display="none";
+      document.getElementById("f4").style.display="none";
+      document.getElementById("f5").style.display="none";
+      
+      document.getElementById("T2").value="";
+      document.getElementById("EA2").value="";
+      document.getElementById("T3").value="";
+      document.getElementById("EA3").value="";
+      document.getElementById("T4").value="";
+      document.getElementById("EA4").value="";
+      document.getElementById("T5").value="";
+      document.getElementById("EA5").value="";
+      
+      /*
+      document.getElementById("TA1").reset();
+      document.getElementById("EA1").reset();
+      document.getElementById("TA2").reset();
+      document.getElementById("EA2").reset();
+      document.getElementById("TA3").reset();
+      document.getElementById("EA3").reset();
+      document.getElementById("TA4").reset();
+      document.getElementById("EA4").reset();
+      document.getElementById("TA5").reset();
+      document.getElementById("EA5").reset();
+      */
+    }
+    if(xyz==="2")
+    {
+      document.getElementById("f1").style.display="inline";
+      document.getElementById("f2").style.display="inline";
+      document.getElementById("f3").style.display="none";
+      document.getElementById("f4").style.display="none";
+      document.getElementById("f5").style.display="none";
+      
+      document.getElementById("T3").value="";
+      document.getElementById("EA3").value="";
+      document.getElementById("T4").value="";
+      document.getElementById("EA4").value="";
+      document.getElementById("T5").value="";
+      document.getElementById("EA5").value="";
+    }
+    if(xyz==="3")
+    {
+      document.getElementById("f1").style.display="inline";
+      document.getElementById("f2").style.display="inline";
+      document.getElementById("f3").style.display="inline";
+      document.getElementById("f4").style.display="none";
+      document.getElementById("f5").style.display="none";
+      
+      document.getElementById("T4").value="";
+      document.getElementById("EA4").value="";
+      document.getElementById("T5").value="";
+      document.getElementById("EA5").value="";
+    }
+    if(xyz==="4")
+    {
+      document.getElementById("f1").style.display="inline";
+      document.getElementById("f2").style.display="inline";
+      document.getElementById("f3").style.display="inline";
+      document.getElementById("f4").style.display="inline";
+      document.getElementById("f5").style.display="none";
+
+      document.getElementById("T5").value="";
+      document.getElementById("EA5").value="";
+    }
+    if(xyz==="5")
+    {
+      document.getElementById("f1").style.display="inline";
+      document.getElementById("f2").style.display="inline";
+      document.getElementById("f3").style.display="inline";
+      document.getElementById("f4").style.display="inline";
+      document.getElementById("f5").style.display="inline";
+    }
+  }
 </script>
 
 <script>

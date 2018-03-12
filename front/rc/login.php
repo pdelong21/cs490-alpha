@@ -2,12 +2,27 @@
 
 <html>
 <head>
-	<h1>LOGIN</h1>
+	
+ <style>
+ body{
+   background-color: lightblue;
+   
+ }
+ h1{
+   text-align: center;
+   
+ }
+ p{
+   text-align: center;
+   
+ }
+</style>
 </head>
 <body>
-    	Username:  <input type="text" name="username" id="username"/><br />
-	Password: <input type="password" name="password" id="password" /><br />
-	<input type="submit" name="enter" value="Submit" onClick="aj();" />
+      <h1>LOGIN</h1>
+    	<p>Username:  <input type="text" name="username" id="username"/></p>
+	<p>Password: <input type="password" name="password" id="password" /></p>
+	<p><input type="submit" name="enter" value="Submit" onClick="aj();" /></p>
  
 	<p id="test"></p>
 	<p id="rData"></p>
