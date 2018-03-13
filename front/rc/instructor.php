@@ -152,6 +152,8 @@
 	</div>
 	<p id="status"></p>
  
+ <p id="tempResp"></p>
+ 
 </body>
 </html>
 
@@ -524,6 +526,7 @@
   var len;
   var qIDArr=[];
   var tempIDArr=[];
+  var toSendArr=[];
   
 	function makeExam(){
  
@@ -561,7 +564,9 @@
       questHTML+='"></td>';
 			questHTML+="<td>"+resData[i]['Question']+"</td>";
 			questHTML+="<td>"+resData[i]['Difficulty']+"</td>";
-			questHTML+="<td>"+resData[i]['Points']+"</td>";
+      questHTML+='<td><input type="number" id="qPts'+i;
+      questHTML+='"></td>';
+			//questHTML+="<td>"+resData[i]['Points']+"</td>";
 			questHTML+="</tr>"; 
       //temp = document.getElementById("resData[i]['Id']");
       //console.log(temp);
@@ -590,28 +595,92 @@
     
     for(var j=0;j<len;j++){
       var chkbox=document.getElementById(questArray[j]);
+      //var selQuestions=document.getElementById("qPts"+j);
+      //console.log(selQuestions);
       //console.log(chkbox);
       //console.log(questArray[j]);
       var chkOutput=document.getElementById("exQ");
+      chkOutput.innerHTML="";
+      var prefix="qPts";
     
-      if(chkbox.checked){
-      chkOutput.innerHTML = "Selected question(s) added to exam!";
-        chkbox.checked=false;
+      if(chkbox.checked){      
+        //chkOutput.innerHTML = "Selected question(s) added to exam!";
+        
+        var selPts=document.getElementById(prefix + j).value;
+        
+        //console.log(selPts);
         //qIDArr.push({Id:j});
-        qIDArr.push(j);
+        if(selPts==null||selPts==""){
+          chkOutput.innerHTML="One or more fields are missing Points!";
+          break;
+        }
+        else{
+          qIDArr.push(j);
+          qIDArr.push(selPts);
+        
+          //console.log(qIDArr);
+          toSendArr.push(qIDArr);
+          //chkbox.checked=false;
+          qIDArr=[];
+        }
       }
-      else{
+//      else{
       //qIDArr[j]=0;
-        chkOutput.innerHTML = "Select at least one question to make an exam!";
-      }
+//        chkOutput.innerHTML = "Select at least one question to make an exam!";
+//      }
+      //qIDArr.push(j);
+      //qIDArr.push(selPts);
+      //toSendArr.push(qIDArr);
     }
-    console.log(qIDArr);
-    var sendList=qIDArr;
+    //console.log(qIDArr);
+    //console.log(toSendArr);
+    console.log(toSendArr);
+    var sendList=toSendArr;
     var toPost=JSON.stringify(sendList);
-    aReq.open("POST", eUrl, true);
-    aReq.send(toPost);
-    //reset array. Lazy but works for now
-    qIDArr=[];
+    
+    console.log(toPost);
+    
+    if(toPost==="[]")
+    {
+      chkOutput.innerHTML="Missing fields!";
+      
+      qIDArr=[];
+      toSendArr=[];
+    }
+    else{
+    
+      aReq.open("POST", eUrl, true);
+      aReq.send(toPost);
+      
+      aReq.onreadystatechange = function(){
+				if(aReq.readyState==4 && aReq.status==200){
+	        	                return_data=aReq.responseText;
+					var data=JSON.parse(return_data);
+              
+              var tempResponse=document.getElementById("tempResp");
+              tempResponse.innerHTML="";
+              //var tempRespText=document.getElementById("tempResText");
+	
+					if(data['Response']=="Test Created"){
+               		        		tempResponse.innerHTML="Test Created!";
+					}
+					else if(data['Response']=="INVALID"){
+						tempResponse.innerHTML="Error.";
+					}
+					else{
+						tempResponse.innerHTML="Everything is wrong, what are you doing";
+					}
+           console.log(data);
+           console.log(return_data);
+           //tempResp.innerHTML=data;
+           //tempRespText.innerHTML=return_data;
+   		  }
+			}
+      //chkOutput.innerHTML="Successfully created an exam!";
+      //reset array. Lazy but works for now, i guess
+      qIDArr=[];
+      toSendArr=[];
+    }
   }
 </script>
 
