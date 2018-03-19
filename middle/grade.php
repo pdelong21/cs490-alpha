@@ -7,6 +7,7 @@
  */
 $handIn_url = 'https://web.njit.edu/~sdp53/cs490/insertGrade.php' /* sunnys database that will store the grades*/ ;
 $test_url = 'https://web.njit.edu/~sdp53/cs490/getTest.php';
+$cases_url = 'https://web.njit.edu/~sdp53/cs490/getTestCases.php';
 $max_points = 0;
 $points_recieved_arr = array();
 $points_ratio_arr = array();
@@ -127,6 +128,7 @@ $username = $ans_decoded[0];
 # Retrieve the exam for grading
 
 $test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
+#print_r($test_obj);
 #echo $test_obj[0]['Points'];
 # Start grading process -- returns double
 for ($i=1; $i < count($ans_decoded); $i++){
@@ -146,6 +148,7 @@ $perc [] = ['Grade' => percentGrade($points_recieved_arr, $max_points)];
 $perc [] = ['TestId' => $test_obj[0]['TestID']];
 $echo_back_json = json_encode($perc);
 $var = handIn($echo_back_json, $handIn_url);
+//print_r(handIn(json_encode(['QuestionID' => 1]), $cases_url));
 echo json_encode($var, true);
 #echo $echo_back_json;
 #$grade_res = gradeMe(0, $ans['Id']['Answer']);

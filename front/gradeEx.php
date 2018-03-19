@@ -16,4 +16,4 @@
 	  ));
 	$resp = curl_exec($curl);
 	echo $resp;
-?>
+
