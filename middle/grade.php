@@ -10,7 +10,6 @@ $test_url = 'https://web.njit.edu/~sdp53/cs490/getTest.php';
 $cases_url = 'https://web.njit.edu/~sdp53/cs490/getTestCases.php';
 $max_points = 0;
 $points_recieved_arr = array();
-$points_ratio_arr = array();
 
 
 /*
@@ -120,7 +119,7 @@ $ans_decoded = json_decode($ans_obj, true);
 
 #$ans_decoded [] = "pgd22";
 
-$username = $ans_decoded[0];
+$username = $ans_decoded['User'];
 
 #$ans_decoded[]= "def func():\n\tx=1";
 #$ans_decoded[] = "asdasd";
@@ -128,29 +127,24 @@ $username = $ans_decoded[0];
 # Retrieve the exam for grading
 
 $test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
-#print_r($test_obj);
+//print_r($test_obj);
 #echo $test_obj[0]['Points'];
 # Start grading process -- returns double
-for ($i=1; $i < count($ans_decoded); $i++){
-    $max_points += $test_obj[$i-1]['Points']; # points possible on test
-    preg_match('/"([a-zA-Z]+)"/', $test_obj[$i-1]['Question'], $m); #get func name from question
-    $func_name = end($m);
+for ($i=0; $i < count($ans_decoded['Answers']); $i++){
+    $max_points += $test_obj[$i]['Points']; # points possible on test
+    //preg_match('/"([a-zA-Z]+)"/', $test_obj[$i-1]['Question'], $m); #get func name from question
+    //$func_name = end($m);
     #preg_match_all('/([0-9]+)\s|[0-9]$/',$test_obj[$i-1]['TestCases'],$c);
     #print_r($c);
-    $grade_res = gradeMe(0, $ans_decoded[$i], $func_name); # returns points for current question
-    $points_ratio_arr [] = $grade_res; # contains a decimal for how many points they got
-    $points_recieved_arr [] = $points_ratio_arr[$i-1]*$test_obj[$i-1]['Points']; # tally of points recieved
+    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature']); # returns points for current question
+    $points_recieved_arr [] = $grade_res*$test_obj[$i]['Points']; # tally of points recieved
 }
 
 # get the percentage of the test grade
-$perc [] = ['Username' => $username];
-$perc [] = ['Grade' => percentGrade($points_recieved_arr, $max_points)];
-$perc [] = ['TestId' => $test_obj[0]['TestID']];
-$echo_back_json = json_encode($perc);
+$std_test [] = ['Username' => $username];
+$std_test [] = ['Grade' => percentGrade($points_recieved_arr, $max_points)];
+
+$echo_back_json = json_encode($std_test);
 $var = handIn($echo_back_json, $handIn_url);
-//print_r(handIn(json_encode(['QuestionID' => 1]), $cases_url));
-echo json_encode($var, true);
-#echo $echo_back_json;
-#$grade_res = gradeMe(0, $ans['Id']['Answer']);
-#$response_obj = json_encode($grade_res, true);
-#echo $grade_res;
+
+echo json_encode($std_test, true);
