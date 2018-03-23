@@ -19,23 +19,30 @@ if (!$conn) {
 $sql = "SELECT * FROM Tests;";
 $result = $conn->query($sql);
 $tid=$result->num_rows;
-$sql4 = "INSERT INTO Tests (Id,Release) VALUES
-			('$tid',0)";
+
+$sql4 = "INSERT INTO Tests (Id,Released) VALUES ($tid,0)";
 			$result4 = $conn->query($sql4);
+        
 			  for ($x = 0; $x < count($decoder); $x++) {
           $sql2 = "SELECT * FROM TestQuestionRelation;";
           $result2 = $conn->query($sql2);
           $id=$result2->num_rows;
-          
-          $sql3 = "INSERT INTO TestQuestionRelation (Id, TestId, QuestionId) VALUES('$id','$tid','$decoder[$x]')";
+          $y=$decoder[$x][0];
+          $z=(int)$decoder[$x][1];
+          $sql3 = "INSERT INTO TestQuestionRelation (Id, TestId, QuestionId, Points) VALUES($id,$tid,$y,$z)";
           	$result3 = $conn->query($sql3);
 }
-
-    $log = array("Response"=>"Test Created");
-				  echo json_encode($log,true);
-                 
-                 
-                 
+if ($result3) {
+                $log = array(
+                                "Response" => "Test Created"
+                );
+                echo json_encode($log, true);
+} else {
+                $log = array(
+                                "Response" => "Just Quit"
+                );
+                echo json_encode($log, true);
+}
 mysqli_close($conn);
 
 ?>
