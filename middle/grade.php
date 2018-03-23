@@ -69,6 +69,7 @@ function compileMe($py_file){
 
 function gradeMe($case, $std_ans, $func_case){
     $points = 0.0;
+    $feedback = '';
     /*str_replace(' ', '', $std_ans)*/
     writeFile('python.py',$std_ans);
     $output = compileMe('python.py');
@@ -77,18 +78,24 @@ function gradeMe($case, $std_ans, $func_case){
             #check to see if it compiled or not -- 1 point or zero for whole problem
             if(end($output) == 0 && $std_ans != null){
                 $points ++;
+                $feedback = $feedback.'Your program compiled! ';
             } else return $points;
         case 1:
             #check to see if the function name matches -- 1 point
             if (strpos($std_ans, $func_case) == FALSE) {
                 continue;
-            } else $points+=1;
+            } else{
+                $points+=1;
+                $feedback = $feedback.'The function name matches. ';
+            }
         case 2:
             #check to see if output is correct or not -- 3 points -- check in progress
             $points+=3;
+            $feedback = $feedback."And the rest is tbc so for now you got test case 3... so proud :')";
     }
     $points = $points/5.0;
-    return $points;
+    $array = ['Points' => $points, 'Feedback' => $feedback];
+    return $array;
 }
 
 function percentGrade($points_array, $maxpoints){
@@ -120,6 +127,8 @@ $ans_decoded = json_decode($ans_obj, true);
 #$ans_decoded [] = "pgd22";
 
 $username = $ans_decoded['User'];
+$std_test ['Username'] = $username;
+$std_test ['Question'] = array();
 
 #$ans_decoded[]= "def func():\n\tx=1";
 #$ans_decoded[] = "asdasd";
@@ -136,15 +145,14 @@ for ($i=0; $i < count($ans_decoded['Answers']); $i++){
     //$func_name = end($m);
     #preg_match_all('/([0-9]+)\s|[0-9]$/',$test_obj[$i-1]['TestCases'],$c);
     #print_r($c);
-    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature']); # returns points for current question
-    $points_recieved_arr [] = $grade_res*$test_obj[$i]['Points']; # tally of points recieved
+    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature']); # returns array of points and feedback
+    $points_recieved_arr [] = $grade_res['Points']*$test_obj[$i]['Points']; # tally of points recieved
+    $std_test ['Question'][$i] = array('Response' => $ans_decoded['Answers'][$i], 'Points' => $points_recieved_arr[$i],
+        'Feedback' => $grade_res['Feedback']);
 }
 
 # get the percentage of the test grade
-$std_test [] = ['Username' => $username];
-$std_test [] = ['Grade' => percentGrade($points_recieved_arr, $max_points)];
-
+$std_test ['Grade'] = percentGrade($points_recieved_arr, $max_points);
 $echo_back_json = json_encode($std_test);
-$var = handIn($echo_back_json, $handIn_url);
-
+#$var = handIn($echo_back_json, $handIn_url);
 echo json_encode($std_test, true);
