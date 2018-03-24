@@ -18,7 +18,7 @@ if (!$conn) {
 }
 
 $sql = "SELECT Tests.Id,TestQuestionRelation.Grade FROM Tests, StudentTestRelation Where Test.Release=1 AND StudentTestRelation.Username='$username' AND Tests.Id=StudentTestRelation.TestId";
-$ouput = array();
+$output = array();
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row

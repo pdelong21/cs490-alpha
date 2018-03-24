@@ -8,15 +8,12 @@ if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
 }
 $output = array();
-$sql    = "SELECT * FROM Questions";
+$sql    = "SELECT * FROM Users WHERE Permission='Student'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                                 $output[] = array(
-                                                'Id' => $row['Id'],
-                                                'Question' => $row['Question'],
-                                                'Difficulty' => $row['Difficulty']
-                                           
+                                                'Username' => $row['Username']
                                 );
                 }
 } else {

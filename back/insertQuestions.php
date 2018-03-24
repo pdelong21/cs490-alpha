@@ -24,8 +24,8 @@ for ($x = 0; $x < $c; $x++) {
                 $sql3    = "SELECT * FROM TestCases";
                 $result3 = $conn->query($sql3);
                 $tId     = $result3->num_rows;
-                $caseT   = $cases[$x][0];
-                $caseA   = $cases[$x][1];
+                $caseT   = $cases[$x][1];
+                $caseA   = $cases[$x][0];
                 $sql4    = "INSERT INTO TestCases (Id, QuestionId, Testcase, Answer) VALUES($tId,$id,'$caseA','$caseT')";
                 $result4 = $conn->query($sql4);
 }
