@@ -3,8 +3,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<h1>Welcome Professor</h1>
 <style>
+  body{
+     background-color: lightblue;   
+   }
+   h1{
+     text-align: center;   
+   }
+   h2{
+     text-align: center;   
+   }
+   
+   p{
+     text-align: center;   
+   }
+   
+   table{
+     text-align; center;
+   }
+   div{
+     text-align: center;
+   }
 	.split {
 		height: 100%;
     		width: 50%;
@@ -17,12 +36,12 @@
 
 	.left {
     		left: 0;
-    		background-color: white;
+    		background-color: lightblue;
 	}
 
 	.right {
     		right: 0;
-    		background-color: white;
+    		background-color: lightblue;
 	}
 
 	.centered {
@@ -32,18 +51,51 @@
     		transform: translate(-50%, -50%);
     		text-align: center;
 	}
-	#diffSetting{display:none;}
+ ul{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   text-align: center;
+   
+   background-color: #f2f2f2;
+   
+ }
+ li {
+   display:inline-block;
+   
+    border-right: 1px solid #bbb;
+  }
+  li:last-child{
+    border-right:none;
+  }
+  li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
 
-	
-	#genExam{display:none;}
+  li a:hover:not(.active) {
+    background-color: #ddd;
+  }
+ 
 </style>
 </head>
 <body>
 	<!-- Make Buttons to make an exam, publish score(s), and log out respectively -->
-	<p><button onclick="makeQuestion()">Make a Question</button></p>
-	<p><button onclick="makeExam()">Make an exam</button></p>
-	<p><button onclick="pubScore()">Publish Score(s)</button></p>
-	<button onclick="logOut()">Log Out</button>
+  <!-- <div class"topnav"> -->
+  <ul>
+    
+    <li><a href="#" onclick="makeQuestion();showQB()">Make a Question</a></li>
+    <li><a href="#" onclick="makeExam()">Make an Exam</a></li>
+    <li><a href="#" onclick="evalEx()">Evaluate Exam</a></li>
+    <li><a href="#" onclick="logOut()">Log Out</a></li>
+  </ul>
+  <!-- </div> -->
+  
+  <h1>Welcome Professor</h1>  
 	
 	<!-- Make Question -->
 	<!-- Split Screen to make a question on the left side of the screen, and view similar questions on the right -->
@@ -55,51 +107,51 @@
 			<!-- Difficulty Settings for Easy/Medium/Hard -->	
 			
 			<p>Select Difficulty:</p>
-			<select name="pdiff" id="diff">
+			<p><select name="pdiff" id="diff">
 				<option value="Easy">Easy</option>
 				<option value="Medium">Medium</option>
 				<option value="Hard">Hard</option>
-			</select>
+			</select></p>
       
 			<!-- Type a Question/answer to the question to POST to mid -->
 			<p>Enter a Question:</p>
-			<textarea rows="10" cols="50" name="pqtn" id="qtn" onkeyup="testFunc(this.value)"></textarea><br>
+			<p><textarea rows="10" cols="50" name="pqtn" id="qtn"></textarea></p><br>
 			<p>Enter the function name:</p>
-			<textarea rows="1" cols="25" name="pfunc" id="func" onkeyup="testFunc(this.value)"></textarea><br>
+			<p><textarea rows="1" cols="25" name="pfunc" id="func"></textarea></p><br>
       <p>Select the amount of test case(s) and answer(s):</p>
       <p></p>
-      <select id="mySel" onchange="myFunc()">
+      <p><select id="mySel" onchange="myFunc()">
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-      </select>
+      </select></p>
       <p></p>
       <div>
         <div id="f1">
-          <input type="text" id="T1" name="TestCase" placeholder="Test Case(s)">
-          <input type="text" id="EA1" name="TCAns" placeholder="Expected Answer">
+          <p><input type="text" id="T1" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA1" name="TCAns" placeholder="Expected Answer"></p>
           <p></p>
         </div>
         <div id="f2" style="display:none">
-          <input type="text" id="T2" name="TestCase" placeholder="Test Case(s)">
-          <input type="text" id="EA2" name="TCAns" placeholder="Expected Answer">
+          <p><input type="text" id="T2" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA2" name="TCAns" placeholder="Expected Answer"></p>
           <p></p>
         </div>
         <div id="f3" style="display:none">
-          <input type="text" id="T3" name="TestCase" placeholder="Test Case(s)">
-          <input type="text" id="EA3" name="TCAns" placeholder="Expected Answer">
+          <p><input type="text" id="T3" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA3" name="TCAns" placeholder="Expected Answer"></p>
           <p></p>
         </div>
         <div id="f4" style="display:none">
-          <input type="text" id="T4" name="TestCase" placeholder="Test Case(s)">
-          <input type="text" id="EA4" name="TCAns" placeholder="Expected Answer">
+          <p><input type="text" id="T4" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA4" name="TCAns" placeholder="Expected Answer"></p>
           <p></p>
         </div>
         <div id="f5" style="display:none">
-          <input type="text" id="T5" name="TestCase" placeholder="Test Case(s)">
-          <input type="text" id="EA5" name="TCAns" placeholder="Expected Answer">
+          <p><input type="text" id="T5" name="TestCase" placeholder="Test Case(s)">
+          <input type="text" id="EA5" name="TCAns" placeholder="Expected Answer"></p>
           <p></p>
         </div>
       </div>
@@ -125,7 +177,7 @@
       <p id="tempRes"></p>
       <p id="tempResText"></p>
       <p></p>
-			<p><button onclick="createQuestion()">Create Question</button>
+			<p><button onclick="createQuestion();showQB()">Create Question</button>
 	                <button onclick="goBack()">Back</button></p>
       <p id="stat"></p>
       <p id="DBStat"></p>
@@ -134,9 +186,12 @@
 		<!-- Split Screen Right side -->
 		<div id="r" class="split right">
 			<h2><b>Question Bank</b></h2>
-			<p>WIP</p>
-			<p><span id="cpyq"></span></p>
-			<p><span id="cpya"></span></p>
+			<p>This is still a work in progress (WIP)</p>
+      <button onclick="showQB()">Update Question Bank</button>
+      <p></p>
+      <div id="qBank"></div>
+			<!-- <p><span id="cpyq"></span></p> -->
+			<!-- <p><span id="cpya"></span></p> -->
 		</div>
 	</div>
 
@@ -144,7 +199,22 @@
 		<h2>Select Questions:</h2>
 		<div id="examQuestions"></div>
     <p id="exQ"></p>
+    <p id="tempResp"></p>
+    <p id="DBResp"></p>
 	</div>
+ 
+ <!-- Evaluate -->
+ <div id="EE" style="display:none">
+   <!-- <table align='center' >
+     <tr>
+       <th>Student</th>
+       <th>Evaluate</th>
+     </tr>
+     <tbody id="evStat"></tbody>
+   </table> -->
+   <p id="evStat"></p>
+   <p id="evTest"></p>
+ </div>
 
 	<!-- Publish the Score -->
 	<div id="pScore" style="display:none;">
@@ -152,7 +222,6 @@
 	</div>
 	<p id="status"></p>
  
- <p id="tempResp"></p>
  
 </body>
 </html>
@@ -194,18 +263,7 @@
     //var bar=document.getElementById("TCAns").value;
         
     var sel=document.getElementById("mySel").value;
-    /*
-    var TC1=document.getElementById("TC1").value;
-    var ExA1=document.getElementById("ExA1").value;
-    var TC2=document.getElementById("TC2").value;
-    var ExA2=document.getElementById("ExA2").value;
-    var TC3=document.getElementById("TC3").value;
-    var ExA3=document.getElementById("ExA3").value;
-    var TC4=document.getElementById("TC4").value;
-    var ExA4=document.getElementById("ExA4").value;
-    var TC5=document.getElementById("TC5").value;
-    var ExA5=document.getElementById("ExA5").value;
-    */
+    
     
     //it's early in the morning, and my brain's not really working right now
 //    if(TC1==""&&ExA1==""||TC2==""&&ExA2==""||TC3==""&&ExA3==""||TC4==""&&ExA4==""||TC5==""&&ExA5=="")
@@ -519,6 +577,37 @@
 	}
 </script>
 
+<script>
+  function showQB(){
+    var qb = new XMLHttpRequest();
+    var vQuestion = "viewQuestion.php";
+    var qArray=[];
+    
+    qb.onreadystatechange=function(){
+      if(qb.readyState ==4){
+        var QBQ=document.getElementById("qBank");
+        var resText=qb.responseText;
+        var resData=JSON.parse(resText);
+        var len=resData.length;
+        var qbHTML="<div>";
+        qbHTML+="<table id='qbQuest' align='center' border='1px solid black'>";
+        qbHTML+="<tr><th>Question</th>";
+        qbHTML+="<th>Difficulty</th></tr>";
+        for(var q=0;q<len;q++){
+          qbHTML+="<tr>";
+          qbHTML+="<td>"+resData[q]['Question']+"</td>";
+			    qbHTML+="<td>"+resData[q]['Difficulty']+"</td>";
+          qbHTML+="</tr>";
+        }
+        qbHTML+="</table></div>";
+        QBQ.innerHTML=qbHTML;
+      }
+    }
+    qb.open("POST",vQuestion,true);
+	  qb.send(null);
+  }
+</script>
+
 <script type="text/javascript">
   //var temp;
   var questHTML;
@@ -548,7 +637,7 @@
     //            console.log(resData);
 		//console.log(len);
 		questHTML="<div>";
-		questHTML+="<table id='tbl'>"
+		questHTML+="<table id='tbl' align='center' border= '1px solid black'>";
 		questHTML+="<tr><th>Add</th>";
 		questHTML+="<th>Question</th>";
 		questHTML+="<th>Difficulty</th>";
@@ -572,9 +661,15 @@
       //console.log(temp);
 		}
 		questHTML+="</table></div>";
-    questHTML+='<input type="button"onclick="addToExam()"';
-    questHTML+='value="Add to Exam"></input>';
-		dispQuest.innerHTML=questHTML;
+    questHTML+='<p><input type="button"onclick="addToExam()"';
+    questHTML+='value="Add to Exam"></input></p>';
+    
+    //
+    //questHTML+='<p id="tempResp"></p>';
+    //questHTML+='<p id="DBResp"></p>';
+		//
+    
+    dispQuest.innerHTML=questHTML;
             }
         }
 
@@ -601,6 +696,13 @@
       //console.log(questArray[j]);
       var chkOutput=document.getElementById("exQ");
       chkOutput.innerHTML="";
+      var tempResponse=document.getElementById("tempResp");
+              //chkOutput.innerHTML="";
+      tempResponse.innerHTML="";
+      
+      var tempRespText=document.getElementById("DBResp");
+      tempRespText.innerHTML="";
+      
       var prefix="qPts";
     
       if(chkbox.checked){      
@@ -612,9 +714,10 @@
         //qIDArr.push({Id:j});
         if(selPts==null||selPts==""){
           chkOutput.innerHTML="One or more fields are missing Points!";
+          qIDArr=[];
           break;
         }
-        else{
+//        else{
           qIDArr.push(j);
           qIDArr.push(selPts);
         
@@ -622,7 +725,8 @@
           toSendArr.push(qIDArr);
           //chkbox.checked=false;
           qIDArr=[];
-        }
+//        }
+        
       }
 //      else{
       //qIDArr[j]=0;
@@ -634,18 +738,19 @@
     }
     //console.log(qIDArr);
     //console.log(toSendArr);
-    console.log(toSendArr);
+    //console.log(toSendArr);
     var sendList=toSendArr;
     var toPost=JSON.stringify(sendList);
     
-    console.log(toPost);
+    console.log(sendList);
     
-    if(toPost==="[]")
+    if(toPost=="[]")
     {
-      chkOutput.innerHTML="Missing fields!";
+      chkOutput.innerHTML="No questions selected!";
       
       qIDArr=[];
       toSendArr=[];
+      
     }
     else{
     
@@ -657,18 +762,20 @@
 	        	                return_data=aReq.responseText;
 					var data=JSON.parse(return_data);
               
-              var tempResponse=document.getElementById("tempResp");
-              tempResponse.innerHTML="";
-              //var tempRespText=document.getElementById("tempResText");
+              //var tempResp=document.getElementById("tempRes");
+              //var tempRespText=document.getElementById("DBResp");
 	
 					if(data['Response']=="Test Created"){
-               		        		tempResponse.innerHTML="Test Created!";
+            //tempResponse.innerHTML="Test Created!";
+            tempResponse.innerHTML="Test Created!";
 					}
 					else if(data['Response']=="INVALID"){
-						tempResponse.innerHTML="Error.";
+						//tempResponse.innerHTML="Error.";
+            tempResponse.innerHTML="Error!";
 					}
 					else{
-						tempResponse.innerHTML="Everything is wrong, what are you doing";
+						//tempResponse.innerHTML="Everything is wrong, what are you doing";
+            tempResp.innerHTML="Something went wrong, please try again!";
 					}
            console.log(data);
            console.log(return_data);
@@ -685,17 +792,124 @@
 </script>
 
 <script>
+  var tempUsr="";
+  var usrArr=[];
+  var temp="";
+  function evalEx(){
+  
+  var ee=document.getElementById("EE");
+		if(ee.style.display ==="none"){
+			ee.style.display = "inline";
+		}
+		else{
+			ee.style.display = "none";
+		}
+   
+     var ev=document.getElementById("evStat");
+     var evUrl = "stdEval.php";
+     var evReq = new XMLHttpRequest();
+     
+     
+     evReq.open("POST", evUrl, true);
+     evReq.send();
+     
+     evReq.onreadystatechange=function(){
+       if(evReq.readyState==4){
+         var evRes=evReq.responseText;
+         var evResData=JSON.parse(evRes);
+         
+         console.log(evRes);
+         console.log(evResData);
+         
+         var evHTML="<div>";
+         evHTML+="<table id='tbl' align='center' border= '1px solid black'>";
+         evHTML+="<tr><th>Evaluate</th>";
+         evHTML+="<th>Name</th>";
+         evHTML+="</tr>";
+         for(var i=0;i<evResData.length;i++){
+           var stdUsrName=evResData[i].Username;
+           tempUsr=stdUsrName;
+         
+           evHTML+="<tr>";
+           //evHTML+="<td>"+stdUsrName+"</td>";
+           evHTML+='<td><input type="checkbox" name="stds" id="std'+i;
+           evHTML+='"></td>';
+           evHTML+="<td>"+stdUsrName+"</td>";
+           evHTML+="</tr>";
+         }
+         evHTML+="</table></div>";
+         evHTML+='<p><input type="button" onclick="getEx()"';
+         evHTML+='value="Evaluate Student"></input></p>';
+         ev.innerHTML=evHTML;
+       }
+     }
+     //evReq.open("POST", evUrl, true);
+     //evReq.send(null);
+  }
+  
+  function getEx(){
+    var exReq = new XMLHttpRequest();
+    var exUrl="getExam.php";
+    var test=document.getElementById("evTest");
+    test.innerHTML="";
+    var arr=[];
+    
+    exReq.onreadystatechange=function(){
+      if(exReq.readyState==4){
+        var exData=exReq.responseText;
+        var exRes=JSON.parse(JSON.stringify(exData));
+        
+        console.log(exData);
+        console.log(exRes);
+        test.innerHTML+=JSON.stringify(exData);
+      }     
+    }
+    
+        //var arr=[];
+        var cb=document.getElementsByName("stds");
+        console.log(cb);
+        for (var j=0;j<cb.length;j++){
+          if(cb[j].checked){
+            var stdName=cb[j].id;
+            temp=stdName;
+            
+            console.log(temp);
+            //var stdName=cb[j].value;
+            console.log(stdName);
+            arr.push({"Username":stdName});
+            //arr.push(stdName);
+            
+          }
+        }
+      
+    //  }
+    //}
+      
+      exReq.open("POST", exUrl, true);
+      //exReq.send(arr);
+      //console.log(arr);
+      exReq.send(JSON.stringify(arr));
+      console.log(JSON.stringify(arr));
+      
+      //exReq.send(temp);
+      //console.log(temp);
+    
+    //test.innerHTML=JSON.stringify(arr);
+    //test.innerHTML=tempUsr;
+    //test.innerHTML=x.cellIndex;
+  }
+
 	function pubScore(){
     var rel=document.getElementById("pubStat");
     var PSUrl="pubScore.php";
-    
     var ajReq = new XMLHttpRequest();
-    
+  
     ajReq.onreadystatechange=function(){
       if(ajReq.readyState==4){
         var ajRes=ajReq.responseText;
         var ajResData=JSON.parse(ajRes);
         
+        console.log(ajRes);
         console.log(ajResData);
         
         if(ajResData['Response']=="Released"){

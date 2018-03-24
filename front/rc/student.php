@@ -3,18 +3,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<h1>WELCOME STUDENT</h1>	
+<style>
+body{
+     background-color: lightblue;   
+   }
+   h1{
+     text-align: center;   
+   }
+   h2{
+     text-align: center;   
+   }
+   
+   p{
+     text-align: center;   
+   }
+   
+   table{
+     text-align; center;
+   }
+   div{
+     text-align: center;
+   }
+   ul{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   text-align: center;
+   
+   background-color: #f2f2f2;
+   
+ }
+ li {
+   display:inline-block;
+   
+    border-right: 1px solid #bbb;
+  }
+  li:last-child{
+    border-right:none;
+  }
+  li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  li a:hover:not(.active) {
+    background-color: #ddd;
+  }
+</style>
 </head>
 <body>
-	<p><button onclick="takeExam()">Take Exam</button></p>
+  <ul>
+    <li><a href="#" onclick="takeExam()">Take Exam</a></li>
+    <li><a href="#" onclick="viewScore()">View Score</a></li>
+    <li><a href="#" onclick="logOut()">Log Out</a></li>
+  </ul>
+
+  <h1>WELCOME STUDENT</h1>
+
+	<!-- <p><button onclick="takeExam()">Take Exam</button></p>
 	<p><button onclick="viewScore()">View Score</button></p>
-	<p><button onclick="logOut()">Log Out</button></p>
+	<p><button onclick="logOut()">Log Out</button></p> -->
 	<div id="exam" style="display:none;">
 		<div id="dispExam">
       
 		</div>
 	</div>
 	<p id="exStatus"></p>
+  <p id="exResp"></p>
 	<div id="vScore" style="display:none;">
 		<p id="showGrade"></p>
 	</div>
@@ -30,6 +89,9 @@
   var tCaseStr="";
   var toSend=[];
   var currAns=[];
+  var asdf=[];
+  var qwer=[];
+  var usrName="";
   var usr="<?php echo $_SESSION['username']; ?>";
   
   
@@ -62,12 +124,13 @@
         //console.log(resData);
         
         var stdName=testing;
+        usrName=testing;
         tempArr.push(stdName);
         
         var IDStr="";
         var ptStr="";
         
-        var asdf=[];
+        //var asdf=[];
         var fdsa="";
         
         exHTML ="<p>Exam</p>";
@@ -86,9 +149,11 @@
           
           if(typeof qID !== "undefined"){
             IDStr+=qID+"| ";
+            //qwer.push(IDStr);
           }
           if(typeof pts !== "undefined"){
             ptStr+=pts+"| ";
+            //qwer.push(pts);
           }
           if(typeof tCases !== "undefined"){
             tCaseStr+="Test Cases: "+tCases+"// ";
@@ -120,7 +185,7 @@
         
         //tempArr.push(ansStr);
         tempArr.push(maxPts);
-        tempArr.push(tCaseStr);
+        //tempArr.push(tCaseStr);
         
 			}
 		}
@@ -150,6 +215,7 @@
     var bReq=new XMLHttpRequest();
     var stdAns=[];
     var grUrl="gradeEx.php";
+    var exRes=document.getElementById("exResp");
     //var currAns=[];
     
     var len2=ansArr.length;
@@ -158,99 +224,78 @@
       if(bReq.readyState==4){
         var getEx=document.getElementById("exam");
         var bRes=bReq.responseText;
-        
+       
         console.log(bRes);
-        //console.log(getEx);
         
-        //var curAns="";
-        //var currAns=[];
-        
-        /*
-        
-        var len2=ansArr.length;
-        //console.log(len2);
-        
-        
-        for(var i=0;i<len2;i++){
-          //currAns=document.getElementById(ansArr[i]).value;
-          currAns[i]=document.getElementById(ansArr[i]).value;
-          
-          //if(typeof currAns !== "undefined"){
-          //  ansStr+=currAns+"| ";
-          //}
-          //console.log(currAns);
-          //stdAns.push(currAns);
-          //console.log(stdAns[i]);
-        }
-        //console.log(ansStr);
-        //stdAns.push(currAns);
-        
-        
-        console.log(currAns);
-        
-        */
-        //console.log(ansStr);
-        //console.log(maxPts);
-        //console.log(tCaseStr);
-        
-        //tempArr.push(ansStr);
-        //tempArr.push(maxPts);
-        //tempArr.push(tCaseStr);
-        
-        
+        //temp
+        exRes.innerHTML=bRes;
       }
-    }
-    //console.log(tempArr.length);
-    //console.log(ansArr);
-    //console.log(stdAns);
-    
-    var sad="";
-    currAns.push(usr);
-    for(var q=0;q<len2;q++){
-      var Ans=document.getElementById(ansArr[q]).value;
+    }    
+        var sad="";
+        currAns.push(usr);
+        for(var q=0;q<len2;q++){
+          var Ans=document.getElementById(ansArr[q]).value;
       
-      currAns.push(Ans);
+          //currAns.push(Ans);
+          qwer.push(Ans);
       
-      sad+=Ans+"| ";
-    }
-    tempArr.push(sad);
-    
-    var se = document.getElementById("exam");
-    var status=document.getElementById("exStatus");
-    //console.log(se);
-    //console.log(status);
-		se.style.display="none";
+          sad+=Ans+"| ";
+        }
+        
+         
+        currAns.push(qwer);
+        tempArr.push(sad);
+        console.log(qwer);
+        
+        var se = document.getElementById("exam");
+        var status=document.getElementById("exStatus");
+        //console.log(se);
+        //console.log(status);
+		    se.style.display="none";
    
-   console.log(tempArr);
+       //console.log(tempArr);
    
-   //var a0=tempArr[0];
-   //var a1=tempArr[1];
-   //var a2=tempArr[2];
-   //var a3=tempArr[3];
-   //var a4=tempArr[4];
-   //console.log(a0);
-   //console.log(a1);
-   //console.log(a2);
-   //console.log(a3);
-   //console.log(a4);
+       //toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
+       //console.log(toSend);
    
-   //toSend.push({User:a0,qID:a1,Response:a2,Points:a3,Cases:a4});
-   //console.log(toSend);
+       var toSend=currAns;
+       var sendThis=JSON.stringify(toSend);
+       console.log(usr);
    
-   var toSend=currAns;
-   var sendThis=JSON.stringify(toSend);
-   console.log(usr);
+       //send to mid to grade
+       var vars={"User":usrName,"Answers":qwer};
+       console.log(vars);
+       //send to mid to grade
    
-   bReq.open("POST",grUrl,true);
+       bReq.open("POST",grUrl,true);
    
-   //var qwer=JSON.stringify(currAns);
-   //bReq.send(qwer);
-   //bReq.send(currAns);
-   bReq.send(JSON.stringify(currAns));
-   console.log(currAns);
-   //console.log(currAns);
+       //var qwer=JSON.stringify(currAns);
+       //bReq.send(qwer);
+       //bReq.send(currAns);
    
-   status.innerHTML="Exam Sent!";
+       //temp
+       var toGrade=JSON.stringify(vars);
+       bReq.send(toGrade);
+       //temp
+       console.log(toGrade);
+   
+       //uncomment line below to get original before temp above
+       //bReq.send(JSON.stringify(currAns));
+       //console.log(currAns);
+       //console.log(currAns);
+       //console.log(asdf);
+   
+       status.innerHTML="Exam Sent!";
+     
+      // }
+     //}
+   
+     //hopefully resetting the arrays
+   toSend="";
+   currAns=[];
+   qwer=[];
+   tempArr=[];
+   ansArr=[];
   }
 </script>
 

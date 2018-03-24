@@ -1,7 +1,8 @@
 <?php
 	$response=file_get_contents('php://input');
 	#$array = json_decode($_POST['jsondata']);
-	$dec=json_decode($response);
+ #added ", true" on line below
+	$dec=json_decode($response,true);
 	$enc=json_encode($dec,true);
 	$curl=curl_init();
 	
@@ -15,5 +16,9 @@
 		CURLOPT_POSTFIELDS => $enc
 	  ));
 	$resp = curl_exec($curl);
-	echo $resp;
+  #added next two lines
+  $res = json_decode($resp,true);
+  echo json_encode($res,true);
+  #commented out next line
+	#echo $resp;
 ?>
