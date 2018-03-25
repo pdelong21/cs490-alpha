@@ -818,8 +818,8 @@
          var evRes=evReq.responseText;
          var evResData=JSON.parse(evRes);
          
-         console.log(evRes);
-         console.log(evResData);
+         //console.log(evRes);
+         //console.log(evResData);
          
          var evHTML="<div>";
          evHTML+="<table id='tbl' align='center' border= '1px solid black'>";
@@ -834,8 +834,10 @@
            //evHTML+="<td>"+stdUsrName+"</td>";
            evHTML+='<td><input type="checkbox" name="stds" id="std'+i;
            evHTML+='"></td>';
-           evHTML+="<td>"+stdUsrName+"</td>";
+           evHTML+='<td id="cStd" name="names">'+stdUsrName+'</td>';
+           //console.log(document.getElementById("cStd"));
            evHTML+="</tr>";
+           //console.log(document.getElementById("cStd"));
          }
          evHTML+="</table></div>";
          evHTML+='<p><input type="button" onclick="getEx()"';
@@ -845,14 +847,19 @@
      }
      //evReq.open("POST", evUrl, true);
      //evReq.send(null);
+     //console.log(document.getElementById("cStd"));
   }
   
   function getEx(){
     var exReq = new XMLHttpRequest();
     var exUrl="getExam.php";
+    //var exUrl="getExHardcode.php";
     var test=document.getElementById("evTest");
     test.innerHTML="";
     var arr=[];
+    
+    var pref="cStd";
+    //console.log(document.getElementById(pref).innerHTML);
     
     exReq.onreadystatechange=function(){
       if(exReq.readyState==4){
@@ -867,16 +874,26 @@
     
         //var arr=[];
         var cb=document.getElementsByName("stds");
-        console.log(cb);
+        var nms=document.getElementsByName("names");
+        
+        //var cs=document.getElementById("cStd").innerHTML;
+        //console.log(cs);
+        //console.log(cb);
         for (var j=0;j<cb.length;j++){
           if(cb[j].checked){
+          var qwe=nms[j].innerHTML;
+          console.log(qwe);
+          var cs=document.getElementById(pref).innerHTML;
+          //console.log(cs);
+            
             var stdName=cb[j].id;
             temp=stdName;
             
-            console.log(temp);
+            //console.log(temp);
             //var stdName=cb[j].value;
-            console.log(stdName);
-            arr.push({"Username":stdName});
+            //console.log(stdName);
+            //arr.push({"Username":stdName});
+            arr.push({"Username":qwe});
             //arr.push(stdName);
             
           }
@@ -886,9 +903,21 @@
     //}
       
       exReq.open("POST", exUrl, true);
+      
+      //displays just "{\"Username\":\"std1\"}"
+      //exReq.send(JSON.stringify({'Username':document.getElementById(pref).innerHTML}));
+      //console.log(JSON.stringify({'Username':document.getElementById(pref).innerHTML}));
+      
+      //doesn't work
       //exReq.send(arr);
       //console.log(arr);
+      
+      /*displays "0 results[{\"Username\":\"std1\"}]", "0 results[{\"Username\":\"std2\"}]"
+      or "0 results[{\"Username\":\"std1\"},{\"Username\":\"std2\"}]"
+      depending on which student was clicked, or both
+      */
       exReq.send(JSON.stringify(arr));
+      console.log(arr);
       console.log(JSON.stringify(arr));
       
       //exReq.send(temp);
