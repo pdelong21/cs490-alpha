@@ -10,6 +10,7 @@ $difficulty = $decoder['Difficulty'];
 $cases      = array();
 $cases      = $decoder['Cases'];
 $signature  = $decoder['Signature'];
+$category = $decoder['Category'];
 $conn       = mysqli_connect($dbserver, $user, $password, $database);
 if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
@@ -17,7 +18,7 @@ if (!$conn) {
 $sql1    = "SELECT * FROM Questions";
 $result1 = $conn->query($sql1);
 $id      = $result1->num_rows;
-$sql2    = "INSERT INTO Questions (Id, Question, Difficulty,Signature) VALUES($id,'$question', '$difficulty','$signature')";
+$sql2    = "INSERT INTO Questions (Id, Question, Difficulty,Signature,Category) VALUES($id,'$question', '$difficulty','$signature','$category')";
 $result2 = $conn->query($sql2);
 $c       = count($cases);
 for ($x = 0; $x < $c; $x++) {

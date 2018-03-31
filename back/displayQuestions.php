@@ -16,6 +16,7 @@ if ($result->num_rows > 0) {
                                                 'Id' => $row['Id'],
                                                 'Question' => $row['Question'],
                                                 'Difficulty' => $row['Difficulty']
+                                                'Category' => $row['Category']
                                            
                                 );
                 }
