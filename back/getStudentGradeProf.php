@@ -15,16 +15,17 @@ $sql ="SELECT * FROM Tests";
 $testId=$result->num_rows-1;
 
 $output = array();
-$sql    = "SELECT TestQuestionRelation.Points as TotalPoints, Question, UserAnswer,Feedback,QuestionStudentRelation.Points FROM TestQuestionRelation, StudentTestRelation, Questions, QuestionStudentRelation WHERE TestQuestionRelation.TestId = StudentTestRelation.TestId AND StudentTestRelation.TestID = QuestionStudentRelation.TestID AND TestQuestionRelation.QuestionId=Questions.Id AND TestId='$testId' AND Username='$username'";
+$sql= "SELECT QuestionStudentRelation.Id, UserAnswer,Feedback,Points,MaxPoints,Question,TestId FROM QuestionStudentRelation, Questions Where QuestionStudentRelation.QuestionId=Questions.Id AND QuestionStudentRelation.TestId=$testId AND QuestionStudentRelation.Username='$username'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                                 $output[] = array(
+                                                'Id' => $row['Id'],
                                                 'Points' => $row['Points'],
                                                 'Question' => $row['Question'],
-                                                'UserAnswer' => $row['Question'],
-                                                'Feedback' => $row['Question'],
-                                                'TotalPoints' => $row['TotalPoints'],
+                                                'UserAnswer' => $row['UserAnswer'],
+                                                'Feedback' => $row['Feedback'],
+                                                'MaxPoints' => $row['MaxPoints'],
                                               
                                            
                                 );

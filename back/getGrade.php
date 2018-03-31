@@ -9,7 +9,7 @@ $response = file_get_contents('php://input');
 $decoder = json_decode($response,true); 
 
 $username=$decoder['Username'];
-
+$output = array();
 // Create connection
 $conn = mysqli_connect($dbserver, $user, $password, $database);
 // Check connection
@@ -17,19 +17,43 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT Tests.Id,TestQuestionRelation.Grade FROM Tests, StudentTestRelation Where Test.Release=1 AND StudentTestRelation.Username='$username' AND Tests.Id=StudentTestRelation.TestId";
-$output = array();
+$sql1 = "SELECT * FROM Tests";
+
+$result1 = $conn->query($sql1);
+$testId=$result1->num_rows-1;
+
+$sql2 = "SELECT * FROM Tests WHERE Id=$testId";
+
+$result2 = $conn->query($sql2);
+
+$row = mysqli_fetch_assoc($result2);
+$released= (int)$row["Released"];
+
+if($released==1){
+
+$sql    = "SELECT QuestionStudentRelation.Id, UserAnswer,Feedback,Points,MaxPoints,Question,TestId FROM QuestionStudentRelation, Questions Where QuestionStudentRelation.QuestionId=Questions.Id AND QuestionStudentRelation.TestId=$testId AND QuestionStudentRelation.Username='$username'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $output[]=array(
-          'TestId' =>$row['Id'],
-          'Grade' =>$row['Grade']
-        );
-    }
+                while ($row = $result->fetch_assoc()) {
+                                $output[] = array(
+                                                'Id' => $row['Id'],
+                                                'Points' => $row['Points'],
+                                                'Question' => $row['Question'],
+                                                'UserAnswer' => $row['UserAnswer'],
+                                                'Feedback' => $row['Feedback'],
+                                                'MaxPoints' => $row['MaxPoints'],
+                                              
+                                           
+                                );
+                }
 }
+
+
 echo json_encode($output,true);
+
+}
+ 
+
 mysqli_close($conn);
 
 

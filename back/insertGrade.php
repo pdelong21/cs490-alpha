@@ -39,12 +39,14 @@ $sql2 = "INSERT INTO StudentTestRelation (Id, Username, Grade, TestId) VALUES($i
           $userAnswer=$question[$x]['Response'];
           $points=$question[$x]['Points'];
           $feedback=$question[$x]['Feedback'];
-          $sql4 = "INSERT INTO QuestionStudentRelation (Id, UserAnswer, Feedback, Points,TestId) VALUES($id2,'$userAnswer', '$feedback', $points, $testId)";
+          $questionId=$question[$x]['QuestionId'];
+          $maxPoints=$question[$x]['MaxPoints'];
+          $sql4 = "INSERT INTO QuestionStudentRelation (Id, UserAnswer, Feedback, Points,TestId,QuestionId,Username, MaxPoints) VALUES($id2,'$userAnswer', '$feedback', $points, $testId,$questionId,'$username',$maxPoints)";
 			
 			$result4 = $conn->query($sql4);
 }
       
-      if ($result3) {
+      if ($result4) {
                 $log = array(
                                 "Response" => "Submitted"
                 );
