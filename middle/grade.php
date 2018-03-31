@@ -70,6 +70,15 @@ function writeFile($python_file, $student_res){
     fclose($handle);
 }
 
+function appendFile($python_file, $case_arr){
+    $handle = fopen($python_file, 'a') or die("Can't append...");
+
+    for ($case = 0; $case < count($case_arr); $case++){
+        fwrite($handle,"\nprint(".$case_arr[$case]["Testcase"].")");
+    }
+    fclose($handle);
+}
+
 function compileMe($py_file){
     #$file ;
     $cmd = 'python ./'.$py_file;
@@ -80,7 +89,14 @@ function compileMe($py_file){
 
 }
 
-function gradeMe($case, $std_ans, $func_case){
+function compileTestCases($py_file){
+    $cmd = 'python ./'.$py_file;
+    $output = array();
+    exec($cmd, $output);
+    return $output;
+}
+
+function gradeMe($case, $std_ans, $func_case, $case_arr){
     $points = 0.0;
     $feedback = '';
     /*str_replace(' ', '', $std_ans)*/
@@ -91,7 +107,8 @@ function gradeMe($case, $std_ans, $func_case){
             #check to see if it compiled or not -- 1 point or zero for whole problem
             if(end($output) == 0 && $std_ans != null){
                 $points ++;
-                $feedback = $feedback."Your program compiled! ";
+                $feedback = $feedback."Your program compiled!\n";
+
             } else{
                 $feedback = $feedback."Your program failed to compile so I must end it here.";
                 continue;
@@ -104,12 +121,25 @@ function gradeMe($case, $std_ans, $func_case){
                 continue;
             } else{
                 $points+=1;
-                $feedback = $feedback."The function name matches, crowd goes wild! ";
+                $feedback = $feedback."\nThe function name matches! \n";
             }
         case 2:
             #check to see if output is correct or not -- 3 points -- check in progress
-            $points+=3;
-            $feedback = $feedback."And the rest is tbc so for now you got test case 3... so proud.";
+            #append test cases to eof & print output to an array
+            appendFile('python.py', $case_arr);
+            $output = compileTestCases('python.py');
+            $ratio = 0;
+            for ($case = 0; $case < count($output); $case ++){
+                if ($output[$case] == $case_arr[$case]['Answer']){
+                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does match the desired output of ".$case_arr[$case]['Answer']."\n";
+                    $ratio ++;
+                } else{
+                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does not match the desired ouput of ".$case_arr[$case]['Answer']."\n";
+                    continue;
+                }
+            }
+            $ratio = $ratio/count($output);
+            $points+=3*$ratio;
     }
     $points = $points/5.0;
     $array = ['Points' => $points, 'Feedback' => $feedback];
@@ -142,6 +172,10 @@ function percentGrade($points_array, $maxpoints){
 $ans_obj = file_get_contents('php://input');
 $ans_decoded = json_decode($ans_obj, true);
 
+#just to test
+#$ans_decoded = ['User' => 'std1'];
+#$ans_decoded += ['Answers' => array("def add(a,b):\n\treturn a+b")];
+
 $username = $ans_decoded['User'];
 $std_test ['Username'] = $username;
 $std_test ['Question'] = array();
@@ -152,10 +186,12 @@ $std_test ['Question'] = array();
 $test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques] -> Ass. Array()
 #print_r($test_obj);
 #echo $test_obj[0]['Points'];
+
 # Start grading process -- returns double
 for ($i=0; $i < count($ans_decoded['Answers']); $i++){
     $max_points += $test_obj[$i]['Points']; # points possible on test
-    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature']); # returns array of points and feedback
+    $get_case = getCases(json_encode(["QuestionID" => $test_obj[$i]['QuestionId']]), $cases_url);
+    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature'], $get_case); # returns array of points and feedback
     $points_recieved_arr [] = $grade_res['Points']*$test_obj[$i]['Points']; # tally of points recieved
     $std_test ['Question'][$i] = array('QuestionId' => $test_obj[$i]['QuestionId'],'Response' => $ans_decoded['Answers'][$i], 'Points' => $points_recieved_arr[$i],
         'MaxPoints' => $test_obj[$i]['Points'], 'Feedback' => $grade_res['Feedback']);
@@ -164,5 +200,6 @@ for ($i=0; $i < count($ans_decoded['Answers']); $i++){
 # get the percentage of the test grade
 $std_test ['Grade'] = percentGrade($points_recieved_arr, $max_points);
 $handIn_obj = json_encode($std_test);
+#echo $handIn_obj;
 $handIn_res = handIn($handIn_obj, $handIn_url);
 echo json_encode($handIn_res, true);

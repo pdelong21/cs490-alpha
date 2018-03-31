@@ -23,7 +23,7 @@ function getGrade($data_obj, $url){
 
 $getGrade_obj = file_get_contents('php://input');
 #$getGrade_obj = json_encode(array('Username' => 'pgd22'));
-$getGrade_res = getGrade($getGrade_obj, $url); # pass to sunny & retrieve response
+$getGrade_res = getStudents($getGrade_obj, $url); # pass to sunny & retrieve response
 
 $response_obj = json_encode($getGrade_res, true); # encode the response from sunny
 echo $response_obj; # echo back to front
