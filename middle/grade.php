@@ -130,10 +130,14 @@ function gradeMe($case, $std_ans, $func_case, $case_arr){
             $ratio = 0;
             for ($case = 0; $case < count($output); $case ++){
                 if ($output[$case] == $case_arr[$case]['Answer']){
-                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does match the desired output of ".$case_arr[$case]['Answer']."...\n";
+                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase'].
+                        " is ".$output[$case]." and it does match the desired output of ".$case_arr[$case]['Answer'].
+                        "...\n";
                     $ratio ++;
                 } else{
-                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does not match the desired ouput of ".$case_arr[$case]['Answer']."...\n";
+                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".
+                        $output[$case]." and it does not match the desired ouput of ".$case_arr[$case]['Answer'].
+                        "...\n";
                     continue;
                 }
             }
@@ -190,9 +194,11 @@ $test_obj = getTest($test_url); # contains an array of arrays - format [nth Ques
 for ($i=0; $i < count($ans_decoded['Answers']); $i++){
     $max_points += $test_obj[$i]['Points']; # points possible on test
     $get_case = getCases(json_encode(["QuestionID" => $test_obj[$i]['QuestionId']]), $cases_url);
-    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature'], $get_case); # returns array of points and feedback
+    # returns array of points and feedback
+    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature'], $get_case);
     $points_recieved_arr [] = $grade_res['Points']*$test_obj[$i]['Points']; # tally of points recieved
-    $std_test ['Question'][$i] = array('QuestionId' => $test_obj[$i]['QuestionId'],'Response' => $ans_decoded['Answers'][$i], 'Points' => $points_recieved_arr[$i],
+    $std_test ['Question'][$i] = array('QuestionId' => $test_obj[$i]['QuestionId'],
+        'Response' => $ans_decoded['Answers'][$i], 'Points' => $points_recieved_arr[$i],
         'MaxPoints' => $test_obj[$i]['Points'], 'Feedback' => $grade_res['Feedback']);
 }
 
