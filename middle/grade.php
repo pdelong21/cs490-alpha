@@ -116,8 +116,7 @@ function gradeMe($case, $std_ans, $func_case, $case_arr){
         case 1:
             #check to see if the function name matches -- 1 point
             if (strpos($std_ans, $func_case) == FALSE) {
-                $feedback = $feedback."You must have learned to read at the Derek Zoolander center for kids who can't read good 
-                because the function name is wrong.";
+                $feedback = $feedback."The function name does not match the requirements.";
                 continue;
             } else{
                 $points+=1;
@@ -131,10 +130,10 @@ function gradeMe($case, $std_ans, $func_case, $case_arr){
             $ratio = 0;
             for ($case = 0; $case < count($output); $case ++){
                 if ($output[$case] == $case_arr[$case]['Answer']){
-                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does match the desired output of ".$case_arr[$case]['Answer']."\n";
+                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does match the desired output of ".$case_arr[$case]['Answer']."...\n";
                     $ratio ++;
                 } else{
-                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does not match the desired ouput of ".$case_arr[$case]['Answer']."\n";
+                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".$output[$case]." and it does not match the desired ouput of ".$case_arr[$case]['Answer']."...\n";
                     continue;
                 }
             }
