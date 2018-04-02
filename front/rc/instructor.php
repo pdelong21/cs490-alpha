@@ -113,6 +113,15 @@
 				<option value="Hard">Hard</option>
 			</select></p>
       
+      <p>Select Category:</p>
+      <p><select name="pcat" id="cat">
+        <option value="Loops">Loops</option>
+        <option value="Strings">Strings</option>
+        <option value="Arrays">Arrays</option>
+        <option value="Lists">Lists</option>
+        <option value="Methods">Methods</option>
+      </select></p>
+      
 			<!-- Type a Question/answer to the question to POST to mid -->
 			<p>Enter a Question:</p>
 			<p><textarea rows="10" cols="50" name="pqtn" id="qtn"></textarea></p><br>
@@ -179,29 +188,64 @@
       <p></p>
 			<p><button onclick="createQuestion();showQB()">Create Question</button>
 	                <button onclick="goBack()">Back</button></p>
-      <p id="stat"></p>
-      <p id="DBStat"></p>
+      <!-- <p id="stat"></p> -->
+      <p id="DBStat"></p> 
 		</div>
 		
 		<!-- Split Screen Right side -->
 		<div id="r" class="split right">
 			<h2><b>Question Bank</b></h2>
-			<p>This is still a work in progress (WIP)</p>
-      <button onclick="showQB()">Update Question Bank</button>
+			<p>Search by: <select id="SV">
+        <option value="Question">Question</option>
+        <option value="Category">Category</option>
+        <option value="Difficulty">Difficulty</option>
+      </select>
+      <input type="text" id="search" onkeyup="mySearch()" placeholder="Search for key words..." title="Type something"></p>
+      <!-- <button onclick="showQB()">Update Question Bank</button> -->
       <p></p>
       <div id="qBank"></div>
+      <p><button onclick="showQB()">Update Question Bank</button></p>
 			<!-- <p><span id="cpyq"></span></p> -->
 			<!-- <p><span id="cpya"></span></p> -->
 		</div>
 	</div>
-
-	<div id="genExam" style="display:none;">
-		<h2>Select Questions:</h2>
-		<div id="examQuestions"></div>
-    <p id="exQ"></p>
-    <p id="tempResp"></p>
-    <p id="DBResp"></p>
-	</div>
+ 
+  
+	  <div id="genExam" style="display:none;">
+      <div id="r2" class="split right">
+		    <h2>Question Bank:</h2>
+        
+        <p>Search by: <select id="QB">
+          <option value="Question">Question</option>
+          <option value="Category">Category</option>
+          <option value="Difficulty">Difficulty</option>
+        </select>
+        <input type="text" id="qbS" onkeyup="qbSearch()" placeholder="Search for key words..." title="Type something"></p>
+		    
+        <div id="examQuestions"></div>
+        <!-- removed exQ tempRes DBResp here -->   
+      </div>
+      
+      <div id="l2" class="split left">
+        <h2>Selected Questions:</h2>
+        <div id="addedQuestions"></div>
+        <table id="asdf" align="center" border="1px solid black">
+        <tr>
+          <th>Question</th>
+          <th>Difficulty</th>
+          <th>Category</th>
+          <th>Points</th>
+        </tr>
+          
+        </table>
+        <p><button onclick="addToExam()">Add to Exam</button></p>
+        <p><button onclick="goBack()">Back</button></p>
+        
+        <p id="exQ"></p>
+        <p id="tempResp"></p>
+        <p id="DBResp"></p>
+	    </div>
+    </div>
  
  <!-- Evaluate -->
  <div id="EE" style="display:none">
@@ -214,6 +258,11 @@
    </table> -->
    <p id="evStat"></p>
    <p id="evTest"></p>
+   <p id="bttn"></p>
+   <p id="qwop"></p>
+   
+   <p id="zxcv"></p>
+   
  </div>
 
 	<!-- Publish the Score -->
@@ -259,6 +308,7 @@
 		var Difficulty=document.getElementById("diff").value;
 		var Question=document.getElementById("qtn").value;
 		var Signature=document.getElementById("func").value;
+    var Category=document.getElementById("cat").value;
 		//var foo=document.getElementById("TestCase").value;
     //var bar=document.getElementById("TCAns").value;
         
@@ -347,21 +397,11 @@
     
     
     console.log(pArr);
-//		var Points=parseInt(strPoints);
-		
-//		var vars=[Question,Difficulty,Points,Answer];
-//		var vars = "Questions="+Question+"Difficulty="+Difficulty+"Points="+Points+"Cases="+Answer;
+
 
 // add signature, which is function name and paramaters and an array containing the test cases and answers
-		var vars={"Question":Question,"Difficulty":Difficulty,"Signature":Signature, "Cases":pArr};
-		
-		//checking variables and variable types (var, var type) in console
-		//console.log(Question + ', ' + typeof Question);
-		//console.log(Answer + ', ' + typeof Answer);
-		//console.log(Difficulty + ', ' + typeof Difficulty);
-    //console.log(foo);
-    //console.log(bar);
-		req.open("POST",url,true);
+		var vars={"Question":Question,"Difficulty":Difficulty,"Signature":Signature,"Category":Category,"Cases":pArr};
+    req.open("POST",url,true);
 
 		//checking what vars is
 		console.log(vars);
@@ -371,9 +411,6 @@
 		if(Question === "" || Signature === ""){
 			document.getElementById("stat").innerHTML="One or more fields are empty, please fill them out!";
 		}
-//   else if(TC1==""&&ExA1==""||TC2==""&&ExA2==""||TC3==""&&ExA3==""||TC4==""&&ExA4==""||TC5==""&&ExA5==""){
-//     document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
-//   }
    else if(sel==="1" &&(TC1===""||ExA1==="")){
 //     if(TC1===""||ExA1===""){
        document.getElementById("stat").innerHTML="one or more test cases and answers are empty, pelase fill them out!";
@@ -430,21 +467,6 @@
            //tempRespText.innerHTML=return_data;
    		  }
 			}
-      
-			//resetting display back to teacher landing page
-      /*
-			if(cq.style.display === "none"){
-				cq.style.display = "inline";
-			}
-			else{
-				cq.style.display = "none";
-			}
-      
-      */
-			//checking and resetting variables
-      
-      //document.getElementById("l").reload();
-//			document.getElementById("check").innerHTML =Difficulty+"<br>"+Question+"<br>"+Answer+"<br>"+Points;
 			document.getElementById("qtn").value = "";
 			document.getElementById("func").value ="";
 			document.getElementById("diff").value = "Easy";
@@ -483,19 +505,6 @@
       document.getElementById("EA4").value="";
       document.getElementById("T5").value="";
       document.getElementById("EA5").value="";
-      
-      /*
-      document.getElementById("TA1").reset();
-      document.getElementById("EA1").reset();
-      document.getElementById("TA2").reset();
-      document.getElementById("EA2").reset();
-      document.getElementById("TA3").reset();
-      document.getElementById("EA3").reset();
-      document.getElementById("TA4").reset();
-      document.getElementById("EA4").reset();
-      document.getElementById("TA5").reset();
-      document.getElementById("EA5").reset();
-      */
     }
     if(xyz==="2")
     {
@@ -569,11 +578,60 @@
 </script>
 
 <script>
-	function testFunc(str){
-		var testq=document.getElementById("qtn").value;
-		var testa=document.getElementById("func").value;
-		document.getElementById("cpyq").innerHTML=testq;
-		document.getElementById("cpya").innerHTML=testa;
+	function mySearch(){
+    var input, filter, table, tr, td;
+		var input=document.getElementById("search");
+		var filter =input.value.toUpperCase();
+    var table=document.getElementById("qbQuest");
+    var tr=table.getElementsByTagName("tr");
+    var val=document.getElementById("SV").value;
+    for(var i=0;i<tr.length;i++){
+      if(val=="Question"){
+        td=tr[i].getElementsByTagName("td")[0];
+      }
+      if(val=="Category"){
+        td=tr[i].getElementsByTagName("td")[1];
+      }   
+      if(val=="Difficulty"){
+        td=tr[i].getElementsByTagName("td")[2];
+      }     
+      if(td){
+        if(td.innerHTML.toUpperCase().indexOf(filter)>-1){
+          tr[i].style.display="";
+        }
+        else{
+          tr[i].style.display="none";
+        }
+      }
+    }
+	}
+ 
+ function qbSearch(){
+    var input, filter, table, tr, td;
+		var input=document.getElementById("qbS");
+		var filter =input.value.toUpperCase();
+    var table=document.getElementById("myTable");
+    var tr=table.getElementsByTagName("tr");
+    var val=document.getElementById("QB").value;
+    for(var i=0;i<tr.length;i++){
+      if(val=="Question"){
+        td=tr[i].getElementsByTagName("td")[1];
+      }
+      if(val=="Category"){
+        td=tr[i].getElementsByTagName("td")[2];
+      }   
+      if(val=="Difficulty"){
+        td=tr[i].getElementsByTagName("td")[3];
+      }     
+      if(td){
+        if(td.innerHTML.toUpperCase().indexOf(filter)>-1){
+          tr[i].style.display="";
+        }
+        else{
+          tr[i].style.display="none";
+        }
+      }
+    }
 	}
 </script>
 
@@ -592,10 +650,12 @@
         var qbHTML="<div>";
         qbHTML+="<table id='qbQuest' align='center' border='1px solid black'>";
         qbHTML+="<tr><th>Question</th>";
+        qbHTML+="<th>Category</th>";
         qbHTML+="<th>Difficulty</th></tr>";
         for(var q=0;q<len;q++){
           qbHTML+="<tr>";
           qbHTML+="<td>"+resData[q]['Question']+"</td>";
+          qbHTML+="<td>"+resData[q]['Category']+"</td>";
 			    qbHTML+="<td>"+resData[q]['Difficulty']+"</td>";
           qbHTML+="</tr>";
         }
@@ -611,11 +671,15 @@
 <script type="text/javascript">
   //var temp;
   var questHTML;
+  var addedHTML;
   var questArray=[];
   var len;
+  var zxc=0;
   var qIDArr=[];
   var tempIDArr=[];
   var toSendArr=[];
+  var lArr=[];
+  
   
 	function makeExam(){
  
@@ -637,11 +701,13 @@
     //            console.log(resData);
 		//console.log(len);
 		questHTML="<div>";
-		questHTML+="<table id='tbl' align='center' border= '1px solid black'>";
+		questHTML+="<table id='myTable' align='center' border= '1px solid black'>";
 		questHTML+="<tr><th>Add</th>";
 		questHTML+="<th>Question</th>";
+    questHTML+="<th>Category</th>";
 		questHTML+="<th>Difficulty</th>";
-		questHTML+="<th>Points</th>";
+   
+		//questHTML+="<th>Points</th>";
 		questHTML+="</tr>";
 		
 		for(var i=0;i<len;i++){
@@ -652,17 +718,21 @@
 			//questHTML+='" onclick="addToExam()"></td>';
       questHTML+='"></td>';
 			questHTML+="<td>"+resData[i]['Question']+"</td>";
-			questHTML+="<td>"+resData[i]['Difficulty']+"</td>";
-      questHTML+='<td><input type="number" id="qPts'+i;
-      questHTML+='"></td>';
+			questHTML+="<td>"+resData[i]['Category']+"</td>";
+      questHTML+="<td>"+resData[i]['Difficulty']+"</td>";
+      
+      
+      //questHTML+='<td><input type="number" id="qPts'+i;
+      //questHTML+='"></td>';
 			//questHTML+="<td>"+resData[i]['Points']+"</td>";
 			questHTML+="</tr>"; 
       //temp = document.getElementById("resData[i]['Id']");
       //console.log(temp);
 		}
 		questHTML+="</table></div>";
-    questHTML+='<p><input type="button"onclick="addToExam()"';
-    questHTML+='value="Add to Exam"></input></p>';
+    //added toLeft();, removed addToExam()
+    questHTML+='<p><input type="button"onclick="toLeft()"';
+    questHTML+='value="Add to List"></input></p>';
     
     //
     //questHTML+='<p id="tempResp"></p>';
@@ -683,6 +753,63 @@
 	dq.open("POST",questUrl,true);
 	dq.send(null);
 	}
+ 
+  function toLeft(){
+  var tl = new XMLHttpRequest();
+  var tUrl="viewQuestion.php";
+  
+  var addedQuest=document.getElementById("addedQuestions");
+  var getTable=document.getElementById("myTable");
+  /*
+  addedHTML="<div>";
+  addedHTML+="table id='sendTbl' align='center' border='1px solid black'>";
+  addedHTML+="<tr><th>Question</th>";
+  addedHTML+="<th>Difficulty</th>";
+  addedHTML+="<th>Points</th>";
+  addedHTML+="</tr>";
+  */
+  
+    tl.onreadystatechange=function(){
+      if(tl.readyState==4){
+        for (var a=0;a<len;a++){
+          var resText=tl.responseText;
+          var resData=JSON.parse(resText);
+          
+          var lChk=document.getElementById(questArray[a]);
+          
+          var tblQuestion=resData[a]['Question'];
+          //console.log(tblQuestion);
+          var tblDiff=resData[a]['Difficulty'];
+          var tblCat=resData[a]['Category'];
+          var tblPts="";
+          if(lChk.checked){
+            
+            zxc++;
+            
+            var myTable=document.getElementById("asdf");
+            var addRow=myTable.insertRow(-1);
+            var c1=addRow.insertCell(0);
+            var c2=addRow.insertCell(1);
+            var c3=addRow.insertCell(2);
+            var c4=addRow.insertCell(3);
+        
+            c1.innerHTML=tblQuestion;
+            c2.innerHTML=tblDiff;
+            c3.innerHTML=tblCat;
+            c4.innerHTML='<input type="number" id="tPts'+a+'" name="nm"></input>';
+            
+            //console.log("tPts"
+          }
+        }
+      }
+    }
+    //addedHTML+="</table></div>";
+   // addedHTML+='<p><input type="button" onclick="addToExam()"';
+    //addedHTML+='value="Add to Exam"></input></p>';  
+    //addedQuest.innerHTML=addedHTML;
+    tl.open("POST",tUrl, true);
+    tl.send(null);
+  }
 
   function addToExam(){
     var aReq = new XMLHttpRequest();
@@ -703,12 +830,17 @@
       var tempRespText=document.getElementById("DBResp");
       tempRespText.innerHTML="";
       
-      var prefix="qPts";
+      //var prefix="qPts";
+      var prefix="tPts";
+      
     
       if(chkbox.checked){      
         //chkOutput.innerHTML = "Selected question(s) added to exam!";
         
-        var selPts=document.getElementById(prefix + j).value;
+        var selPts=document.getElementById(prefix+j).value;
+        //var selPts=document.getElementsByName("nm").value;
+        console.log(selPts);
+        
         
         //console.log(selPts);
         //qIDArr.push({Id:j});
@@ -795,7 +927,14 @@
   var tempUsr="";
   var usrArr=[];
   var temp="";
+  var uArr=[];
+  var currId=[];
+  var currFeed=[];
+  var currPts=[];
+  var sArr=[];
   function evalEx(){
+  var len;
+  var arrLen=0;
   
   var ee=document.getElementById("EE");
 		if(ee.style.display ==="none"){
@@ -822,6 +961,7 @@
          //console.log(evResData);
          
          var evHTML="<div>";
+         evHTML+="<p>Select a student to evaluate:</p>";
          evHTML+="<table id='tbl' align='center' border= '1px solid black'>";
          evHTML+="<tr><th>Evaluate</th>";
          evHTML+="<th>Name</th>";
@@ -855,8 +995,13 @@
     var exUrl="getExam.php";
     //var exUrl="getExHardcode.php";
     var test=document.getElementById("evTest");
+    var cheeky=document.getElementById("bttn");
     test.innerHTML="";
     var arr=[];
+    var sad="";
+    
+    var profRes;
+    var button;
     
     var pref="cStd";
     //console.log(document.getElementById(pref).innerHTML);
@@ -864,11 +1009,73 @@
     exReq.onreadystatechange=function(){
       if(exReq.readyState==4){
         var exData=exReq.responseText;
-        var exRes=JSON.parse(JSON.stringify(exData));
+        //var exRes=JSON.parse(JSON.stringify(exData));
+        var exRes=JSON.parse(exData);
+        len=exRes.length;
+        console.log(len);
+        for(var b=0;b<len;b++){
+          var pts=exRes[b]['Points'];
+          var quest=exRes[b]['Question'];
+          var usrAns=exRes[b]['UserAnswer'];
+          var feed=exRes[b]['Feedback'];
+          var mPts=exRes[b]['MaxPoints'];
+          var cat=exRes[b]['Category'];
+          var questId=exRes[b]['Id'];
+          
+          profRes="<p>";          
+          profRes+='<p>Question '+(b+1)+': '+quest+'</p>';
+          //profRes+='<p>Category: '+cat+'</p>';
+          profRes+='<p>Student Answer: '+usrAns+'</p>';
+          //profRes+='<p>Points given: '+pts+'</p>';
+          profRes+='<p>Points Given: ';
+          profRes+='<input type="number" id="points'+questId+'" value="'+pts;
+          profRes+='"></input>';
+          profRes+='<p>Points Possible: '+mPts+'</p>';
+          //profRes+='<p>Feedback: '+feed+'</p>';
+          
+          //TESTING
+          profRes+='<p>Feedback: </p>';
+          profRes+='<p><textarea rows="5" cols="50" id="feedback'+questId+'">'+feed;
+          profRes+='</textarea>';
+          //profRes+='<p><textarea rows="5" cols="50" placeholder="'+feed;
+          //profRes+='"></textarea>';
+          //END TESTING
+          
+          profRes+="</p>";
+          profRes+="<p>----</p>";
+          //profRes+='<input type="button" onclick="update()" value="Update Feedback">';
+          //profRes+='</input>';
+          
+          uArr.push(questId);
+          uArr.push(feed);
+          uArr.push(pts);
+          sArr.push(uArr);
+          uArr=[];
+          
+          currId.push(questId);
+          currFeed.push(feed);
+          currPts.push(pts);
+          
+          //sArr.push(uArr);
+          
+          //console.log(sArr);
+          
+          test.innerHTML+=profRes;
+        }
+        //sArr.push(uArr);
+        //sArr.push(currId);
+        //sArr.push(currFeed);
+        //sArr.push(currPts);
+        //console.log(sArr);
         
-        console.log(exData);
+        //console.log(exData);
+        button='<p><input type="button" onclick="update()" value="Update Feedback">';
+        button+='</input></p>';
+        button+='<p></p>';
+        button+='<p><input type="button" onclick="pubScore()" value="Release Exam">';
+        button+='</input></p>';
         console.log(exRes);
-        test.innerHTML+=JSON.stringify(exData);
+        cheeky.innerHTML=button;
       }     
     }
     
@@ -894,6 +1101,8 @@
             //console.log(stdName);
             //arr.push({"Username":stdName});
             arr.push({"Username":qwe});
+            sad={"Username":qwe};
+            console.log(sad);
             //arr.push(stdName);
             
           }
@@ -916,10 +1125,18 @@
       or "0 results[{\"Username\":\"std1\"},{\"Username\":\"std2\"}]"
       depending on which student was clicked, or both
       */
-      exReq.send(JSON.stringify(arr));
-      console.log(arr);
-      console.log(JSON.stringify(arr));
       
+      var send=JSON.stringify(sad);
+      var toSend=JSON.stringify(arr);
+      var replace=toSend.replace("\\","");
+      
+      //exReq.send(JSON.stringify(arr));
+      exReq.send(send);
+      //console.log(toSend);
+      //console.log(replace);
+      //console.log(arr);
+      //console.log(JSON.stringify(arr));
+      console.log(send);
       //exReq.send(temp);
       //console.log(temp);
     
@@ -927,11 +1144,69 @@
     //test.innerHTML=tempUsr;
     //test.innerHTML=x.cellIndex;
   }
+  
+  function update(){
+  
+    var ur= new XMLHttpRequest();
+    var uUrl="updater.php";
+    var response=document.getElementById("qwop");
+    
+    var sendArr=[];
+    var tempArr=[];
+    
+    console.log(sArr);
+    console.log(currFeed);
+    console.log(currPts);
+    
+    ur.onreadystatechange=function(){
+      if(ur.readyState==4){
+        var uRes=ur.responseText;
+        var uResData=JSON.parse(uRes);
+        
+        response.innerHTML=uRes;
+      }
+    }
+        for(var q=0;q<len;q++){
+          //for(var w=1;w<len;w++){
+            var id=currId[q];
+            var feedback=document.getElementById("feedback"+currId[q]).value;
+            var points=document.getElementById("points"+currId[q]).value;
+            //var feedback=sArr[q][1];
+            //var points=sArr[q][2];
+            //console.log(feedback);
+            //console.log(points);
+            
+            //console.log(currId[q]);
+            
+            //tempArr.push(currId[q]);
+            //tempArr.push(feedback);
+            //tempArr.push(points);
+            //sendArr.push(tempArr);
+            //tempArr=[];
+            //console.log(feedback);
+            //console.log(points);
+            //console.log(values);
+          
+            tempArr={"Id":id,"Feedback":feedback,"Points":points};
+            sendArr.push(tempArr);
+            console.log(sendArr);
+            
+          }
+        //console.log(sendArr);        
+    //  }
+    //}
+    var sending=JSON.stringify(sendArr);
+    console.log(sending);
+    ur.open("POST",uUrl,true);
+    ur.send(sending);
+  }
 
 	function pubScore(){
-    var rel=document.getElementById("pubStat");
+//    var rel=document.getElementById("pubStat");
+    var r=document.getElementById("zxcv");
     var PSUrl="pubScore.php";
     var ajReq = new XMLHttpRequest();
+    var sendStat=1;
   
     ajReq.onreadystatechange=function(){
       if(ajReq.readyState==4){
@@ -941,31 +1216,35 @@
         console.log(ajRes);
         console.log(ajResData);
         
-        if(ajResData['Response']=="Released"){
-          window.alert("Scores Released!");
-        }
-        else if(ajResData['Response']=="Not Released"){
-          window.alert("Something went wrong, please refresh the page and try again!");
-        }
-        else{
+//        if(ajResData['Response']=="Released"){
+//          window.alert("Scores Released!");
+//        }
+//        else if(ajResData['Response']=="Not Released"){
+//          window.alert("Something went wrong, please refresh the page and try again!");
+//        }
+//        else{
           //hopefully never get here
-          window.alert("Everything is wrong, why are you like this?");
-        }
+//          window.alert("Everything is wrong, why are you like this?");
+ //       }
+ 
+         //r.innerHTML=ajRes;
+         r.innerHTML="Score Released!";
       }
     }
     
-		var ps=document.getElementById("pScore");
-		if(ps.style.display ==="none"){
-			ps.style.display = "inline";
-//      var pEx=document.getElementById("pubStat").innerHTML="Scores Released!";
-		}
-		else{
-			ps.style.display = "none";
-		}
+//		var ps=document.getElementById("pScore");
+//		if(ps.style.display ==="none"){
+//			ps.style.display = "inline";
+      //var pEx=document.getElementById("pubStat").innerHTML="Scores Released!";
+//		}
+//		else{
+//			ps.style.display = "none";
+//		}
    
    ajReq.open("POST",PSUrl,true);
-   ajReq.send(null);
-	}	
+   ajReq.send(JSON.stringify(sendStat));
+   console.log(JSON.stringify(sendStat));
+  }	
 </script>
 <script>
     function goBack(){

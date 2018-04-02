@@ -1,11 +1,11 @@
 <?php
     $response=file_get_contents('php://input');
-    $field=array('Username'=>"std1");
+    $field=array('Id'=>"58",'Points'=>"10",'Feedback'=>"test");
     $send=json_encode($field);
     #$send=json_decode($response,true);
     $curl=curl_init();
 
-    $url="https://web.njit.edu/~sdp53/cs490/getStudentGradeProf.php";
+    $url="https://web.njit.edu/~sdp53/cs490/updateGrade.php";
 #    $url="https://web.njit.edu/~pgd22/middle/getStudentGradeProf.php";
 
     curl_setopt_array($curl, array(

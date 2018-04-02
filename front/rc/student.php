@@ -58,7 +58,7 @@ body{
 <body>
   <ul>
     <li><a href="#" onclick="takeExam()">Take Exam</a></li>
-    <li><a href="#" onclick="viewScore()">View Score</a></li>
+    <li><a href="#" onclick="viewScore()">View Exam</a></li>
     <li><a href="#" onclick="logOut()">Log Out</a></li>
   </ul>
 
@@ -75,7 +75,10 @@ body{
 	<p id="exStatus"></p>
   <p id="exResp"></p>
 	<div id="vScore" style="display:none;">
-		<p id="showGrade"></p>
+		<p id="score"</p>
+    <p></p>
+    <p id="showGrade"></p>
+    <p id="exResp"></p>
 	</div>
 </body>
 </html>
@@ -216,6 +219,7 @@ body{
     var stdAns=[];
     var grUrl="gradeEx.php";
     var exRes=document.getElementById("exResp");
+    var qwerty="";
     //var currAns=[];
     
     var len2=ansArr.length;
@@ -224,11 +228,21 @@ body{
       if(bReq.readyState==4){
         var getEx=document.getElementById("exam");
         var bRes=bReq.responseText;
+        var data=JSON.parse(bRes);
        
         console.log(bRes);
+        console.log(data);
         
         //temp
-        exRes.innerHTML=bRes;
+        //exRes.innerHTML=bRes;
+        
+        if(data['Response']=="Successfully Inserted"){
+          qwerty ="Exam sent!";
+        }
+        else if(data['Response']=="Just Quit"){
+          qwerty="Error!";
+        }
+        status.innerHTML=qwerty;
       }
     }    
         var sad="";
@@ -251,7 +265,8 @@ body{
         var status=document.getElementById("exStatus");
         //console.log(se);
         //console.log(status);
-		    se.style.display="none";
+        //
+		    //se.style.display="none";
    
        //console.log(tempArr);
    
@@ -284,8 +299,8 @@ body{
        //console.log(currAns);
        //console.log(currAns);
        //console.log(asdf);
-   
-       status.innerHTML="Exam Sent!";
+       //
+       //status.innerHTML=qwerty;
      
       // }
      //}
@@ -301,31 +316,91 @@ body{
 
 <script>
 	function viewScore(){
+ 
    ajaReq = new XMLHttpRequest();
    var gGrade="getGrade.php";
    
+   var std=[];
+   var usr="<?php echo $_SESSION['username']; ?>";
+   var stdRes;
+   var stdScore;
+   var sGrade=document.getElementById("showGrade");
+   sGrade.innerHTML="";
+   var totalScore=document.getElementById("score");
+   var score=0;
+   var perc;
+   var maxScore=0;
+   
    ajaReq.onreadystatechange=function(){
      if(ajaReq.readyState==4){
-       var sGrade=document.getElementById("showGrade");
+       //var sGrade=document.getElementById("showGrade");
        var text=ajaReq.responseText;
        var prse=JSON.parse(text);
        var gLen=prse.length;
+       //console.log(text);
        console.log(prse);
+       console.log(gLen);
+       //temp
+       
+       stdRes="<p>Exam Breakdown:</p>";
+       stdRes+="<p>----</p>";
        for(var i=0;i<gLen;i++){
          //gArr
+         var pts=prse[i]['Points'];
+         var qtn=prse[i]['Question'];
+         var ans=prse[i]['UserAnswer'];
+         var fdb=prse[i]['Feedback'];
+         var max=prse[i]['MaxPoints'];
+         //var score=0;
+         
+         stdRes+="<p>";
+         stdRes+='<p>Question '+(i+1)+': '+qtn+'</p>';
+         stdRes+='<p>Your Answer: '+ans+'</p>';         
+         stdRes+='<p>Points Given: '+pts+'</p>';
+         score += Number(pts);
+         console.log(score);
+         stdRes+='<p>Points Possible: '+max+'</p>';
+         maxScore += Number(max);
+         stdRes+='<p>Teacher Feedback: '+fdb+'</p>';
+         stdRes+="</p>";
+         
+         
+         sGrade.innerHTML=stdRes;
        }
+       stdScore="<p>Your total score was: " + score + " out of "+maxScore+"</p>";
+       perc=score/maxScore*100;
+       console.log(perc);
+       stdScore+="<p>"+perc+"%";
+       if(perc > 75){
+         stdScore+=" Good Job!</p>";
+       }
+       else if(perc > 50){
+         stdScore+=" Study more next time!</p>";
+       }
+       else{
+         stdScore+=" See me after class.</p>";
+       }
+       totalScore.innerHTML=stdScore;
      }
    }
  
 		var sc = document.getElementById("vScore");
+    var he = document.getElementById("exam");
+    var hs = document.getElementById("exStatus");
+    he.style.display="none";
+    hs.style.display="none";
 		if(sc.style.display ==="none"){
 			sc.style.display = "block";
 		}
 		else{
 			sc.style.display = "none";
 		}
+
+   std={"Username":usr};
+   var sendTo=JSON.stringify(std);
    ajaReq.open("POST",gGrade,true);
-   ajaReq.send(null);
+   ajaReq.send(sendTo);
+   console.log(sendTo);
 	}
 </script>
 
