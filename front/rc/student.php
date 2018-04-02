@@ -222,6 +222,9 @@ body{
     var qwerty="";
     //var currAns=[];
     
+    var se = document.getElementById("exam");
+    var status=document.getElementById("exStatus");
+    
     var len2=ansArr.length;
     
     bReq.onreadystatechange=function(){
@@ -236,8 +239,9 @@ body{
         //temp
         //exRes.innerHTML=bRes;
         
-        if(data['Response']=="Successfully Inserted"){
+        if(data['Response']=="Submitted"){
           qwerty ="Exam sent!";
+          se.style.display="none";
         }
         else if(data['Response']=="Just Quit"){
           qwerty="Error!";
@@ -261,8 +265,7 @@ body{
         tempArr.push(sad);
         console.log(qwer);
         
-        var se = document.getElementById("exam");
-        var status=document.getElementById("exStatus");
+        
         //console.log(se);
         //console.log(status);
         //

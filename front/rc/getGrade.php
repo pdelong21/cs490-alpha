@@ -4,8 +4,8 @@
   $enc=json_encode($dec,true);
   $curl=curl_init();
   
-  $url="https://web.njit.edu/~sdp53/cs490/getGrade.php";
-	#$url="https://web.njit.edu/~pgd22/middle/getGrade.php";
+  #$url="https://web.njit.edu/~sdp53/cs490/getGrade.php";
+	$url="https://web.njit.edu/~pgd22/middle/getGrade.php";
  
  curl_setopt_array($curl, array(
 		CURLOPT_URL => $url,

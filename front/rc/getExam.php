@@ -4,8 +4,8 @@
     $out=json_encode($send,true);
     $curl=curl_init();
 
-    $url="https://web.njit.edu/~sdp53/cs490/getStudentGradeProf.php";
-#    $url="https://web.njit.edu/~pgd22/middle/getStudentGradeProf.php";
+#    $url="https://web.njit.edu/~sdp53/cs490/getStudentGradeProf.php";
+    $url="https://web.njit.edu/~pgd22/middle/getStudentGradeProf.php";
 
     curl_setopt_array($curl, array(
         CURLOPT_URL => $url,

@@ -8,9 +8,9 @@
   	$curl=curl_init();
   	
 #	temp url
- 	$url="https://web.njit.edu/~sdp53/cs490/updateGrade.php";
+# 	$url="https://web.njit.edu/~sdp53/cs490/updateGrade.php";
 #	actual URL
-#	$url="https://web.njit.edu/~pgd22/middle/insertQuestions.php";  
+	$url="https://web.njit.edu/~pgd22/middle/updateGrade.php";  
   	curl_setopt_array($curl, array(
     	 CURLOPT_URL => $url,
     	 CURLOPT_POST => 1,

@@ -3,8 +3,8 @@
     $send=json_decode($response,true);
     $curl=curl_init();
 
-    $url="https://web.njit.edu/~sdp53/cs490/getStudents.php";
-#    $url="https://web.njit.edu/~pgd22/middle/getStudents.php";
+#    $url="https://web.njit.edu/~sdp53/cs490/getStudents.php";
+    $url="https://web.njit.edu/~pgd22/middle/getStudents.php";
 
     curl_setopt_array($curl, array(
         CURLOPT_URL => $url,
