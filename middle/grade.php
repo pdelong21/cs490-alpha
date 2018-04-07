@@ -96,7 +96,7 @@ function compileTestCases($py_file){
     return $output;
 }
 
-function gradeMe($case, $std_ans, $func_case, $case_arr){
+function gradeMe($case, $std_ans, $func_case, $case_arr, $max_points){
     $points = 0.0;
     $feedback = '';
     /*str_replace(' ', '', $std_ans)*/
@@ -107,20 +107,20 @@ function gradeMe($case, $std_ans, $func_case, $case_arr){
             #check to see if it compiled or not -- 1 point or zero for whole problem
             if(end($output) == 0 && $std_ans != null){
                 $points ++;
-                $feedback = $feedback."Your program compiled!\n";
+                $feedback = $feedback."Your program compiled!\t====> +".($points/5)*$max_points."\n";
 
             } else{
-                $feedback = $feedback."Your program failed to compile so I must end it here.";
-                continue;
+                $feedback = $feedback."Your program failed to compile.\t====> 0 Points";
+                break;
             }
         case 1:
             #check to see if the function name matches -- 1 point
             if (strpos($std_ans, $func_case) == FALSE) {
-                $feedback = $feedback."The function name does not match the requirements.";
-                continue;
+                $feedback = $feedback."The function name does not match the requirements.\t====> -".(4/5)*$max_points;
+                break;
             } else{
                 $points+=1;
-                $feedback = $feedback."\nThe function name matches! \n";
+                $feedback = $feedback."\nThe function name matches!\t====> +".(1/5)*$max_points."\n";
             }
         case 2:
             #check to see if output is correct or not -- 3 points -- check in progress
@@ -128,16 +128,17 @@ function gradeMe($case, $std_ans, $func_case, $case_arr){
             appendFile('python.py', $case_arr);
             $output = compileTestCases('python.py');
             $ratio = 0;
+            $case_ratio = 1/count($output);
             for ($case = 0; $case < count($output); $case ++){
                 if ($output[$case] == $case_arr[$case]['Answer']){
-                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase'].
-                        " is ".$output[$case]." and it does match the desired output of ".$case_arr[$case]['Answer'].
-                        "...\n";
+                    $feedback = $feedback."\nYour output for ".$case_arr[$case]['Testcase'].
+                        ": ".$output[$case]."\nCorrect output: ".$case_arr[$case]['Answer'].
+                        "\t====> +".($case_ratio*(3/5))*$max_points."\n";
                     $ratio ++;
                 } else{
-                    $feedback = $feedback."\nYour output for testcase ".$case_arr[$case]['Testcase']." is ".
-                        $output[$case]." and it does not match the desired ouput of ".$case_arr[$case]['Answer'].
-                        "...\n";
+                    $feedback = $feedback."\nYour output for ".$case_arr[$case]['Testcase'].": ".
+                        $output[$case]."\nCorrect output: ".$case_arr[$case]['Answer'].
+                        "\t====> -".($case_ratio*(3/5))*$max_points."\n";
                     continue;
                 }
             }
@@ -195,7 +196,7 @@ for ($i=0; $i < count($ans_decoded['Answers']); $i++){
     $max_points += $test_obj[$i]['Points']; # points possible on test
     $get_case = getCases(json_encode(["QuestionID" => $test_obj[$i]['QuestionId']]), $cases_url);
     # returns array of points and feedback
-    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature'], $get_case);
+    $grade_res = gradeMe(0, $ans_decoded['Answers'][$i],$test_obj[$i]['Signature'], $get_case, $test_obj[$i]['Points']);
     $points_recieved_arr [] = $grade_res['Points']*$test_obj[$i]['Points']; # tally of points recieved
     $std_test ['Question'][$i] = array('QuestionId' => $test_obj[$i]['QuestionId'],
         'Response' => $ans_decoded['Answers'][$i], 'Points' => $points_recieved_arr[$i],
